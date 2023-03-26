@@ -1,13 +1,13 @@
-import { Module } from '@nestjs/common';
+import { ClassSerializerInterceptor, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { JwtAuthGuard } from '../authentication/guards/jwt-auth.guard';
+import { RoleGuard } from '../user-management/role/guard/role.guard';
+import { UserModule } from '../user-management/user/users.module';
+import { AuthenticationModule } from '../authentication/authentication.module';
 
 @Module({
   imports: [
-
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST,
@@ -18,9 +18,23 @@ import { AppService } from './app.service';
       autoLoadEntities: true,
       synchronize: true,
     }),
+    UserModule,
+    AuthenticationModule,
     ConfigModule.forRoot()
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    {
+      provide: 'APP_INTERCEPTOR',
+      useClass: ClassSerializerInterceptor
+    },
+    {
+      provide: 'APP_GUARD',
+      useClass: JwtAuthGuard
+    },
+    {
+      provide: 'APP_GUARD',
+      useClass: RoleGuard
+    }
+  ],
 })
 export class AppModule {}
