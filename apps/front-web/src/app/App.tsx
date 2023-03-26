@@ -2,8 +2,14 @@ import styled from 'styled-components';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 import { Menu } from './layouts/Menu/Menu';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Login } from './containers/Login/Login';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { lazy, useEffect } from 'react';
+import { SuspenseLoader } from './suspense/SuspenseLoader';
+
+const Login = lazy(() => import('./containers/Login/Login').then(module => ({ default: module.Login })));
+const Logout = lazy(() => import('./containers/Logout/Logout').then(module => ({ default: module.Logout })));
+const Protected = lazy(() => import('./containers/Protected/Protected').then(module => ({ default: module.Protected })));
+
 
 const StyledApp = styled.div`
   // Your style here
@@ -16,17 +22,35 @@ const darkTheme = createTheme({
 });
 
 export function App() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem("token");
+    if (accessToken) {
+      const token = JSON.parse(atob(accessToken.split(".")[1]));
+      const expiration = new Date(token.exp * 1000);
+      const now = new Date();
+      if (expiration < now) {
+        navigate("/logout");
+      }
+    }
+  }, [navigate, location]);
+
   return (
     <StyledApp>
-      <ThemeProvider theme={darkTheme}>
-        <BrowserRouter>
+      <SuspenseLoader>
+        <ThemeProvider theme={darkTheme}>
           <CssBaseline />
           <Menu />
           <Routes>
             <Route path="/login" element={<Login />} />
+            <Route path="/logout" element={<Logout />} />
+            <Route path="/" element={<Protected><div>Home</div></Protected>} />
+            <Route path="*" element={<div>404</div>} />
           </Routes>
-        </BrowserRouter>
-      </ThemeProvider>
+        </ThemeProvider>
+      </SuspenseLoader>
     </StyledApp>
   );
 }
