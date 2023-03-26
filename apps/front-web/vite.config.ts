@@ -17,7 +17,9 @@ export default defineConfig({
   },
 
   plugins: [
-    react(),
+    react({
+      include: "**/*.tsx",
+    }),
     viteTsConfigPaths({
       root: '../../',
     }),
