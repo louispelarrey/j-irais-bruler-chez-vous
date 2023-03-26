@@ -20,9 +20,13 @@ export const Menu = () => {
             </StyledLink>
           </Typography>
           {!localStorage.getItem("token") && (
-            <StyledLink to="/login" className="menu-link">
-              <Button>Connexion</Button>
-            </StyledLink>
+            <>
+              <StyledLink to="/register" className="menu-link">
+                <Button>Inscription</Button>
+              </StyledLink><StyledLink to="/login" className="menu-link">
+                <Button>Connexion</Button>
+              </StyledLink>
+            </>
           )}
           {localStorage.getItem("token") && (
             <Button onClick={logout}>Déconnexion</Button>
