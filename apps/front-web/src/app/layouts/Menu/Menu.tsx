@@ -19,10 +19,14 @@ export const Menu = () => {
               JBCV
             </StyledLink>
           </Typography>
-          <StyledLink to="/login" className="menu-link">
-            <Button>Se connecter</Button>
-          </StyledLink>
-          <Button onClick={logout}>Se déconnecter</Button>
+          {!localStorage.getItem("token") && (
+            <StyledLink to="/login" className="menu-link">
+              <Button>Connexion</Button>
+            </StyledLink>
+          )}
+          {localStorage.getItem("token") && (
+            <Button onClick={logout}>Déconnexion</Button>
+          )}
         </Toolbar>
       </AppBar>
     </Box>
