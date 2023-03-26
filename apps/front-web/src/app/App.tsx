@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { CssBaseline } from '@mui/material';
 
 const StyledApp = styled.div`
   // Your style here
@@ -7,6 +8,7 @@ const StyledApp = styled.div`
 export function App() {
   return (
     <StyledApp>
+      <CssBaseline />
       <p>Hello worlds</p>
     </StyledApp>
   );
