@@ -7,6 +7,7 @@ const StyledApp = styled.div`
 export function App() {
   return (
     <StyledApp>
+      <p>Hello worlds</p>
     </StyledApp>
   );
 }
