@@ -1,6 +1,8 @@
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { LoginComponent } from "../../components/Login/LoginComponent";
+import { UserContext } from "../../contexts/UserContext";
 
 export interface LoginData {
   email: string;
@@ -9,6 +11,7 @@ export interface LoginData {
 
 export const Login = () => {
   const { register, handleSubmit } = useForm<LoginData>();
+  const { token, setToken } = useContext(UserContext);
   const navigate = useNavigate();
 
   const onSubmit = async ({ email, password }: LoginData) => {
@@ -22,11 +25,13 @@ export const Login = () => {
     });
     const data = await response.json();
     if(data.access_token) {
-      localStorage.setItem("token", data.access_token);
+      setToken(data.access_token);
     }
 
     navigate("/");
   }
+
+  if(token) return <Navigate to="/" replace />;
 
   return (
     <LoginComponent handleSubmit={handleSubmit(onSubmit)} register={register} />

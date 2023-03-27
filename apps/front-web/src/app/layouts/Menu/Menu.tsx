@@ -1,14 +1,11 @@
 import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material";
-import { useCallback } from "react";
-import { Link } from "react-router-dom";
+import { useContext } from "react";
 import { StyledLink } from "../../containers/Login/Link/Link.style";
+import { UserContext } from "../../contexts/UserContext";
 
 export const Menu = () => {
 
-  const logout = useCallback(() => {
-    localStorage.removeItem("token");
-    window.location.reload();
-  }, []);
+  const { token, logout } = useContext(UserContext);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -19,7 +16,7 @@ export const Menu = () => {
               JBCV
             </StyledLink>
           </Typography>
-          {!localStorage.getItem("token") && (
+          {!token ? (
             <>
               <StyledLink to="/register" className="menu-link">
                 <Button>Inscription</Button>
@@ -27,8 +24,7 @@ export const Menu = () => {
                 <Button>Connexion</Button>
               </StyledLink>
             </>
-          )}
-          {localStorage.getItem("token") && (
+          ) : (
             <Button onClick={logout}>Déconnexion</Button>
           )}
         </Toolbar>
