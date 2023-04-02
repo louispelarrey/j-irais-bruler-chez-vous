@@ -33,7 +33,5 @@ export const Login = () => {
 
   if(token) return <Navigate to="/" replace />;
 
-  return (
-    <LoginComponent handleSubmit={handleSubmit(onSubmit)} register={register} />
-  );
+  return <LoginComponent handleSubmit={handleSubmit(onSubmit)} register={register} />;
 };
