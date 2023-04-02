@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const useFetch = (url: string) => {
+interface UseFetchProps {
+  url: string;
+  method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
+  body?: Record<string, any>;
+}
+
+const useFetch = ({url, method, body}: UseFetchProps) => {
   const [data, setData] = useState<any | any[] | undefined>();
   const [error, setError] = useState<string>();
   const [loading, setLoading] = useState<boolean>(true);
@@ -15,9 +21,12 @@ const useFetch = (url: string) => {
       try {
         const response = await fetch(url, {
           signal,
+          method,
           headers: {
             "Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
+            "Content-Type": "application/json",
           },
+          body: JSON.stringify(body),
         });
         const data = await response.json();
         setData(data);
@@ -36,7 +45,7 @@ const useFetch = (url: string) => {
     fetchData();
 
     return () => abortController.abort();
-  }, [navigate, url]);
+  }, [body, method, navigate, url]);
 
   return { data, error, loading };
 }
