@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const useFetch = (url: string) => {
+const useGet = (url: string) => {
   const [data, setData] = useState<any | any[] | undefined>();
   const [error, setError] = useState<string>();
   const [loading, setLoading] = useState<boolean>(true);
@@ -41,4 +41,4 @@ const useFetch = (url: string) => {
   return { data, error, loading };
 }
 
-export default useFetch;
+export default useGet;
