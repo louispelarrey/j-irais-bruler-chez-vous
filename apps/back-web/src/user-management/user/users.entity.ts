@@ -21,4 +21,8 @@ export class Users {
   @Column()
   @Exclude({ toPlainOnly: true })
   password: string;
+
+  @OneToMany(() => Trashs, trash => trash.user)
+  @JoinColumn()
+  trashs: Trashs[];
 }

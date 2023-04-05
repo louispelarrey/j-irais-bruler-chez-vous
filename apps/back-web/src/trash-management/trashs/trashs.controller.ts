@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Request } from '@nestjs/common';
 import { TrashsService } from './trashs.service';
 import { CreateTrashDto } from './dto/create-trash.dto';
 import { Trashs } from './trashs.entity';
@@ -18,8 +18,8 @@ export class TrashsController {
     }
 
     @Post()
-    async createTrash(@Body() createTrashDto: CreateTrashDto): Promise<Trashs> {
-        return await this.trashService.createTrash(createTrashDto);
+    async createTrash(@Body() createTrashDto: CreateTrashDto, @Request() req): Promise<Trashs> {
+        return await this.trashService.createTrash(createTrashDto, req.user);
     }
 
     @Get('/:id')

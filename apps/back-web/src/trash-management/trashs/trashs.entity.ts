@@ -17,4 +17,8 @@ export class Trashs {
 
     @Column({ default: true})
     isActive: boolean;
+
+    @ManyToOne(() => Users, user => user.trashs)
+    user: Users;
+    
 }
