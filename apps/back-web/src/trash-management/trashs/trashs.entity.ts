@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Users } from '../../user-management/user/users.entity';
 
 @Entity()
 export class Trashs {
@@ -11,6 +12,9 @@ export class Trashs {
     @Column()
     description: string;
 
-    @Column()
-    status: string;
+    @Column({ default: false})
+    isBurned: boolean;
+
+    @Column({ default: true})
+    isActive: boolean;
 }
