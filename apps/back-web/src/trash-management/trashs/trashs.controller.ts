@@ -3,6 +3,7 @@ import { TrashsService } from './trashs.service';
 import { CreateTrashDto } from './dto/create-trash.dto';
 import { Trashs } from './trashs.entity';
 import { Public } from '../../authentication/decorators/public.decorator';
+import { UpdateTrashDto } from './dto/update-trash.dto';
 
 @Controller('trashs')
 export class TrashsController {
@@ -17,8 +18,8 @@ export class TrashsController {
     }
 
     @Post()
-    async createTrash(@Body() body: CreateTrashDto) {
-        console.log(body);
+    async createTrash(@Body() createTrashDto: CreateTrashDto): Promise<Trashs> {
+        return await this.trashService.createTrash(createTrashDto);
     }
 
     @Get('/:id')
@@ -27,7 +28,7 @@ export class TrashsController {
     }
 
     @Put('/:id')
-    async updateTrash(@Param('id') id: number, @Body() body: CreateTrashDto): Promise<Trashs> {
-        return await this.trashService.updateTrash(id, body);
+    async updateTrash(@Param('id') id: number, @Body() updateTrashDto: UpdateTrashDto): Promise<Trashs> {
+        return await this.trashService.updateTrash(id, updateTrashDto);
     }
 }

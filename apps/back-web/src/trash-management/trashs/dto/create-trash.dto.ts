@@ -6,7 +6,4 @@ export class CreateTrashDto {
 
     @IsString()
     description: string;
-
-    @IsString()
-    status: string;
 }

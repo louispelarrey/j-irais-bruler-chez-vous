@@ -40,7 +40,6 @@ export class TrashsService {
         const trash = new Trashs();
         trash.name = createTrashDto.name;
         trash.description = createTrashDto.description;
-        trash.status = createTrashDto.status;
         return this.trashRepository.save(trash);
     }
 
@@ -54,7 +53,6 @@ export class TrashsService {
         const user = await this.trashRepository.findOneBy({ id });
         user.name = updateTrashDto.name;
         user.description = updateTrashDto.description;
-        user.status = updateTrashDto.status;
         return this.trashRepository.save(user);
     }
 }
