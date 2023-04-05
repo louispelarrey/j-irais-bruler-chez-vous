@@ -1,3 +1,4 @@
+import { Users } from "apps/back-web/src/user-management/user/users.entity";
 import { IsString } from "class-validator";
 
 export class CreateTrashDto {
@@ -6,4 +7,6 @@ export class CreateTrashDto {
 
     @IsString()
     description: string;
+
+    user: Users;
 }

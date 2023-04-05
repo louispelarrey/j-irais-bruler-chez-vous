@@ -4,6 +4,15 @@ import { Repository } from 'typeorm';
 import { Trashs } from './trashs.entity';
 import { CreateTrashDto } from './dto/create-trash.dto';
 import { UpdateTrashDto } from './dto/update-trash.dto';
+import { Users } from '../../user-management/user/users.entity';
+
+interface UserJWT {
+    sub: number;
+
+    username: string
+
+    roles: string[]
+}
 
 @Injectable()
 export class TrashsService {
@@ -11,6 +20,9 @@ export class TrashsService {
     constructor(
         @InjectRepository(Trashs)
         private readonly trashRepository: Repository<Trashs>,
+
+        @InjectRepository(Users)
+        private readonly usersRepository: Repository<Users>
     ) { }
 
     /**
@@ -36,10 +48,12 @@ export class TrashsService {
      * @param {CreateTrashDto} createTrashDto
      * @returns {Promise<Trash>} Created trash
     */
-    async createTrash(createTrashDto: CreateTrashDto): Promise<Trashs> {
+    async createTrash(createTrashDto: CreateTrashDto, userJwt: UserJWT): Promise<Trashs> {
         const trash = new Trashs();
         trash.name = createTrashDto.name;
         trash.description = createTrashDto.description;
+        const userEntity = await this.usersRepository.findOneBy({ id: userJwt.sub });
+        trash.user = userEntity
         return this.trashRepository.save(trash);
     }
 
