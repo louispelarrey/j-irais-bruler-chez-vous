@@ -23,11 +23,13 @@ export const StyledChat = styled.div`
 
   .outlined-basic-email {
     width: 65%;
+    display: inline-block;
   }
 
   .interact {
     padding: 20px 0;
     display: flex;
+    flex-direction: row;
     justify-content: space-evenly;
     gap: 1px;
   }

@@ -5,6 +5,7 @@ import { JwtAuthGuard } from '../authentication/guards/jwt-auth.guard';
 import { RoleGuard } from '../user-management/role/guard/role.guard';
 import { UserModule } from '../user-management/user/users.module';
 import { AuthenticationModule } from '../authentication/authentication.module';
+import { MessagingModule } from '../messaging/messaging.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { AuthenticationModule } from '../authentication/authentication.module';
       synchronize: true,
     }),
     UserModule,
+    MessagingModule,
     AuthenticationModule,
     ConfigModule.forRoot()
   ],

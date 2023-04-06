@@ -5,12 +5,12 @@ import { Menu } from './layouts/Menu/Menu';
 import { Route, Routes } from 'react-router-dom';
 import { lazy } from 'react';
 import { SuspenseLoader } from './suspense/SuspenseLoader';
-import { ChatComponent } from './components/Chat/ChatComponent';
 
 const Login = lazy(() => import('./containers/Login/Login').then(module => ({ default: module.Login })));
 const Logout = lazy(() => import('./containers/Logout/Logout').then(module => ({ default: module.Logout })));
 const Protected = lazy(() => import('./containers/Protected/Protected').then(module => ({ default: module.Protected })));
 const Register = lazy(() => import('./containers/Register/Register').then(module => ({ default: module.Register })));
+const Chat = lazy(() => import('./containers/Chat/Chat').then(module => ({ default: module.Chat })));
 
 const StyledApp = styled.div`
   // Your style here
@@ -33,7 +33,7 @@ export function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/logout" element={<Logout />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/" element={<Protected><ChatComponent /></Protected>} />
+            <Route path="/" element={<Protected><Chat /></Protected>} />
             <Route path="*" element={<div>404</div>} />
           </Routes>
         </ThemeProvider>

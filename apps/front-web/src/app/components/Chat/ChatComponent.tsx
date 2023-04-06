@@ -1,9 +1,15 @@
 
-import { Divider, Fab, Grid, List, ListItem, ListItemButton, ListItemText, Paper, TextField } from '@mui/material';
+import { Divider, Fab, FormControl, Grid, List, ListItem, ListItemButton, ListItemText, Paper, TextField } from '@mui/material';
 import { StyledChat } from './ChatComponent.style';
 import SendIcon from '@mui/icons-material/Send';
 
-export const ChatComponent = () => {
+interface ChatComponentProps {
+  messages: string[];
+  handleSubmit: any;
+  register: any;
+}
+
+export const ChatComponent = ({ messages, handleSubmit, register }: ChatComponentProps) => {
   return (
     <StyledChat>
       <Grid container component={Paper} className="chatSection">
@@ -34,9 +40,15 @@ export const ChatComponent = () => {
           <List className="messageArea">
             <ListItem key="1">
               <Grid container>
-                <Grid item xs={12}>
+                {/* <Grid item xs={12}>
                   <ListItemText align="right" primary="Hey man, What's up ?"></ListItemText>
-                </Grid>
+                </Grid> */}
+                {messages && messages.map((message, index) => (
+                  // <li key={index}>{message}</li>
+                  <Grid item xs={12} key={index}>
+                    <ListItemText align="right"   primary={message}></ListItemText>
+                  </Grid>
+                ))}
                 <Grid item xs={12}>
                   <ListItemText align="right" secondary="09:30"></ListItemText>
                 </Grid>
@@ -64,10 +76,16 @@ export const ChatComponent = () => {
             </ListItem>
           </List>
           <Divider />
-          <Grid className="interact">
-            <TextField className="outlined-basic-email" label="Ecris quelque chose" fullWidth />
-            <Fab color="primary" aria-label="add" ><SendIcon /></Fab>
-          </Grid>
+          <FormControl className="interact" component="form" noValidate onSubmit={handleSubmit}>
+            <TextField
+              className="outlined-basic-email"
+              style={{}}
+              label="Ecris quelque chose"
+              fullWidth
+              {...register('newMessage')}
+            />
+            <Fab color="primary" aria-label="add" type='submit'><SendIcon /></Fab>
+          </FormControl>
         </Grid>
       </Grid>
     </StyledChat>
