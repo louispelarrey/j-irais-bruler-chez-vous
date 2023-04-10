@@ -20,7 +20,7 @@ export class UserService {
    * @param id
    * @returns {Promise<User>} Found user
    */
-  async findOne(id: number): Promise<Users> {
+  async findOne(id: string): Promise<Users> {
     const user = await this.userRepository.findOneBy({ id });
     return user;
   }
@@ -98,8 +98,8 @@ export class UserService {
    * @param {UpdateUserDto} updateUserDto
    * @returns {Promise<Users>} Promise User Updated
    */
-  async updateUser(id: number, updateUserDto: UpdateUserDto): Promise<Users> {
-    const user = await this.userRepository.findOne({ where: { id } });
+  async updateUser(id: string, updateUserDto: UpdateUserDto): Promise<Users> {
+    const user = await this.userRepository.findOneBy({ id });
     user.username = updateUserDto.username;
     user.email = updateUserDto.email;
     user.password = await bcrypt.hash(updateUserDto.password, 10);
@@ -112,8 +112,8 @@ export class UserService {
    * @param {number} id
    * @returns {Promise<User>} Promise User Deleted
    */
-  async deleteUser(id: number): Promise<Users> {
-    const user = await this.userRepository.findOne({ where: { id } });
+  async deleteUser(id: string): Promise<Users> {
+    const user = await this.userRepository.findOneBy({ id });
     if(!user) throw new NotFoundException('User not found');
 
     return this.userRepository.remove(user);
@@ -124,11 +124,11 @@ export class UserService {
    * Verify that user can make request because he is the owner of the entity
    *
    * @param {string} currentUserNickname
-   * @param {number} requestedUserId
+   * @param {string} requestedUserId
    *
    * @returns {Promise<boolean>}
    */
-  async checkOwner(currentUserNickname: string, requestedUserId: number): Promise<boolean> {
+  async checkOwner(currentUserNickname: string, requestedUserId: string): Promise<boolean> {
     const currentUser = await this.findByIdentifier(currentUserNickname);
     const requestedUser = await this.findOne(requestedUserId);
 
