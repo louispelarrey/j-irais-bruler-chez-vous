@@ -68,15 +68,6 @@ export const RegisterComponent = ({ handleSubmit, register }: RegisterProps) => 
           >
             S'inscrire
           </Button>
-          <Grid container justifyContent="flex-end">
-            <Grid item>
-              <Link to="/login">
-                <LinkMUI variant="body2">
-                  Déjà un compte ? Se connecter
-                </LinkMUI>
-              </Link>
-            </Grid>
-          </Grid>
         </Box>
       </Box>
     </Container>
