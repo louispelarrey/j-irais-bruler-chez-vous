@@ -2,14 +2,16 @@
 import { Divider, Fab, FormControl, Grid, List, ListItem, ListItemButton, ListItemText, Paper, TextField } from '@mui/material';
 import { StyledChat } from './ChatComponent.style';
 import SendIcon from '@mui/icons-material/Send';
+import { Message } from '../../containers/Chat/Chat';
 
 interface ChatComponentProps {
-  messages: string[];
+  messages: Message[];
   handleSubmit: any;
   register: any;
+  userId?: string | null;
 }
 
-export const ChatComponent = ({ messages, handleSubmit, register }: ChatComponentProps) => {
+export const ChatComponent = ({ messages, handleSubmit, register, userId }: ChatComponentProps) => {
   return (
     <StyledChat>
       <Grid container component={Paper} className="chatSection">
@@ -38,39 +40,19 @@ export const ChatComponent = ({ messages, handleSubmit, register }: ChatComponen
         </Grid>
         <Grid item xs={8}>
           <List className="messageArea">
-            <ListItem key="1">
+            <ListItem key="2">
               <Grid container>
-                {/* <Grid item xs={12}>
-                  <ListItemText align="right" primary="Hey man, What's up ?"></ListItemText>
-                </Grid> */}
                 {messages && messages.map((message, index) => (
-                  // <li key={index}>{message}</li>
                   <Grid item xs={12} key={index}>
-                    <ListItemText align="right"   primary={message}></ListItemText>
+                    <ListItemText
+                      align={message.userId === userId ? 'right' : 'left'}
+                      primary={message.message}
+                      secondary={message.username}>
+                    </ListItemText>
                   </Grid>
                 ))}
                 <Grid item xs={12}>
                   <ListItemText align="right" secondary="09:30"></ListItemText>
-                </Grid>
-              </Grid>
-            </ListItem>
-            <ListItem key="2">
-              <Grid container>
-                <Grid item xs={12}>
-                  <ListItemText align="left" primary="Hey, Iam Good! What about you ?"></ListItemText>
-                </Grid>
-                <Grid item xs={12}>
-                  <ListItemText align="left" secondary="09:31"></ListItemText>
-                </Grid>
-              </Grid>
-            </ListItem>
-            <ListItem key="3">
-              <Grid container>
-                <Grid item xs={12}>
-                  <ListItemText align="right" primary="Cool. i am good, let's catch up!"></ListItemText>
-                </Grid>
-                <Grid item xs={12}>
-                  <ListItemText align="right" secondary="10:30"></ListItemText>
                 </Grid>
               </Grid>
             </ListItem>
