@@ -1,6 +1,8 @@
 import { Exclude } from "class-transformer";
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToMany } from "typeorm";
 import { Role } from "../role/enums/role.enum";
+import { Trashs } from "../../trash-management/trashs/trashs.entity";
+
 
 @Entity()
 export class Users {
@@ -19,4 +21,8 @@ export class Users {
   @Column()
   @Exclude({ toPlainOnly: true })
   password: string;
+
+  @OneToMany(() => Trashs, trash => trash.user)
+  @JoinColumn()
+  trashs: Trashs[];
 }

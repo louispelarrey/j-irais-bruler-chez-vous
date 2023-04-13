@@ -5,6 +5,7 @@ import { JwtAuthGuard } from '../authentication/guards/jwt-auth.guard';
 import { RoleGuard } from '../user-management/role/guard/role.guard';
 import { UserModule } from '../user-management/user/users.module';
 import { AuthenticationModule } from '../authentication/authentication.module';
+import { TrashsModule } from '../trash-management/trashs/trashs.module';
 
 @Module({
   imports: [
@@ -20,7 +21,8 @@ import { AuthenticationModule } from '../authentication/authentication.module';
     }),
     UserModule,
     AuthenticationModule,
-    ConfigModule.forRoot()
+    ConfigModule.forRoot(),
+    TrashsModule
   ],
   providers: [
     {
