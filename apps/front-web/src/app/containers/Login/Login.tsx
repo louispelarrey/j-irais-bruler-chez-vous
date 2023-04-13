@@ -28,7 +28,7 @@ export const Login = () => {
       setToken(data.access_token);
     }
 
-    navigate("/");
+    navigate("/posting");
   }
 
   if(token) return <Navigate to="/" replace />;
