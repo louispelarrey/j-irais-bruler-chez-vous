@@ -22,9 +22,9 @@ export class MessageGateway {
   }
 
   @SubscribeMessage('createMessage')
-  create(@MessageBody() messageDto: MessageDto) {
-    this.messageService.create(messageDto);
-    this.server.to(messageDto.roomName).emit('newMessage', messageDto);
+  async create(@MessageBody() messageDto: MessageDto) {
+    const message = await this.messageService.create(messageDto);
+    this.server.to(messageDto.roomName).emit('newMessage', message);
   }
 
   @SubscribeMessage('findAllMessageByRoom')
