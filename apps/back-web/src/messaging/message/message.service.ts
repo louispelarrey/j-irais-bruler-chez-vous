@@ -40,7 +40,6 @@ export class MessageService {
       order: {createdAt: 'ASC'},
       relations: ['sender'],
     });
-    console.log('messages', messages)
     return messages;
   }
 

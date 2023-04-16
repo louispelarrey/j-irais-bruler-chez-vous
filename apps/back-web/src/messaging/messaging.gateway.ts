@@ -18,7 +18,6 @@ export class MessagingGateway {
 
   @SubscribeMessage('sendMessage')
   handleMessage(@MessageBody() {message, userId}): void {
-    console.log('message: ', message, 'userId: ', userId)
     this.server.emit('newMessage', {
       userId: userId,
       username: 'test',

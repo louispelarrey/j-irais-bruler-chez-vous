@@ -1,10 +1,11 @@
-import { useState, useEffect, useCallback, useContext, useMemo } from 'react';
-import io from 'socket.io-client';
+import { useState, useEffect, useCallback, useContext } from 'react';
+import io, { Socket } from 'socket.io-client';
 import { ChatComponent } from '../../components/Chat/ChatComponent';
 import { useForm } from 'react-hook-form';
 import { UserContext } from '../../contexts/UserContext';
 import getUserIdFromToken from '../../utils/user/getUserIdFromToken';
-import transformApiResponse from '../../utils/message/transformApiResponse';
+import { transformApiResponse } from '../../utils/message/transformApiResponse';
+
 export interface ChatForm {
   newMessage: string;
 }
@@ -13,6 +14,8 @@ export interface Message {
   username: string;
   userId: string;
   message: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface ApiMessage {
@@ -36,43 +39,43 @@ type UserRole = 'USER';
 export const Chat = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const {register, handleSubmit} = useForm<ChatForm>();
+  const [socket, setSocket] = useState<Socket>();
   const {token} = useContext(UserContext);
   const userId = getUserIdFromToken(token);
-  const socket = useMemo(() => {
-    return io("http://localhost:3000/messages");
-  }, []);
-
   const roomName = 'default';
 
-  const receiveMessage = useCallback((message: Message | ApiMessage[]) => {
-    //Check if message is of type ApiMessage
-    if (Array.isArray(message)) {
-      const transformedMessages = transformApiResponse(message);
-      setMessages(transformedMessages);
-      return;
-    }
-
-    setMessages([...messages, message]);
-  }, [messages]);
+  const onNewMessage = useCallback((messages: ApiMessage | ApiMessage[]) => {
+    const transformedMessages = transformApiResponse(messages);
+    Array.isArray(transformedMessages) ? setMessages(transformedMessages) :
+      setMessages((messages) => [...messages, transformedMessages]);
+  }, []);
 
   const sendMessage = useCallback(({newMessage}: ChatForm) => {
-    socket.emit('createMessage', {
-      userId: userId,
+    socket && socket.emit('createMessage', {
+      senderId: userId,
       message: newMessage,
       roomName,
     });
   }, [socket, userId]);
 
   useEffect(() => {
-    socket.emit('joinRoom', roomName);
-    socket.emit('findAllMessageByRoom', roomName);
-    socket.on('newMessage', receiveMessage);
+    const newSocket = io(':3001');
+    setSocket(newSocket);
+
+    const onConnect = () => {
+      newSocket.emit('joinRoom', roomName);
+      newSocket.emit('findAllMessageByRoom', roomName);
+    };
+
+    newSocket.on('connect', onConnect);
+    newSocket.on('newMessage', onNewMessage);
 
     return () => {
-      socket.emit('leaveRoom', roomName);
-      socket.off('newMessage', receiveMessage);
-    }
-  }, [socket, roomName, receiveMessage]);
+      newSocket.off('connect', onConnect);
+      newSocket.off('newMessage', onNewMessage);
+      newSocket.disconnect();
+    };
+  }, [onNewMessage, userId]);
 
   return (
     <ChatComponent

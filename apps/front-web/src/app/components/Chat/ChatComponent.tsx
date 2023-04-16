@@ -3,6 +3,7 @@ import { Divider, Fab, FormControl, Grid, List, ListItem, ListItemButton, ListIt
 import { StyledChat } from './ChatComponent.style';
 import SendIcon from '@mui/icons-material/Send';
 import { Message } from '../../containers/Chat/Chat';
+import { format } from 'date-fns'
 
 interface ChatComponentProps {
   messages: Message[];
@@ -47,13 +48,11 @@ export const ChatComponent = ({ messages, handleSubmit, register, userId }: Chat
                     <ListItemText
                       align={message.userId === userId ? 'right' : 'left'}
                       primary={message.message}
-                      secondary={message.username}>
+                      //Format date
+                      secondary={message.username + " | " + format(new Date(message.createdAt), 'HH:mm')}>
                     </ListItemText>
                   </Grid>
                 ))}
-                <Grid item xs={12}>
-                  <ListItemText align="right" secondary="09:30"></ListItemText>
-                </Grid>
               </Grid>
             </ListItem>
           </List>
