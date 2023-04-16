@@ -1,6 +1,7 @@
 import { Exclude } from "class-transformer";
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import { Role } from "../role/enums/role.enum";
+import { Message } from "@messaging/message/entities/message.entity";
 
 @Entity()
 export class Users {
@@ -19,4 +20,7 @@ export class Users {
   @Column()
   @Exclude({ toPlainOnly: true })
   password: string;
+
+  @OneToMany(() => Message, (message) => message.sender)
+  messages: Message[];
 }

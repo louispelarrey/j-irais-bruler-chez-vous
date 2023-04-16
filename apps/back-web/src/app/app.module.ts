@@ -5,7 +5,8 @@ import { JwtAuthGuard } from '../authentication/guards/jwt-auth.guard';
 import { RoleGuard } from '../user-management/role/guard/role.guard';
 import { UserModule } from '../user-management/user/users.module';
 import { AuthenticationModule } from '../authentication/authentication.module';
-import { MessagingModule } from '../messaging/messaging.module';
+import { MessageModule } from '@messaging/message/message.module';
+import { RoomModule } from '@messaging/room/room.module';
 
 @Module({
   imports: [
@@ -20,7 +21,8 @@ import { MessagingModule } from '../messaging/messaging.module';
       synchronize: true,
     }),
     UserModule,
-    MessagingModule,
+    MessageModule,
+    RoomModule,
     AuthenticationModule,
     ConfigModule.forRoot()
   ],
