@@ -1,46 +1,92 @@
-// import { useEffect, useRef, useState } from "react";
-// import socketIOClient from "socket.io-client";
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import { UserContext } from "../contexts/UserContext";
+import getUserIdFromToken from "../utils/user/getUserIdFromToken";
+import { io } from "socket.io-client";
+import { transformApiResponse } from "../utils/message/transformApiResponse";
+import { ChatProps } from "../containers/Chat/Chat";
+export interface ChatForm {
+  newMessage: string;
+}
 
-// const NEW_CHAT_MESSAGE_EVENT = "newChatMessage"; // Name of the event
-// const SOCKET_SERVER_URL = "http://localhost:4000";
+export interface Message {
+  username: string;
+  userId: string;
+  message: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
-// const useChat = (roomId: string) => {
-//   const [messages, setMessages] = useState([]); // Sent and received messages
-//   const socketRef = useRef();
+export interface ApiMessage {
+  id: string;
+  message: string;
+  createdAt: string;
+  updatedAt: string;
+  sender: User;
+}
 
-//   useEffect(() => {
+interface User {
+  id: string;
+  username: string;
+  email: string;
+  roles: UserRole[];
+  password: string;
+}
 
-//     // Creates a WebSocket connection
-//     socketRef.current = socketIOClient(SOCKET_SERVER_URL, {
-//       query: { roomId },
-//     });
+type UserRole = 'USER';
 
-//     // Listens for incoming messages
-//     socketRef.current.on(NEW_CHAT_MESSAGE_EVENT, (message) => {
-//       const incomingMessage = {
-//         ...message,
-//         ownedByCurrentUser: message.senderId === socketRef.current.id,
-//       };
-//       setMessages((messages) => [...messages, incomingMessage]);
-//     });
+export const useChat = ({ roomName = 'default' }: ChatProps) => {
 
-//     // Destroys the socket reference
-//     // when the connection is closed
-//     return () => {
-//       socketRef.current.disconnect();
-//     };
-//   }, [roomId]);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const {register, handleSubmit} = useForm<ChatForm>();
+  const {token} = useContext(UserContext);
+  const userId = getUserIdFromToken(token);
+  const socket = useMemo(() => {
+    // Socket.io instanciation
+    return io(':3001',
+      {
+        query: {
+          roomName,
+        },
+      });
+  }, [roomName]);
 
-//   // Sends a message to the server that
-//   // forwards it to all users in the same room
-//   const sendMessage = (messageBody) => {
-//     socketRef.current.emit(NEW_CHAT_MESSAGE_EVENT, {
-//       body: messageBody,
-//       senderId: socketRef.current.id,
-//     });
-//   };
+  const onNewMessage = useCallback((messages: ApiMessage | ApiMessage[]) => {
+    const transformedMessages = transformApiResponse(messages);
+    Array.isArray(transformedMessages) ? setMessages(transformedMessages) :
+      setMessages((messages) => [...messages, transformedMessages]);
+  }, []);
 
-//   return { messages, sendMessage };
-// };
+  const sendMessage = useCallback(({newMessage}: ChatForm) => {
+    socket && socket.emit('createMessage', {
+      senderId: userId,
+      message: newMessage,
+      roomName,
+    });
+  }, [socket, userId, roomName]);
 
-// export default useChat;
+  useEffect(() => {
+    socket.on('newMessage', onNewMessage);
+
+    return () => {
+      socket.off('newMessage', onNewMessage);
+    };
+  }, [onNewMessage, socket]);
+
+  const scrollTarget = useRef<any>(null);
+
+  useEffect(() => {
+    if (scrollTarget.current) {
+      scrollTarget.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages.length]);
+
+  return {
+    messages,
+    handleSubmit,
+    register,
+    scrollTarget,
+    sendMessage,
+    userId
+  }
+};
