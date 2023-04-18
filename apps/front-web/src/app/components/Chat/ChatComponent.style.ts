@@ -7,8 +7,6 @@ interface StyledChatProps {
 
 export const StyledChat = styled.div<StyledChatProps>`
 
-  margin-top: 10px;
-
   width: ${props => props.widthPercentage}%;
   height: ${props => props.heightPercentage}%;
 
