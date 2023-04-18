@@ -16,6 +16,10 @@ export class MessageGateway implements OnGatewayConnection {
     if(!Array.isArray(roomName)) {
       client.join(roomName);
       this.server.to(roomName).emit('newMessage', await this.messageService.findAllByRoom(roomName));
+
+      client.on('disconnect', () => {
+        client.leave(roomName);
+      });
     }
   }
 
