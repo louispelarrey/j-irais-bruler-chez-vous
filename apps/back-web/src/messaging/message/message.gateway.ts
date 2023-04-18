@@ -1,19 +1,22 @@
-import { WebSocketGateway, SubscribeMessage, MessageBody, WebSocketServer, ConnectedSocket } from '@nestjs/websockets';
+import { WebSocketGateway, SubscribeMessage, MessageBody, WebSocketServer, ConnectedSocket, OnGatewayConnection } from '@nestjs/websockets';
 import { MessageService } from './message.service';
 import { MessageDto } from './dto/message.dto';
 import { Server, Socket } from 'socket.io';
 
 @WebSocketGateway(3001, { cors: '*:*' })
-export class MessageGateway {
+export class MessageGateway implements OnGatewayConnection {
 
   @WebSocketServer()
   server: Server;
 
   constructor(private readonly messageService: MessageService) {}
 
-  @SubscribeMessage('joinRoom')
-  joinRoom(@ConnectedSocket() client: Socket, @MessageBody() room: string) {
-    client.join(room);
+  async handleConnection(client: Socket, ..._args: any[]) {
+    const roomName = client.handshake.query.roomName;
+    if(!Array.isArray(roomName)) {
+      client.join(roomName);
+      this.server.to(roomName).emit('newMessage', await this.messageService.findAllByRoom(roomName));
+    }
   }
 
   @SubscribeMessage('leaveRoom')
@@ -25,11 +28,6 @@ export class MessageGateway {
   async create(@MessageBody() messageDto: MessageDto) {
     const message = await this.messageService.create(messageDto);
     this.server.to(messageDto.roomName).emit('newMessage', message);
-  }
-
-  @SubscribeMessage('findAllMessageByRoom')
-  async findAll(@MessageBody() roomName: string) {
-    this.server.to(roomName).emit('newMessage', await this.messageService.findAllByRoom(roomName));
   }
 
   @SubscribeMessage('findOneMessage')

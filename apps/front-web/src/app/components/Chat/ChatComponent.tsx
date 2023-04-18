@@ -4,15 +4,17 @@ import { StyledChat } from './ChatComponent.style';
 import SendIcon from '@mui/icons-material/Send';
 import { Message } from '../../containers/Chat/Chat';
 import { format } from 'date-fns'
+import { MutableRefObject } from 'react';
 
 interface ChatComponentProps {
   messages: Message[];
   handleSubmit: any;
   register: any;
   userId?: string | null;
+  scrollTarget: MutableRefObject<any>;
 }
 
-export const ChatComponent = ({ messages, handleSubmit, register, userId }: ChatComponentProps) => {
+export const ChatComponent = ({ messages, handleSubmit, register, userId, scrollTarget }: ChatComponentProps) => {
   return (
     <StyledChat>
       <Grid container component={Paper} className="chatSection">
@@ -49,12 +51,13 @@ export const ChatComponent = ({ messages, handleSubmit, register, userId }: Chat
                       align={message.userId === userId ? 'right' : 'left'}
                       primary={message.message}
                       //Format date
-                      secondary={message.username + " | " + format(new Date(message.createdAt), 'HH:mm')}>
+                      secondary={message.username + " | " + format(new Date(message.createdAt), 'dd/MM HH:mm')}>
                     </ListItemText>
                   </Grid>
                 ))}
               </Grid>
             </ListItem>
+            <div ref={scrollTarget} />
           </List>
           <Divider />
           <FormControl className="interact" component="form" noValidate onSubmit={handleSubmit}>
