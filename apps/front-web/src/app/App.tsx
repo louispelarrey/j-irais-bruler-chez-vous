@@ -33,7 +33,8 @@ export function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/logout" element={<Logout />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/" element={<Protected><Chat /></Protected>} />
+            <Route path="/chat" element={<Protected><Chat /></Protected>} />
+            <Route path="/" element={<Protected><div>Home</div></Protected>} />
             <Route path="*" element={<div>404</div>} />
           </Routes>
         </ThemeProvider>
