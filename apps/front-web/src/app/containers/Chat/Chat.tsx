@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useContext } from 'react';
+import { useState, useEffect, useCallback, useContext, useMemo, useRef } from 'react';
 import io, { Socket } from 'socket.io-client';
 import { ChatComponent } from '../../components/Chat/ChatComponent';
 import { useForm } from 'react-hook-form';
@@ -39,10 +39,18 @@ type UserRole = 'USER';
 export const Chat = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const {register, handleSubmit} = useForm<ChatForm>();
-  const [socket, setSocket] = useState<Socket>();
   const {token} = useContext(UserContext);
   const userId = getUserIdFromToken(token);
   const roomName = 'default';
+  const socket = useMemo(() => {
+    // Socket.io instanciation
+    return io(':3001',
+      {
+        query: {
+          roomName,
+        },
+      });
+  }, [roomName]);
 
   const onNewMessage = useCallback((messages: ApiMessage | ApiMessage[]) => {
     const transformedMessages = transformApiResponse(messages);
@@ -59,23 +67,20 @@ export const Chat = () => {
   }, [socket, userId]);
 
   useEffect(() => {
-    const newSocket = io(':3001');
-    setSocket(newSocket);
-
-    const onConnect = () => {
-      newSocket.emit('joinRoom', roomName);
-      newSocket.emit('findAllMessageByRoom', roomName);
-    };
-
-    newSocket.on('connect', onConnect);
-    newSocket.on('newMessage', onNewMessage);
+    socket.on('newMessage', onNewMessage);
 
     return () => {
-      newSocket.off('connect', onConnect);
-      newSocket.off('newMessage', onNewMessage);
-      newSocket.disconnect();
+      socket.off('newMessage', onNewMessage);
     };
-  }, [onNewMessage, userId]);
+  }, [onNewMessage, socket]);
+
+  const scrollTarget = useRef<any>(null);
+
+  useEffect(() => {
+    if (scrollTarget.current) {
+      scrollTarget.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages.length]);
 
   return (
     <ChatComponent
@@ -83,6 +88,7 @@ export const Chat = () => {
       handleSubmit={handleSubmit(sendMessage)}
       register={register}
       userId={userId}
+      scrollTarget={scrollTarget}
     />
   );
 };
