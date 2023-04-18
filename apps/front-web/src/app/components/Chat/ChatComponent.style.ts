@@ -1,8 +1,16 @@
 import styled from 'styled-components';
 
-export const StyledChat = styled.div`
+interface StyledChatProps {
+  widthPercentage: number;
+  heightPercentage: number;
+}
+
+export const StyledChat = styled.div<StyledChatProps>`
 
   margin-top: 10px;
+
+  width: ${props => props.widthPercentage}%;
+  height: ${props => props.heightPercentage}%;
 
   .table {
     min-width: 650px;
@@ -21,17 +29,18 @@ export const StyledChat = styled.div`
     overflow-y: auto;
   }
 
-  .outlined-basic-email {
-    width: 65%;
-    display: inline-block;
+  .messageInput {
+    width: 85%;
   }
 
   .interact {
     padding: 20px 0;
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: center;
     gap: 1px;
+    margin: 0 auto;
+    gap: 3%;
   }
 
   @media screen and (min-width: 768px) {

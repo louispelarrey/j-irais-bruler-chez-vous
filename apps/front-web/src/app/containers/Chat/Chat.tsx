@@ -17,6 +17,8 @@ export const Chat = ({ roomName = 'default' }: ChatProps) => {
       register={register}
       userId={userId}
       scrollTarget={scrollTarget}
+      heightPercentage={100}
+      widthPercentage={100}
     />
   );
 };
