@@ -22,7 +22,7 @@ export class UsersController {
 
   @Get(':id')
   @UseGuards(UserIsAllowedChange)
-  async findOne(@Param('id') id: number): Promise<Users> {
+  async findOne(@Param('id') id: string): Promise<Users> {
     return await this.userService.findOne(id);
   }
 
@@ -34,13 +34,13 @@ export class UsersController {
 
   @Put(':id')
   @UseGuards(UserIsAllowedChange)
-  async updateUser(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto): Promise<Users> {
+  async updateUser(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto): Promise<Users> {
     return await this.userService.updateUser(id, updateUserDto);
   }
 
   @Delete(':id')
   @UseGuards(UserIsAllowedChange)
-  async deleteUser(@Param('id') id: number): Promise<Users> {
+  async deleteUser(@Param('id') id: string): Promise<Users> {
     return await this.userService.deleteUser(id);
   }
 }

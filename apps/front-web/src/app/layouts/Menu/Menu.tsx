@@ -20,12 +20,20 @@ export const Menu = () => {
             <>
               <StyledLink to="/register" className="menu-link">
                 <Button>Inscription</Button>
-              </StyledLink><StyledLink to="/login" className="menu-link">
+              </StyledLink>
+
+              <StyledLink to="/login" className="menu-link">
                 <Button>Connexion</Button>
               </StyledLink>
             </>
           ) : (
-            <Button onClick={logout}>Déconnexion</Button>
+            <>
+              <StyledLink to="/chat" className="menu-link">
+                <Button>Chat</Button>
+              </StyledLink>
+
+              <Button onClick={logout}>Déconnexion</Button>
+            </>
           )}
         </Toolbar>
       </AppBar>

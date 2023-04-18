@@ -5,6 +5,8 @@ import { JwtAuthGuard } from '../authentication/guards/jwt-auth.guard';
 import { RoleGuard } from '../user-management/role/guard/role.guard';
 import { UserModule } from '../user-management/user/users.module';
 import { AuthenticationModule } from '../authentication/authentication.module';
+import { MessageModule } from '@messaging/message/message.module';
+import { RoomModule } from '@messaging/room/room.module';
 import { TrashsModule } from '../trash-management/trashs/trashs.module';
 
 @Module({
@@ -20,6 +22,8 @@ import { TrashsModule } from '../trash-management/trashs/trashs.module';
       synchronize: true,
     }),
     UserModule,
+    MessageModule,
+    RoomModule,
     AuthenticationModule,
     ConfigModule.forRoot(),
     TrashsModule
