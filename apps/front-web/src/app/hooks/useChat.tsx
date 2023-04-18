@@ -4,7 +4,7 @@ import { UserContext } from "../contexts/UserContext";
 import getUserIdFromToken from "../utils/user/getUserIdFromToken";
 import { io } from "socket.io-client";
 import { transformApiResponse } from "../utils/message/transformApiResponse";
-import { ChatProps } from "../containers/Chat/Chat";
+
 export interface ChatForm {
   newMessage: string;
 }
@@ -31,6 +31,10 @@ interface User {
   email: string;
   roles: UserRole[];
   password: string;
+}
+
+interface ChatProps {
+  roomName?: string;
 }
 
 type UserRole = 'USER';

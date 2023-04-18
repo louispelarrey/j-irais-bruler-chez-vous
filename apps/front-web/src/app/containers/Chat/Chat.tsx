@@ -1,13 +1,9 @@
 import { ChatComponent } from '../../components/Chat/ChatComponent';
 import { useChat } from '../../hooks/useChat';
 
-export interface ChatProps {
-  roomName?: string;
-}
-
-export const Chat = ({ roomName = 'default' }: ChatProps) => {
+export const Chat = () => {
   const { messages, userId, scrollTarget, handleSubmit, register, sendMessage } = useChat({
-    roomName,
+    roomName: 'default',
   });
 
   return (

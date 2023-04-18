@@ -12,9 +12,9 @@ export class RoomService {
     private readonly roomRepository: Repository<Room>,
   ) {}
 
-  create(roomName?: string) {
+  create(roomName: string) {
     const room = new Room();
-    room.name = roomName ?? 'default';
+    room.name = roomName;
     return this.roomRepository.save(room);
   }
 

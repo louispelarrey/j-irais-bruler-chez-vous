@@ -27,8 +27,10 @@ export class MessageService {
     const message = new Message();
     message.message = messageDto.message;
     message.sender = await this.userRepository.findOneBy({id: messageDto.senderId});
+    //find room by name
+    console.log(await this.roomRepository.findOneBy({name: messageDto.roomName}))
     const room = await this.roomRepository.findOneBy({name: messageDto.roomName}) ??
-      await this.roomService.create();
+      await this.roomService.create(messageDto.roomName);
     message.room = room;
     return this.messageRepository.save(message);
   }
