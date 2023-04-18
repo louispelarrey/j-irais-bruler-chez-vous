@@ -7,6 +7,7 @@ import { UserModule } from '../user-management/user/users.module';
 import { AuthenticationModule } from '../authentication/authentication.module';
 import { MessageModule } from '@messaging/message/message.module';
 import { RoomModule } from '@messaging/room/room.module';
+import { TrashsModule } from '../trash-management/trashs/trashs.module';
 
 @Module({
   imports: [
@@ -24,7 +25,8 @@ import { RoomModule } from '@messaging/room/room.module';
     MessageModule,
     RoomModule,
     AuthenticationModule,
-    ConfigModule.forRoot()
+    ConfigModule.forRoot(),
+    TrashsModule
   ],
   providers: [
     {

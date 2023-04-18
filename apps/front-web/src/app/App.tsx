@@ -11,6 +11,7 @@ const Logout = lazy(() => import('./containers/Logout/Logout').then(module => ({
 const Protected = lazy(() => import('./containers/Protected/Protected').then(module => ({ default: module.Protected })));
 const Register = lazy(() => import('./containers/Register/Register').then(module => ({ default: module.Register })));
 const Chat = lazy(() => import('./containers/Chat/Chat').then(module => ({ default: module.Chat })));
+const Posting = lazy(() => import('./containers/Posting/Posting').then(module => ({ default: module.Posting })));
 
 const StyledApp = styled.div`
   // Your style here
@@ -35,6 +36,7 @@ export function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/chat" element={<Protected><Chat /></Protected>} />
             <Route path="/" element={<Protected><div>Home</div></Protected>} />
+            <Route path="/posting" element={<Protected><Posting/></Protected>} />
             <Route path="*" element={<div>404</div>} />
           </Routes>
         </ThemeProvider>
