@@ -1,9 +1,15 @@
 import { CardComponent } from "../../components/Shared/CardComponent";
-import { useTrash, Trash } from "../../hooks/useTrash";
 import { Grid } from '@mui/material';
+import useGet from "../../hooks/useGet";
+
+interface Trash {
+    id: string;
+    name: string;
+    description: string;
+}
 
 export const Trashs = () => {
-    const { data, error, loading } = useTrash();
+    const { data, error, loading } = useGet('/api/trashs');
 
     if(loading) {
         return <div>Loading...</div>;
