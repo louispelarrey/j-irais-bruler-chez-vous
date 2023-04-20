@@ -21,6 +21,7 @@ export const Trashs = () => {
                     title={item.name}
                     description={item.description}
                     image="https://images.unsplash.com/photo-1616489953149-8e1b0e1b5f0d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80"
+                    trashId={item.id}
                 />
             ))}
         </Grid>

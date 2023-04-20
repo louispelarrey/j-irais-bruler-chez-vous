@@ -12,6 +12,7 @@ const Protected = lazy(() => import('./containers/Protected/Protected').then(mod
 const Register = lazy(() => import('./containers/Register/Register').then(module => ({ default: module.Register })));
 const Chat = lazy(() => import('./containers/Chat/Chat').then(module => ({ default: module.Chat })));
 const Trashs = lazy(() => import('./containers/Trash/Trashs').then(module => ({ default: module.Trashs })));
+const Trash = lazy(() => import('./containers/Trash/Trash').then(module => ({ default: module.Trash })));
 
 const StyledApp = styled.div`
   // Your style here
@@ -37,6 +38,7 @@ export function App() {
             <Route path="/chat" element={<Protected><Chat /></Protected>} />
             <Route path="/" element={<Protected><div>Home</div></Protected>} />
             <Route path="/trashs" element={<Protected><Trashs/></Protected>} />
+            <Route path="/trashs/:id" element={<Protected><Trash/></Protected>} />
             <Route path="*" element={<div>404</div>} />
           </Routes>
         </ThemeProvider>
