@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 import { Menu } from './layouts/Menu/Menu';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useParams } from 'react-router-dom';
 import { lazy } from 'react';
 import { SuspenseLoader } from './suspense/SuspenseLoader';
 
