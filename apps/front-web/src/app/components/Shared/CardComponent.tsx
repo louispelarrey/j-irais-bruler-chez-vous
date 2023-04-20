@@ -1,15 +1,18 @@
 import { Card, CardActions, CardContent, CardMedia, Button, Typography, Grid } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 interface CardComponentProps {
   title: string;
   description: string;
   image: string;
+  trashId: string;
 }
 
 export const CardComponent = ({
   title,
   description,
   image,
+  trashId,
 }: CardComponentProps) => {
   return (
     <Grid item xs={12} sm={6} md={4} sx={{ mb: 3 }}>
@@ -29,7 +32,9 @@ export const CardComponent = ({
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small">Voir</Button>
+          <Button component={Link} to={`/trashs/${trashId}`} size="small">
+            Voir
+          </Button>
         </CardActions>
       </Card>
     </Grid>
