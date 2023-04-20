@@ -23,6 +23,7 @@ export class TrashsController {
     }
 
     @Get('/:id')
+    @Public()
     async findOne(@Param('id') id: number): Promise<Trashs> {
         return await this.trashService.findOne(id);
     }
