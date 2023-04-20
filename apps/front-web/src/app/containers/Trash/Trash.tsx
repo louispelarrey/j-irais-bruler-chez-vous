@@ -1,5 +1,6 @@
-import { useTrash } from "../../hooks/useTrash";
+import { useParams } from "react-router-dom";
 import { Box, Typography } from "@mui/material";
+import useGet from "../../hooks/useGet";
 
 interface Trash {
     id: string;
@@ -7,8 +8,9 @@ interface Trash {
     description: string;
 }
 
-export const Trash = ({ id }: { id: string }) => {
-    const { data, error, loading } = useTrash(id);
+export const Trash = () => {
+    const { id } = useParams();
+    const { data, error, loading } = useGet(`/api/trashs/${id}`);
 
     if (loading) {
         return <div>Loading...</div>;
@@ -28,10 +30,10 @@ export const Trash = ({ id }: { id: string }) => {
                 alignItems: "center"
             }}>
                 <Typography variant="h2" gutterBottom>
-                    { data[0].name }
+                    { data.name }
                 </Typography>
                 <Typography variant="body1" gutterBottom>
-                    { data[0].description }
+                    { data.description }
                 </Typography>
             </Box>
         </div>
