@@ -15,8 +15,11 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@user-management/*": ["apps/back-web/src/user-management/*"],
       "@messaging/*": ["apps/back-web/src/messaging/*"],
+      "@user-management/*": ["apps/back-web/src/user-management/*"],
+      "@back-web/*": ["apps/back-web/src/*"],
+      "@api-authentication/*": ["apps/api-authentication/src/*"],
+      "@api-user/*": ["apps/api-user/src/*"],
     }
   },
   "exclude": ["node_modules", "tmp"]
