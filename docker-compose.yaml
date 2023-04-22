@@ -9,6 +9,9 @@ services:
       - POSTGRES_PASSWORD=postgres
     ports:
       - "5432:5432"
+    volumes:
+      - ./tools/scripts/db:/docker-entrypoint-initdb.d/
+
 
   pgadmin:
     container_name: pgAdmin
@@ -21,28 +24,6 @@ services:
     - 5050:80
     depends_on:
     - db
-
-  db-authentication:
-    image: postgres
-    volumes:
-      - postgres:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-    ports:
-      - "5433:5432"
-
-  db-user:
-    image: postgres
-    volumes:
-      - postgres:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-    ports:
-      - "5434:5432"
 
 volumes:
   postgres:

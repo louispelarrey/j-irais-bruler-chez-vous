@@ -1,19 +1,16 @@
-import { Controller, Post, Request, UseGuards } from '@nestjs/common';
-import { AuthenticationService } from './authentication.service';
-import { Public } from './decorators/public.decorator';
-import { LocalAuthGuard } from './guards/local-auth.guard';
-import { EventPattern, Payload } from '@nestjs/microservices';
+import { Controller, Request, UseGuards } from '@nestjs/common';
+import { EventPattern, MessagePattern, Payload } from '@nestjs/microservices';
+import { AuthenticationService, Public, LocalAuthGuard } from '@j-irais-bruler-chez-vous/authentication/feature';
 
 @Controller('authentication')
 export class AuthenticationController {
   constructor(
     private authService: AuthenticationService) { }
 
-  @Post('login')
   @Public()
   @UseGuards(LocalAuthGuard)
-  @EventPattern('login')
-  async login(@Request() {body}: any) {
+  @MessagePattern('login')
+  async handleLogin(@Payload() body: any) {
     return this.authService.login(body);
   }
 

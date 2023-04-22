@@ -1,9 +1,9 @@
 import { ClassSerializerInterceptor, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { JwtAuthGuard } from '../authentication/guards/jwt-auth.guard';
-import { RoleGuard } from '@user-management/role/guard/role.guard';
+import { RoleGuard } from '@j-irais-bruler-chez-vous/user/feature'
 import { AuthenticationModule } from '../authentication/authentication.module';
+import { JwtAuthGuard } from '@j-irais-bruler-chez-vous/authentication/feature';
 
 @Module({
   imports: [

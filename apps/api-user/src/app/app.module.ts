@@ -3,8 +3,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { ClassSerializerInterceptor } from '@nestjs/common';
 import { UserModule } from '../user/users.module';
-import { JwtAuthGuard } from '@api-authentication/authentication/guards/jwt-auth.guard'
-import { RoleGuard } from '../role/guard/role.guard';
+import { JwtAuthGuard } from '@j-irais-bruler-chez-vous/authentication/feature';
+import { RoleGuard } from '@j-irais-bruler-chez-vous/user/feature';
 
 @Module({
   imports: [
