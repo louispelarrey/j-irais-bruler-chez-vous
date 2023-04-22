@@ -1,12 +1,11 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
-import { Public } from '@api-authentication/authentication/decorators/public.decorator';
-import { Roles } from '../role/decorators/role.decorator';
-import { Role } from '../role/enums/role.enum';
+import { Public } from '@j-irais-bruler-chez-vous/authentication/feature';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserIsAllowedChange } from './guard/user-is-allow-change.guard';
-import { Users } from './users.entity';
+import { Role, Roles, Users } from '@j-irais-bruler-chez-vous/user/feature'
 import { UserService } from './users.service';
+import { MessagePattern } from '@nestjs/microservices';
 
 @Controller('users')
 export class UsersController {
@@ -42,5 +41,10 @@ export class UsersController {
   @UseGuards(UserIsAllowedChange)
   async deleteUser(@Param('id') id: string): Promise<Users> {
     return await this.userService.deleteUser(id);
+  }
+
+  @MessagePattern({cmd: 'findUserByIdentifier'})
+  async findUserByIdentifier(identifier: string): Promise<Users> {
+    return this.userService.findByIdentifier(identifier);
   }
 }
