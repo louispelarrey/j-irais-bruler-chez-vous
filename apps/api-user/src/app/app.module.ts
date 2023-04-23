@@ -1,10 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { ClassSerializerInterceptor } from '@nestjs/common';
 import { UserModule } from '../user/users.module';
-import { JwtAuthGuard } from '@j-irais-bruler-chez-vous/authentication/feature';
-import { RoleGuard } from '@j-irais-bruler-chez-vous/user/feature';
 
 @Module({
   imports: [
@@ -20,20 +17,6 @@ import { RoleGuard } from '@j-irais-bruler-chez-vous/user/feature';
     }),
     UserModule,
     ConfigModule.forRoot(),
-  ],
-  providers: [
-    {
-      provide: 'APP_INTERCEPTOR',
-      useClass: ClassSerializerInterceptor,
-    },
-    {
-      provide: 'APP_GUARD',
-      useClass: JwtAuthGuard,
-    },
-    {
-      provide: 'APP_GUARD',
-      useClass: RoleGuard,
-    },
   ],
 })
 export class AppModule {}
