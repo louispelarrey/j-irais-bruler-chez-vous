@@ -24,7 +24,6 @@ export class AuthenticationService {
   }
 
   async login({username}: {username: string}): Promise<{access_token: string}> {
-    return {access_token: 'test'}
     const user: Users = await lastValueFrom(this.userClient.send('findUserByIdentifier', username));
     const payload = {
       sub: user.id,
@@ -34,9 +33,5 @@ export class AuthenticationService {
     return {
       access_token: this.jwtService.sign(payload),
     };
-  }
-
-  testFunction(data) {
-    return `this is a test function ${data.username}`
   }
 }

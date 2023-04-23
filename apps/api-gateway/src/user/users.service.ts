@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
-export class UserService {
+export class UsersService {
   constructor(
     @Inject('USER') private readonly userClient: ClientProxy,
   ){}
