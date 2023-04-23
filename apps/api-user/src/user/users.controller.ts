@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nes
 import { Public } from '@j-irais-bruler-chez-vous/authentication/feature';
 import { CreateUserDto, UpdateUserDto, UserIsAllowedChange, UserService } from '@j-irais-bruler-chez-vous/user/feature';
 import { Role, Roles, Users } from '@j-irais-bruler-chez-vous/user/feature'
-import { MessagePattern } from '@nestjs/microservices';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 
 @Controller('users')
 export class UsersController {
@@ -40,8 +40,13 @@ export class UsersController {
     return await this.userService.deleteUser(id);
   }
 
-  @MessagePattern({cmd: 'findUserByIdentifier'})
-  async findUserByIdentifier(identifier: string): Promise<Users> {
+  @MessagePattern('findUserByIdentifier')
+  async findUserByIdentifier(@Payload() identifier: string): Promise<Users> {
     return this.userService.findByIdentifier(identifier);
+  }
+
+  @MessagePattern('createUser')
+  handleCreateUser(@Payload() createUserDto: CreateUserDto): Promise<Users> {
+    return this.userService.createUser(createUserDto);
   }
 }
