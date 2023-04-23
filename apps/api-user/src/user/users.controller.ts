@@ -1,10 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { Public } from '@j-irais-bruler-chez-vous/authentication/feature';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { UserIsAllowedChange } from './guard/user-is-allow-change.guard';
+import { CreateUserDto, UpdateUserDto, UserIsAllowedChange, UserService } from '@j-irais-bruler-chez-vous/user/feature';
 import { Role, Roles, Users } from '@j-irais-bruler-chez-vous/user/feature'
-import { UserService } from './users.service';
 import { MessagePattern } from '@nestjs/microservices';
 
 @Controller('users')
