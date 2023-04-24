@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { UserModule } from '../user/users.module';
+import { UsersModule } from '../user/users.module';
 
 @Module({
   imports: [
@@ -15,7 +15,7 @@ import { UserModule } from '../user/users.module';
       autoLoadEntities: true,
       synchronize: true,
     }),
-    UserModule,
+    UsersModule,
     ConfigModule.forRoot(),
   ],
 })

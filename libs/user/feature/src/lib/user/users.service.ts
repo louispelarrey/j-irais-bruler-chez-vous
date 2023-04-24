@@ -4,10 +4,10 @@ import { Repository } from "typeorm";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { Users } from '@j-irais-bruler-chez-vous/user/feature'
-import bcrypt from 'bcryptjs';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
-export class UserService {
+export class UsersService {
 
   constructor(
     @InjectRepository(Users)
