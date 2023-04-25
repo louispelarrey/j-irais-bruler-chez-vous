@@ -4,7 +4,7 @@ import { Roles } from '../role/decorators/role.decorator';
 import { Role } from '../role/enums/role.enum';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { UserIsAllowedChange } from './guard/user-is-allow-change.guard';
+import { UserIsAllowedChange } from '../../../../api-user/src/user/guard/user-is-allow-change.guard';
 import { Users } from './users.entity';
 import { UserService } from './users.service';
 

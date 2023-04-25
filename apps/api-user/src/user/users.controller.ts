@@ -15,6 +15,11 @@ export class UsersController {
     return this.userService.findByIdentifier(identifier);
   }
 
+  @MessagePattern('findUserById')
+  async findUserById(@Payload() id: string): Promise<Users> {
+    return this.userService.findOne(id);
+  }
+
   @MessagePattern('createUser')
   handleCreateUser(@Payload() createUserDto: CreateUserDto): Promise<Users> {
     return this.userService.createUser(createUserDto);
