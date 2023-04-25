@@ -5,4 +5,4 @@ export * from './lib/role/enums/role.enum';
 export * from './lib/role/decorators/role.decorator';
 export * from './lib/user/dto/create-user.dto';
 export * from './lib/user/dto/update-user.dto';
-export * from './lib/user/guard/user-is-allow-change.guard';
+export * from '../../../../apps/api-gateway/src/user/guard/user-is-allow-change.guard';

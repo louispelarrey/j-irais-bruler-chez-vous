@@ -20,6 +20,10 @@ export class UsersService {
     return this.userClient.send('findOne', id);
   }
 
+  findUserByIdentifier(identifier: string) {
+    return this.userClient.send('findUserByIdentifier', identifier);
+  }
+
   updateUser(id: string, updateUserDto: CreateUserDto) {
     return this.userClient.send('updateUser', { id, updateUserDto });
   }

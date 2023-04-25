@@ -56,13 +56,13 @@ export class UsersController {
   }
 
   @Put(':id')
-  // @UseGuards(UserIsAllowedChange)
+  @UseGuards(UserIsAllowedChange)
   updateUser(@Param('id') id: string, @Body() updateUserDto: CreateUserDto) {
     return this.userService.updateUser(id, updateUserDto);
   }
 
   @Delete(':id')
-  // @UseGuards(UserIsAllowedChange)
+  @UseGuards(UserIsAllowedChange)
   deleteUser(@Param('id') id: string) {
     return this.userService.deleteUser(id);
   }
