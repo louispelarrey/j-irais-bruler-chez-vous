@@ -4,25 +4,29 @@ import { Link } from 'react-router-dom';
 interface CardComponentProps {
   title: string;
   description: string;
-  image: string;
-  trashId: string;
+  image?: string;
+  redirectUrl: string;
 }
 
 export const CardComponent = ({
   title,
   description,
   image,
-  trashId,
+  redirectUrl,
 }: CardComponentProps) => {
   return (
     <Grid item xs={12} sm={6} md={4} sx={{ mb: 3 }}>
       <Card sx={{ height: '100%' }}>
-        <CardMedia
-          component="img"
-          height="140"
-          image={image}
-          alt="image"
-        />
+        {
+          image &&
+            <CardMedia
+              component="img"
+              height="140"
+              image={image}
+              alt="image"
+            />
+        }
+
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
             {title}
@@ -32,7 +36,7 @@ export const CardComponent = ({
           </Typography>
         </CardContent>
         <CardActions>
-          <Button component={Link} to={`/trashs/${trashId}`} size="small">
+          <Button component={Link} to={redirectUrl} size="small">
             Voir
           </Button>
         </CardActions>

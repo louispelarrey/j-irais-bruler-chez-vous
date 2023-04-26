@@ -26,8 +26,8 @@ export class TrashsService {
     ) { }
 
     /**
-     * Find all trashs
-     * @returns {Promise<Trash>} List of trashs
+     * Find all manifestations
+     * @returns {Promise<Trash>} List of manifestations
      */
     async findAll(): Promise<Trashs[]> {
         return await this.trashRepository.find();
@@ -52,8 +52,8 @@ export class TrashsService {
         const trash = new Trashs();
         trash.name = createTrashDto.name;
         trash.description = createTrashDto.description;
-        const userEntity = await this.usersRepository.findOneBy({ id: userJwt.sub });
-        trash.user = userEntity
+        // const userEntity = await this.usersRepository.findOneBy({ id: userJwt.sub });
+        // trash.user = userEntity
         return this.trashRepository.save(trash);
     }
 

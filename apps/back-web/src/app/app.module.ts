@@ -8,6 +8,7 @@ import { AuthenticationModule } from '../authentication/authentication.module';
 import { MessageModule } from '@messaging/message/message.module';
 import { RoomModule } from '@messaging/room/room.module';
 import { TrashsModule } from '../trash-management/trashs/trashs.module';
+import { ManifestationsModule } from '../manifestation-management/manifestations/manifestations.module';
 
 @Module({
   imports: [
@@ -26,7 +27,8 @@ import { TrashsModule } from '../trash-management/trashs/trashs.module';
     RoomModule,
     AuthenticationModule,
     ConfigModule.forRoot(),
-    TrashsModule
+    TrashsModule,
+    ManifestationsModule
   ],
   providers: [
     {

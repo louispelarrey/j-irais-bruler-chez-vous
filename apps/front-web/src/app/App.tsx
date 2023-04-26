@@ -13,6 +13,8 @@ const Register = lazy(() => import('./containers/Register/Register').then(module
 const Chat = lazy(() => import('./containers/Chat/Chat').then(module => ({ default: module.Chat })));
 const Trashs = lazy(() => import('./containers/Trash/Trashs').then(module => ({ default: module.Trashs })));
 const Trash = lazy(() => import('./containers/Trash/Trash').then(module => ({ default: module.Trash })));
+const Manifestations = lazy(() => import('./containers/Manifestation/Manifestations').then(module => ({ default: module.Manifestations })));
+const Manifestation = lazy(() => import('./containers/Manifestation/Manifestation').then(module => ({ default: module.Manifestation })));
 
 const StyledApp = styled.div`
   // Your style here
@@ -39,6 +41,8 @@ export function App() {
             <Route path="/" element={<Protected><div>Home</div></Protected>} />
             <Route path="/trashs" element={<Protected><Trashs/></Protected>} />
             <Route path="/trashs/:id" element={<Protected><Trash/></Protected>} />
+            <Route path="/manifestations" element={<Protected><Manifestations/></Protected>} />
+            <Route path="/manifestation/:id" element={<Protected><Manifestation/></Protected>} />
             <Route path="*" element={<div>404</div>} />
           </Routes>
         </ThemeProvider>

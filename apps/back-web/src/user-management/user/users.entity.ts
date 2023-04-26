@@ -3,6 +3,7 @@ import { Message } from "@messaging/message/entities/message.entity";
 import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToMany } from "typeorm";
 import { Role } from "../role/enums/role.enum";
 import { Trashs } from "../../trash-management/trashs/trashs.entity";
+import { Manifestations } from "../../manifestation-management/manifestations/manifestations.entity";
 
 @Entity()
 export class Users {
@@ -28,4 +29,8 @@ export class Users {
   @OneToMany(() => Trashs, trash => trash.user)
   @JoinColumn()
   trashs: Trashs[];
+
+  @OneToMany(() => Manifestations, manifestation => manifestation.user)
+  @JoinColumn()
+  manifestations: Manifestations[];
 }
