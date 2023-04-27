@@ -1,8 +1,6 @@
+import { Role } from "@j-irais-bruler-chez-vous/shared";
 import { Exclude } from "class-transformer";
-// import { Message } from "@messaging/message/entities/message.entity";
 import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToMany } from "typeorm";
-import { Role } from "../role/enums/role.enum";
-// import { Trashs } from "../../trash-management/trashs/trashs.entity";
 
 @Entity()
 export class Users {

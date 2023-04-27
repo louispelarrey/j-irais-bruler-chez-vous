@@ -21,6 +21,7 @@
       "@j-irais-bruler-chez-vous/authentication/feature": [
         "libs/authentication/feature/src/index.ts"
       ],
+      "@j-irais-bruler-chez-vous/shared": ["libs/shared/src/index.ts"],
       "@j-irais-bruler-chez-vous/user/feature": [
         "libs/user/feature/src/index.ts"
       ],

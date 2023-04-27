@@ -10,4 +10,8 @@ export class AuthenticationService {
   getLogin(body: any) {
     return this.authenticationClient.send('login', body)
   }
+
+  validateUser(identifier: string, password: string) {
+    return this.authenticationClient.send('validateUser', { identifier, password })
+  }
 }

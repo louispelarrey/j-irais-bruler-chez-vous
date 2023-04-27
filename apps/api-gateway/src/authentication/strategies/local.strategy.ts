@@ -4,6 +4,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthenticationService } from '../authentication.service';
 // import { Users } from '@api-user/user/users.entity';
 import { Users } from '@j-irais-bruler-chez-vous/user/feature'
+import { lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
@@ -12,7 +13,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(identifier: string, password: string): Promise<Users | UnauthorizedException>  {
-    const user = await this.authService.validateUser(identifier, password);
+    const user = await lastValueFrom(this.authService.validateUser(identifier, password));
     if (!user) {
       throw new UnauthorizedException();
     }

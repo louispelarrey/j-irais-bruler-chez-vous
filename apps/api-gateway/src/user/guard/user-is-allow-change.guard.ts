@@ -1,7 +1,7 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
-import { Role } from '@j-irais-bruler-chez-vous/user/feature';
 import { UsersService } from '../users.service';
 import { lastValueFrom } from 'rxjs';
+import { Role } from '@j-irais-bruler-chez-vous/shared';
 
 /**
  * Guard to check if the user is allowed to change the user - it checks if the user is an admin or the owner of the user
