@@ -17,6 +17,7 @@
     "paths": {
       "@api-authentication/*": ["apps/api-authentication/src/*"],
       "@api-user/*": ["apps/api-user/src/*"],
+      "@api-message/*": ["apps/api-message/src/*"],
       "@back-web/*": ["apps/back-web/src/*"],
       "@j-irais-bruler-chez-vous/authentication/feature": [
         "libs/authentication/feature/src/index.ts"
