@@ -11,4 +11,9 @@ export class AuthenticationController {
   async handleLogin(@Payload() body: any) {
     return this.authService.login(body);
   }
+
+  @MessagePattern('validateUser')
+  async handleValidateUser(@Payload() { identifier, password }: {identifier: string, password: string}) {
+    return this.authService.validateUser(identifier, password);
+  }
 }

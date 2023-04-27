@@ -1,7 +1,10 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto, Role, Roles, UserIsAllowedChange } from '@j-irais-bruler-chez-vous/user/feature';
-import { Public } from '@j-irais-bruler-chez-vous/authentication/feature';
+import { Roles } from './role/decorators/role.decorator';
+import { Public } from '../authentication/decorators/public.decorator';
+import { UserIsAllowedChange } from './guard/user-is-allow-change.guard';
+import { Role } from '@j-irais-bruler-chez-vous/shared';
+import { CreateUserDto } from '@j-irais-bruler-chez-vous/user/feature';
 
 @Controller('users')
 export class UsersController {
