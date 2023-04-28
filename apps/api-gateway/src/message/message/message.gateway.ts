@@ -36,7 +36,7 @@ export class MessageGateway implements OnGatewayConnection {
 
   @SubscribeMessage('createMessage')
   async create(@MessageBody() messageDto: MessageDto) {
-    const message = await lastValueFrom(this.messageService.create(messageDto));
+    const message = await this.messageService.create(messageDto);
     this.server.to(messageDto.roomName).emit('newMessage', message);
   }
 

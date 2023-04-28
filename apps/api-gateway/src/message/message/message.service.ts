@@ -22,8 +22,10 @@ export class MessageService {
     return updatedMessages;
   }
 
-  create(messageDto: MessageDto) {
-    return this.messageClient.send('create', messageDto);
+  async create(messageDto: MessageDto) {
+    const message = await lastValueFrom(this.messageClient.send('create', messageDto));
+    message.sender = await lastValueFrom(this.userClient.send('findUserById', message.senderId));
+    return message;
   }
 
   findOne(id: string) {
