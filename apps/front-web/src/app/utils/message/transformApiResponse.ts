@@ -1,4 +1,4 @@
-import { ApiMessage, Message } from '../../containers/Chat/Chat';
+import { ApiMessage, Message } from "../../hooks/useChat";
 
 export const transformApiResponse = (
   apiMessages: ApiMessage | ApiMessage[]
@@ -6,7 +6,7 @@ export const transformApiResponse = (
   if (Array.isArray(apiMessages)) {
     return apiMessages.map((apiMessage) => ({
       username: apiMessage.sender.username,
-      userId: apiMessage.sender.id,
+      userId: apiMessage.senderId,
       message: apiMessage.message,
       createdAt: apiMessage.createdAt,
       updatedAt: apiMessage.updatedAt,
