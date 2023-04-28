@@ -4,7 +4,6 @@ import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
 export class MessageService {
-
   constructor(
     @Inject('MESSAGE') private readonly messageClient: ClientProxy,
   ){}

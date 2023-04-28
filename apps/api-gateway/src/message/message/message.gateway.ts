@@ -4,7 +4,7 @@ import { Server, Socket } from 'socket.io';
 import { MessageDto } from '@j-irais-bruler-chez-vous/message/feature';
 import { lastValueFrom } from 'rxjs';
 
-@WebSocketGateway(9001, { cors: '*:*' })
+@WebSocketGateway(9001, { cors: { origin: '*' } })
 export class MessageGateway implements OnGatewayConnection {
 
   @WebSocketServer()
@@ -15,8 +15,11 @@ export class MessageGateway implements OnGatewayConnection {
   async handleConnection(client: Socket, ..._args: any[]) {
     const roomName = client.handshake.query.roomName;
     if(!Array.isArray(roomName)) {
+
       client.join(roomName);
-      this.server.to(roomName).emit('newMessage', await lastValueFrom(this.messageService.findAllByRoom(roomName)));
+      const messages = await lastValueFrom(this.messageService.findAllByRoom(roomName)).catch((err) => console.log(err));
+      console.log('aaaa',messages)
+      this.server.to(roomName).emit('newMessage', messages);
 
       client.on('disconnect', () => {
         client.leave(roomName);
