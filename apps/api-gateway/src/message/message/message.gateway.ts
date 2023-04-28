@@ -3,6 +3,7 @@ import { MessageService } from './message.service';
 import { Server, Socket } from 'socket.io';
 import { MessageDto } from '@j-irais-bruler-chez-vous/message/feature';
 import { lastValueFrom } from 'rxjs';
+import { UsersService } from '../../user/users.service';
 
 @WebSocketGateway(9001, { cors: { origin: '*' } })
 export class MessageGateway implements OnGatewayConnection {
@@ -10,15 +11,16 @@ export class MessageGateway implements OnGatewayConnection {
   @WebSocketServer()
   server: Server;
 
-  constructor(private readonly messageService: MessageService) {}
+  constructor(
+    private readonly messageService: MessageService,
+  ) {}
 
   async handleConnection(client: Socket, ..._args: any[]) {
     const roomName = client.handshake.query.roomName;
     if(!Array.isArray(roomName)) {
 
       client.join(roomName);
-      const messages = await lastValueFrom(this.messageService.findAllByRoom(roomName)).catch((err) => console.log(err));
-      console.log('aaaa',messages)
+      const messages = await this.messageService.findAllByRoom(roomName).catch((err) => console.log(err));
       this.server.to(roomName).emit('newMessage', messages);
 
       client.on('disconnect', () => {

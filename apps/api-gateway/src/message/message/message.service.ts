@@ -1,15 +1,25 @@
 import { MessageDto } from '@j-irais-bruler-chez-vous/message/feature';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class MessageService {
   constructor(
     @Inject('MESSAGE') private readonly messageClient: ClientProxy,
+    @Inject('USER') private readonly userClient: ClientProxy,
   ){}
 
-  findAllByRoom(roomName: string) {
-    return this.messageClient.send('findAllByRoom', roomName);
+  async findAllByRoom(roomName: string) {
+    const messages = await lastValueFrom(this.messageClient.send('findAllByRoom', roomName));
+    const updatedMessages = await Promise.all(
+      messages.map(async message => {
+        message.sender = await lastValueFrom(this.userClient.send('findUserById', message.senderId));
+        return message;
+      }),
+    );
+
+    return updatedMessages;
   }
 
   create(messageDto: MessageDto) {
