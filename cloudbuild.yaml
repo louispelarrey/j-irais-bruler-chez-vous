@@ -1,0 +1,72 @@
+steps:
+  # Message
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      [
+        'build',
+        '-t',
+        'europe-west9-docker.pkg.dev/j-irais-bruler-chez-vous/api-message/production',
+        '-f',
+        'apps/reservations/Dockerfile',
+        '.',
+      ]
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      ['push', 'europe-west9-docker.pkg.dev/j-irais-bruler-chez-vous/api-message/production']
+
+  # Authentication
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      [
+        'build',
+        '-t',
+        'europe-west9-docker.pkg.dev/j-irais-bruler-chez-vous/api-authentication/production',
+        '-f',
+        'apps/auth/Dockerfile',
+        '.',
+      ]
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'europe-west9-docker.pkg.dev/j-irais-bruler-chez-vous/api-authentication/production']
+
+  # Gateway
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      [
+        'build',
+        '-t',
+        'europe-west9-docker.pkg.dev/j-irais-bruler-chez-vous/api-gateway/production',
+        '-f',
+        'apps/notifications/Dockerfile',
+        '.',
+      ]
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      ['push', 'europe-west9-docker.pkg.dev/j-irais-bruler-chez-vous/api-gateway/production']
+
+  # User
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      [
+        'build',
+        '-t',
+        'europe-west9-docker.pkg.dev/j-irais-bruler-chez-vous/api-user/production',
+        '-f',
+        'apps/payments/Dockerfile',
+        '.',
+      ]
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'europe-west9-docker.pkg.dev/j-irais-bruler-chez-vous/api-user/production']
+
+  # Front Web
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      [
+        'build',
+        '-t',
+        'europe-west9-docker.pkg.dev/j-irais-bruler-chez-vous/front-web/production',
+        '-f',
+        'apps/payments/Dockerfile',
+        '.',
+      ]
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'europe-west9-docker.pkg.dev/j-irais-bruler-chez-vous/front-web/production']
