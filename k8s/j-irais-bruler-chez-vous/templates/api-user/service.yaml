@@ -6,10 +6,10 @@ metadata:
   name: api-user
 spec:
   ports:
-  - name: "3333"
-    port: 3333
+  - name: "3001"
+    port: 3001
     protocol: TCP
-    targetPort: 3333
+    targetPort: 3001
   selector:
     app: api-user
   type: ClusterIP
