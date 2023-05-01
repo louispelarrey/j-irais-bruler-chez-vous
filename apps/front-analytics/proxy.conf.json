@@ -1,0 +1,6 @@
+{
+  "/api-analytics": {
+    "target": "http://localhost:3444",
+    "secure": false
+  }
+}
