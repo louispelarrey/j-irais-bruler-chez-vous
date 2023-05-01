@@ -1,39 +1,42 @@
-FROM node:alpine As development
+# Stage 1: Build the React app using Nx
+FROM node:20-alpine as builder
 
-WORKDIR /usr/src/app
 
-# Add the following lines to install Python
 RUN apk add --update --no-cache python3 make gcc g++ && ln -sf python3 /usr/bin/python
 RUN python3 -m ensurepip
 RUN pip3 install --no-cache --upgrade pip setuptools
 
-COPY package.json ./
-COPY package-lock.json ./
+# Set the working directory
+WORKDIR /usr/src/app
 
-RUN npm install
+# Copy package.json and package-lock.json to the working directory
+COPY package.json package-lock.json ./
+
+# Install dependencies
+RUN npm ci
+
+# Copy the rest of the app source code
+COPY . .
 
 RUN npm install -g nx
 
-COPY . .
+# Build the React app using Nx
+RUN npx nx build front-web --prod
 
-RUN nx build front-web
+# Stage 2: Serve the React app using Nginx
+FROM nginx:stable-alpine
 
-FROM node:alpine as production
+# Remove the default Nginx configuration
+RUN rm -rf /etc/nginx/conf.d
 
-ARG NODE_ENV=production
-ENV NODE_ENV=production
+# Copy the custom Nginx configuration
+COPY apps/front-web/nginx.conf /etc/nginx/conf.d/default.conf
 
-WORKDIR /usr/src/app
+# Copy the built React app from the builder stage
+COPY --from=builder /usr/src/app/dist/apps/front-web /usr/share/nginx/html
 
-COPY package.json ./
-COPY package-lock.json ./
+# Expose port 80 for the Nginx server
+EXPOSE 80
 
-RUN npm install --prod
-
-COPY --from=development /usr/src/app/dist ./dist
-
-ENV NODE_ENV production
-# Expose the port on which the app will be running (3000 is the default that `serve` uses)
-EXPOSE 3000
-# Start the app
-CMD [ "npx", "serve", "build" ]
+# Start Nginx server
+CMD ["nginx", "-g", "daemon off;"]
