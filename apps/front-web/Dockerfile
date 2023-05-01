@@ -16,7 +16,7 @@ RUN npm install -g nx
 
 COPY . .
 
-RUN nx build api-user
+RUN nx build front-web
 
 FROM node:alpine as production
 
