@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: api-user
+  name: api-user
+spec:
+  ports:
+  - name: "3333"
+    port: 3333
+    protocol: TCP
+    targetPort: 3333
+  selector:
+    app: api-user
+  type: ClusterIP
