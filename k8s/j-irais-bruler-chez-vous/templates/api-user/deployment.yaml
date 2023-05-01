@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: api-user
+  name: api-user
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-user
+  template:
+    metadata:
+      labels:
+        app: api-user
+    spec:
+      containers:
+      - image: europe-west9-docker.pkg.dev/j-irais-bruler-chez-vous/api-user/production
+        name: api-user
+        env:
+          - name: DB_HOST
+            value: "10.83.80.3"
+          - name: DB_PORT
+            value: "5432"
+          - name: DB_USER
+            value: "postgres"
+          - name: DB_PASSWORD
+            value: "postgres"
+          - name: DB_DATABASE
+            value: "db_user"
+          - name: JWT_SECRET
+            value: "Hc5f4g@5h6j7k8lqs9a2s3de4f&&5g6hed7j8k9l"
+        ports:
+          - containerPort: 3001
