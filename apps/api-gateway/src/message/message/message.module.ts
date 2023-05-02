@@ -12,6 +12,7 @@ import { UsersModule } from '../../user/users.module';
         name: 'MESSAGE',
         transport: Transport.TCP,
         options: {
+          host: process.env.TCP_MESSAGE_HOST,
           port: 3002,
         },
       },
@@ -19,6 +20,7 @@ import { UsersModule } from '../../user/users.module';
         name: 'USER',
         transport: Transport.TCP,
         options: {
+          host: process.env.TCP_USER_HOST,
           port: 3001,
         },
       }

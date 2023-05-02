@@ -9,6 +9,10 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
       {
         name: 'AUTHENTICATION',
         transport: Transport.TCP,
+        options: {
+          host: process.env.TCP_AUTHENTICATION_HOST,
+          port: 3000,
+        }
       },
     ])
   ],
