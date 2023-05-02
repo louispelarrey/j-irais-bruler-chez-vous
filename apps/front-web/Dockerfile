@@ -1,5 +1,5 @@
 # # Stage 1: Build the React app using Nx
-# FROM node:20-alpine as builder
+FROM node:20-alpine as builder
 
 
 # RUN apk add --update --no-cache python3 make gcc g++ && ln -sf python3 /usr/bin/python
