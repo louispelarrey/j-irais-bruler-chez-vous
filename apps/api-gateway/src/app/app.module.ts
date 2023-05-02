@@ -16,11 +16,16 @@ import { AppController } from './app.controller';
       {
         name: 'AUTHENTICATION',
         transport: Transport.TCP,
+        options: {
+          host: process.env.TCP_AUTHENTICATION_HOST,
+          port: 3000,
+        }
       },
       {
         name: 'USER',
         transport: Transport.TCP,
         options: {
+          host: process.env.TCP_USER_HOST,
           port: 3001,
         },
       },
@@ -28,6 +33,7 @@ import { AppController } from './app.controller';
         name: 'MESSAGE',
         transport: Transport.TCP,
         options: {
+          host: process.env.TCP_MESSAGE_HOST,
           port: 3002,
         },
       },
