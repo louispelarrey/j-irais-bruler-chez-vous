@@ -17,6 +17,7 @@ import { AuthenticationService } from '@j-irais-bruler-chez-vous/authentication/
         name: 'USER',
         transport: Transport.TCP,
         options: {
+          host: process.env.TCP_USER_HOST,
           port: 3001,
         },
       },
