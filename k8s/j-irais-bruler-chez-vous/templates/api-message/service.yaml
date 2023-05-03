@@ -6,7 +6,7 @@ metadata:
   name: api-message
 spec:
   ports:
-  - name: "3000"
+  - name: "3002"
     port: 3002
     protocol: TCP
     targetPort: 3002

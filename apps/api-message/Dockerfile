@@ -16,7 +16,7 @@ RUN npm install -g nx
 
 COPY . .
 
-RUN nx build api-message
+RUN nx build api-message --prod
 
 FROM node:alpine as production
 

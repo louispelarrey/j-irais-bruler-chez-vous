@@ -16,7 +16,7 @@ RUN npm install -g nx
 
 COPY . .
 
-RUN nx build api-authentication
+RUN nx build api-authentication --prod
 
 FROM node:alpine as production
 
