@@ -28,3 +28,4 @@ spec:
             value: "api-user"
         ports:
           - containerPort: 3333
+          - containerPort: 9001

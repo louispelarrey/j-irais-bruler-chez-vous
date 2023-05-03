@@ -16,7 +16,7 @@ RUN npm install -g nx
 
 COPY . .
 
-RUN nx build api-gateway
+RUN nx build api-gateway --prod
 
 FROM node:alpine as production
 
