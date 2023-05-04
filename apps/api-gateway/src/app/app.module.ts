@@ -6,12 +6,14 @@ import { JwtAuthGuard } from '../authentication/guards/jwt-auth.guard';
 import { RoleGuard } from '../user/role/guard/role.guard';
 import { MessageModule } from '../message/message/message.module';
 import { AppController } from './app.controller';
+import { TrashModule } from '../trash/trash.module';
 
 @Module({
   imports: [
     AuthenticationModule,
     UsersModule,
     MessageModule,
+    TrashModule,
     ClientsModule.register([
       {
         name: 'AUTHENTICATION',
@@ -35,6 +37,14 @@ import { AppController } from './app.controller';
         options: {
           host: process.env.TCP_MESSAGE_HOST,
           port: 3002,
+        },
+      },
+      {
+        name: 'TRASH',
+        transport: Transport.TCP,
+        options: {
+          host: process.env.TCP_TRASH_HOST,
+          port: 3003,
         },
       },
     ])
