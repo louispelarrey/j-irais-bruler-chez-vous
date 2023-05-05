@@ -46,6 +46,14 @@ import { TrashModule } from '../trash/trash.module';
           port: 3003,
         },
       },
+      {
+        name: 'MANIFESTATION',
+        transport: Transport.TCP,
+        options: {
+          host: process.env.TCP_MANIFESTATION_HOST,
+          port: 3004,
+        },
+      },
     ])
   ],
   providers: [
