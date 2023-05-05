@@ -5,6 +5,7 @@ import { Menu } from './layouts/Menu/Menu';
 import { Route, Routes, useParams } from 'react-router-dom';
 import { lazy } from 'react';
 import { SuspenseLoader } from './suspense/SuspenseLoader';
+import ManifestationAdd from "./containers/Manifestation/ManifestationAdd";
 
 const Login = lazy(() => import('./containers/Login/Login').then(module => ({ default: module.Login })));
 const Logout = lazy(() => import('./containers/Logout/Logout').then(module => ({ default: module.Logout })));
@@ -43,6 +44,7 @@ export function App() {
             <Route path="/trashs/:id" element={<Protected><Trash/></Protected>} />
             <Route path="/manifestations" element={<Protected><Manifestations/></Protected>} />
             <Route path="/manifestation/:id" element={<Protected><Manifestation/></Protected>} />
+            <Route path="/manifestation/add" element={<Protected><ManifestationAdd/></Protected>} />
             <Route path="*" element={<div>404</div>} />
           </Routes>
         </ThemeProvider>
