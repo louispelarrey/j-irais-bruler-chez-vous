@@ -1,6 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
+import { CreateTrashDto } from './dto/create-trash.dto';
+import { UpdateTrashDto } from './dto/update-trash.dto';
 
 @Injectable()
 export class TrashService {
@@ -15,11 +17,11 @@ export class TrashService {
         return test;
     }
 
-    async create(body: any) {
-        return this.trashClient.send('create', body);
+    async create(createTrashDto: CreateTrashDto) {
+        return this.trashClient.send('create', createTrashDto);
     }
 
-    async update(id: string, body: any) {
-        return this.trashClient.send('update', { id, ...body });
+    async update(id: string, updateTrashDto: UpdateTrashDto) {
+        return this.trashClient.send('update', { id, updateTrashDto });
     }
 }

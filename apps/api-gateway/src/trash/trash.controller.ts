@@ -1,6 +1,8 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { TrashService } from './trash.service';
 import { Public } from '../authentication/decorators/public.decorator';
+import { CreateTrashDto } from './dto/create-trash.dto';
+import { UpdateTrashDto } from './dto/update-trash.dto';
 
 @Controller('trash')
 export class TrashController {
@@ -12,13 +14,14 @@ export class TrashController {
     return this.trashService.findAll();
   }
 
-  @Post('/create')
-  create(@Body() body: any) {
-    return this.trashService.create(body);
+  @Post()
+  @Public()
+  create(@Body() createTrashDto: CreateTrashDto) {
+    return this.trashService.create(createTrashDto);
   }
 
-  @Post('/update')
-  update(@Body() body: any) {
-    return this.trashService.update(body.id, body);
+  @Put()
+  update(@Param('id') id: string, @Body() updateTrashDto: UpdateTrashDto) {
+    return this.trashService.update(id, updateTrashDto);
   }
 }
