@@ -14,4 +14,12 @@ export class TrashService {
         console.log('api-gateway',test);
         return test;
     }
+
+    async create(body: any) {
+        return this.trashClient.send('create', body);
+    }
+
+    async update(id: string, body: any) {
+        return this.trashClient.send('update', { id, ...body });
+    }
 }
