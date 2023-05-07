@@ -1,3 +1,10 @@
 {
-  "routes": [{ "src": "/[^.]+", "dest": "/", "status": 200 }]
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "https://api.j-irais-bruler-chez-vous.com/$1",
+      "headers": { "x-forwarded-host": "origin" },
+      "status": 200
+    }
+  ]
 }
