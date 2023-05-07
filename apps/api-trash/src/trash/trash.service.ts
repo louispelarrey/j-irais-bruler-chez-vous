@@ -13,9 +13,14 @@ export class TrashService {
         private readonly trashRepository: Repository<Trash>
     ) {}
 
-    findAll( data : any ) {
-        console.log('api-trash', data);
-        return { message: 'Welcome to api-trash!' };
+    findAll() {
+        const trashs = this.trashRepository.find();
+        return trashs;
+    }
+
+    findOne(id: string) {
+        const trash = this.trashRepository.findOneBy({ id });
+        return trash;
     }
 
     async create( createTrashDto: CreateTrashDto ): Promise<Trash> {

@@ -10,8 +10,13 @@ export class TrashController {
   constructor(private readonly trashService: TrashService) {}
 
   @MessagePattern('findAll')
-  async findAll(@Payload() data: { test: string }) {
-    return this.trashService.findAll(data);
+  async findAll() {
+    return this.trashService.findAll();
+  }
+
+  @MessagePattern('findOne')
+  async findOne(@Param('id') id: string): Promise<Trash> {
+    return this.trashService.findOne(id);
   }
 
   @MessagePattern('create')

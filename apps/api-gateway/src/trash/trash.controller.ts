@@ -14,6 +14,12 @@ export class TrashController {
     return this.trashService.findAll();
   }
 
+  @Get(':id')
+  @Public()
+  findOne(@Param('id') id: string) {
+    return this.trashService.findOne(id);
+  }
+
   @Post()
   @Public()
   create(@Body() createTrashDto: CreateTrashDto) {
