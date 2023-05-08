@@ -9,7 +9,7 @@ interface List {
 }
 
 export const Trashs = () => {
-    const { data, error, loading } = useGet('/api/trashs');
+    const { data, error, loading } = useGet('/api/trash');
 
     if(loading) {
         return <div>Loading...</div>;
