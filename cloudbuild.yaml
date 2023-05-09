@@ -56,3 +56,17 @@ steps:
       ]
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'europe-west9-docker.pkg.dev/j-irais-bruler-chez-vous/api-user/production']
+
+  # Trash
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      [
+        'build',
+        '-t',
+        'europe-west9-docker.pkg.dev/j-irais-bruler-chez-vous/api-trash/production',
+        '-f',
+        'apps/api-trash/Dockerfile',
+        '.',
+      ]
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'europe-west9-docker.pkg.dev/j-irais-bruler-chez-vous/api-trash/production']
