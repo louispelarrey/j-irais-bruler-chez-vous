@@ -16,6 +16,12 @@ WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'db_message')\gexec
 
 GRANT ALL PRIVILEGES ON DATABASE db_message TO postgres;
 
+-- Create default database used by the application
+SELECT 'CREATE DATABASE db_trash'
+WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'db_trash')\gexec
+
+GRANT ALL PRIVILEGES ON DATABASE db_trash TO postgres;
+
 -- -- Create e2e testing database
 -- SELECT 'CREATE DATABASE db-authentication'
 -- WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'gari_e2e_test')\gexec

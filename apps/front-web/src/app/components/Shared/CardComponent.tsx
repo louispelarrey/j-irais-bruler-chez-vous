@@ -32,7 +32,7 @@ export const CardComponent = ({
           </Typography>
         </CardContent>
         <CardActions>
-          <Button component={Link} to={`/trashs/${trashId}`} size="small">
+          <Button component={Link} to={`/trash/${trashId}`} size="small">
             Voir
           </Button>
         </CardActions>

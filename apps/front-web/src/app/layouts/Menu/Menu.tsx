@@ -32,6 +32,10 @@ export const Menu = () => {
                 <Button>Chat</Button>
               </StyledLink>
 
+              <StyledLink to="/trash" className="menu-link">
+                <Button>Poubelles</Button>
+              </StyledLink>
+
               <Button onClick={logout}>Déconnexion</Button>
             </>
           )}
