@@ -2,21 +2,21 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: api-user
-  name: api-user
+    app: api-trash
+  name: api-trash
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: api-user
+      app: api-trash
   template:
     metadata:
       labels:
-        app: api-user
+        app: api-trash
     spec:
       containers:
-      - image: europe-west9-docker.pkg.dev/j-irais-bruler-chez-vous/api-user/production
-        name: api-user
+      - image: europe-west9-docker.pkg.dev/j-irais-bruler-chez-vous/api-trash/production
+        name: api-trash
         env:
           - name: DB_HOST
             value: "10.83.80.3"
@@ -27,7 +27,7 @@ spec:
           - name: DB_PASSWORD
             value: "postgres"
           - name: DB_NAME
-            value: "db_user"
+            value: "db_trash"
           - name: TCP_AUTHENTICATION_HOST
             value: "api-authentication"
           - name: TCP_MESSAGE_HOST
@@ -39,4 +39,4 @@ spec:
           - name: JWT_SECRET
             value: "Hc5f4g@5h6j7k8lqs9a2s3de4f&&5g6hed7j8k9l"
         ports:
-          - containerPort: 3001
+          - containerPort: 3003

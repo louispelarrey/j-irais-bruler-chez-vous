@@ -26,6 +26,8 @@ spec:
             value: "api-message"
           - name: TCP_USER_HOST
             value: "api-user"
+          - name: TCP_TRASH_HOST
+            value: "api-trash"
         ports:
           - containerPort: 3333
           - containerPort: 9001
