@@ -22,10 +22,10 @@ export class Users {
   @Exclude({ toPlainOnly: true })
   password: string;
 
-  @OneToMany(() => Message, (message) => message.sender)
-  messages: Message[];
+  // @OneToMany(() => Message, (message) => message.sender)
+  // messages: Message[];
 
-  @OneToMany(() => Trashs, trash => trash.user)
-  @JoinColumn()
-  trashs: Trashs[];
+  // @OneToMany(() => Trashs, trash => trash.user)
+  // @JoinColumn()
+  // trashs: Trashs[];
 }

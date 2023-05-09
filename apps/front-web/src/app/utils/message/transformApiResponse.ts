@@ -1,4 +1,4 @@
-import { ApiMessage, Message } from '../../containers/Chat/Chat';
+import { ApiMessage, Message } from "../../hooks/useChat";
 
 export const transformApiResponse = (
   apiMessages: ApiMessage | ApiMessage[]

@@ -47,7 +47,7 @@ export const useChat = ({ roomName = 'default' }: ChatProps) => {
   const userId = getUserIdFromToken(token);
   const socket = useMemo(() => {
     // Socket.io instanciation
-    return io(':3001',
+    return io(':9001',
       {
         query: {
           roomName,
