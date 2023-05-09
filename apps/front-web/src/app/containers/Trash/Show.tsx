@@ -2,15 +2,11 @@ import { useParams } from "react-router-dom";
 import { Box, Typography } from "@mui/material";
 import useGet from "../../hooks/useGet";
 
-interface Show {
-    id: string;
-    reference: string;
-    description: string;
-}
-
 export const Trash = () => {
     const { id } = useParams();
     const { data, error, loading } = useGet(`/api/trash/${id}`);
+
+    console.log(data);
 
     if (loading) {
         return <div>Loading...</div>;
