@@ -56,17 +56,3 @@ steps:
       ]
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'europe-west9-docker.pkg.dev/j-irais-bruler-chez-vous/api-user/production']
-
-  # Front Web
-  - name: 'gcr.io/cloud-builders/docker'
-    args:
-      [
-        'build',
-        '-t',
-        'europe-west9-docker.pkg.dev/j-irais-bruler-chez-vous/front-web/production',
-        '-f',
-        'apps/front-web/Dockerfile',
-        '.',
-      ]
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'europe-west9-docker.pkg.dev/j-irais-bruler-chez-vous/front-web/production']
