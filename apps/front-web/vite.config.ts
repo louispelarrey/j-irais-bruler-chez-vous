@@ -2,6 +2,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import viteTsConfigPaths from 'vite-tsconfig-paths';
+import path from 'path';
 
 export default defineConfig({
   cacheDir: '../../node_modules/.vite/front-web',
@@ -9,6 +10,10 @@ export default defineConfig({
   server: {
     port: 4200,
     host: 'localhost',
+    fs: {
+      // Allow serving files from one level up to the project root
+      allow: ['..'],
+    },
   },
 
   preview: {

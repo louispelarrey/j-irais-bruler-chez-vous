@@ -15,8 +15,22 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@user-management/*": ["apps/back-web/src/user-management/*"],
+      "@api-authentication/*": ["apps/api-authentication/src/*"],
+      "@api-message/*": ["apps/api-message/src/*"],
+      "@api-user/*": ["apps/api-user/src/*"],
+      "@back-web/*": ["apps/back-web/src/*"],
+      "@j-irais-bruler-chez-vous/authentication/feature": [
+        "libs/authentication/feature/src/index.ts"
+      ],
+      "@j-irais-bruler-chez-vous/message/feature": [
+        "libs/message/feature/src/index.ts"
+      ],
+      "@j-irais-bruler-chez-vous/shared": ["libs/shared/src/index.ts"],
+      "@j-irais-bruler-chez-vous/user/feature": [
+        "libs/user/feature/src/index.ts"
+      ],
       "@messaging/*": ["apps/back-web/src/messaging/*"],
+      "@user-management/*": ["apps/back-web/src/user-management/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]
