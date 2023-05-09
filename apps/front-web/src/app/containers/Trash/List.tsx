@@ -61,34 +61,34 @@ export const Trashs = () => {
     }
 
     return (
-        <Grid container spacing={2} sx={{ maxWidth: '1280px', mx: 'auto', px: 2 , my: 2}}>
+        <Grid container spacing={2} sx={{ maxWidth: '1280px', mx: 'auto', px: 2 , my: 2, display: 'flex', alignItems: 'center' }}>
             {data.map((item: List) => (
                 <CardComponent
                     key={item.id}
                     title={item.reference}
                     description={item.description}
-                    image="https://images.unsplash.com/photo-1616489953149-8e1b0e1b5f0d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80"
+                    image="https://picsum.photos/200/300"
                     trashId={item.id}
                 />
             ))}
-            <Card>
+            <Card sx={{ height: 'fit-content' }}>
                 <Button onClick={handleOpen}>Créer une poubelle</Button>
-                <Modal
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                    >
-                    <Box sx={style}>
-                        <Typography id="modal-modal-title" variant="h6" component="h2">
-                            Créer une poubelle
-                        </Typography>
-                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                            <TrashComponent handleSubmit={handleSubmit(onSubmit)} register={register} />
-                        </Typography>
-                    </Box>
-                </Modal>
             </Card>
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                >
+                <Box sx={style}>
+                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                        Créer une poubelle
+                    </Typography>
+                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                        <TrashComponent handleSubmit={handleSubmit(onSubmit)} register={register} />
+                    </Typography>
+                </Box>
+            </Modal>
         </Grid>
     )
 }
