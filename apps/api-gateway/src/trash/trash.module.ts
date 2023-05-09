@@ -10,7 +10,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
         name: 'TRASH',
         transport: Transport.TCP,
         options: {
-          host: process.env.TCP_MESSAGE_HOST,
+          host: process.env.TCP_TRASH_HOST,
           port: 3003,
         },
       },
