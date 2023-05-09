@@ -15,8 +15,9 @@ export class TrashController {
   }
 
   @MessagePattern('findOne')
-  async findOne(@Param('id') id: string): Promise<Trash> {
-    return this.trashService.findOne(id);
+  async findOne(@Payload() id: string): Promise<Trash> {
+    console.log('id', id);
+    return await this.trashService.findOne(id);
   }
 
   @MessagePattern('create')

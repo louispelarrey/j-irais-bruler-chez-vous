@@ -15,7 +15,7 @@ export class TrashService {
     }
 
     async findOne(id: string) {
-        return this.trashClient.send('findOne', { id });
+        return this.trashClient.send('findOne', id);
     }
 
     async create(createTrashDto: CreateTrashDto) {

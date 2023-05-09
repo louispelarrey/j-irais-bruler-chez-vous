@@ -18,8 +18,9 @@ export class TrashService {
         return trashs;
     }
 
-    findOne(id: string) {
-        const trash = this.trashRepository.findOneBy({ id });
+    async findOne(id: string) {
+        const trash = await this.trashRepository.findOne({where: {id}});
+        console.log('service :', id);
         return trash;
     }
 
@@ -31,7 +32,7 @@ export class TrashService {
     }
 
     async update(id: string, updateTrashDto: UpdateTrashDto): Promise<Trash> {
-        const trash = await this.trashRepository.findOneBy({ id });
+        const trash = await this.trashRepository.findOne({where: {id}});
         trash.description = updateTrashDto.description;
         trash.isBurned = updateTrashDto.isBurned;
         trash.isActive = updateTrashDto.isActive;
