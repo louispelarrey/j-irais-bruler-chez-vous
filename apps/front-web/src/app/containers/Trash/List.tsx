@@ -1,10 +1,12 @@
 import { CardComponent } from "../../components/Shared/CardComponent";
 import { Box, Button, Card, Grid, Modal, Typography } from '@mui/material';
 import useGet from "../../hooks/useGet";
-import React from "react";
+import React, { useContext } from "react";
 import { TrashComponent } from "../../components/Trash/TrashComponent";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import getUserIdFromToken from "../../utils/user/getUserIdFromToken";
+import { UserContext } from "../../contexts/UserContext";
 
 interface List {
     id: string;
@@ -17,6 +19,11 @@ export interface TrashData {
     description: string;
 }
 
+const useUserId = () => {
+    const { token } = useContext(UserContext);
+    return getUserIdFromToken(token);
+}
+
 export const Trashs = () => {
     const { data, error, loading } = useGet('/api/trash');
     const [open, setOpen] = React.useState(false);
@@ -24,6 +31,7 @@ export const Trashs = () => {
     const handleClose = () => setOpen(false);
     const navigate = useNavigate();
     const { register, handleSubmit } = useForm<TrashData>();
+    const userId = useUserId();
 
     const onSubmit = async ({ reference, description }: any) => {
         const response = await fetch("/api/trash", {
@@ -31,14 +39,14 @@ export const Trashs = () => {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 reference,
-                description
+                description,
+                posterId: userId
             }),
         });
         const data = await response.json();
         if(data.id) {
             navigate(`/trash/${data.id}`);
         }
-
     }
     const style = {
         position: 'absolute',
