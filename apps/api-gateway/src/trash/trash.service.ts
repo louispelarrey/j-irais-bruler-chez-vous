@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { CreateTrashDto } from './dto/create-trash.dto';
-import { UpdateTrashDto } from './dto/update-trash.dto';
+import { TrashDto } from './dto/trash.dto';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class TrashService {
@@ -14,15 +14,29 @@ export class TrashService {
         return this.trashClient.send('findAll', {});
     }
 
+    async findAllByUser(posterId: string) {
+        const trashes = await lastValueFrom(this.trashClient.send('findAllByUser', posterId));
+        const updatedTrashes = await Promise.all(
+            trashes.map(async trash => {
+                trash.poster = await lastValueFrom(this.userClient.send('findUserById', trash.posterId));
+                return trash;
+            }),
+        );
+        return updatedTrashes;
+    }
+
     async findOne(id: string) {
         return this.trashClient.send('findOne', id);
     }
 
-    async create(createTrashDto: CreateTrashDto) {
-        return this.trashClient.send('create', createTrashDto);
+    async create(createTrashDto: TrashDto) {
+        const trash = await lastValueFrom(this.trashClient.send('create', createTrashDto));
+        trash.posterId = await lastValueFrom(this.userClient.send('findUserById', trash.posterId));
+        console.log('user:' ,trash.posterId);
+        return trash;
     }
 
-    async update(id: string, updateTrashDto: UpdateTrashDto) {
+    async update(id: string, updateTrashDto: TrashDto) {
         return this.trashClient.send('update', { id, updateTrashDto });
     }
 }
