@@ -47,7 +47,6 @@ export class UsersController {
   }
 
   @Get(':id')
-  @UseGuards(UserIsAllowedChange)
   findOne(@Param('id') id: string) {
     return this.userService.findOne(id);
   }
