@@ -2,9 +2,14 @@
   "name": "j-irais-bruler-chez-vous",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "start:mobile": "nx build front-web && cap sync ios && cap open ios"
+  },
   "private": true,
   "dependencies": {
+    "@capacitor/android": "^5.0.2",
+    "@capacitor/core": "^5.0.2",
+    "@capacitor/ios": "^5.0.2",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@mui/icons-material": "^5.11.11",
@@ -45,6 +50,7 @@
   },
   "devDependencies": {
     "@babel/preset-react": "^7.14.5",
+    "@capacitor/cli": "^5.0.2",
     "@nestjs/schematics": "^9.0.0",
     "@nestjs/testing": "^9.0.0",
     "@nrwl/cypress": "15.8.9",
