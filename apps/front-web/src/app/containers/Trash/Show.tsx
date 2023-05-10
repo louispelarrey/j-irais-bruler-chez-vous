@@ -31,6 +31,9 @@ export const Trash = () => {
                 <Typography variant="body1" gutterBottom>
                     { data.description }
                 </Typography>
+                <Typography variant="body2" gutterBottom>
+                    { data.posterId }
+                </Typography>
             </Box>
         </div>
     )
