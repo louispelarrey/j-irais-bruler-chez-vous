@@ -1,9 +1,8 @@
 import { Controller, Param } from '@nestjs/common';
 import { TrashService } from './trash.service';
 import { MessagePattern, Payload } from '@nestjs/microservices';
-import { CreateTrashDto } from './dto/create-trash.dto';
+import { TrashDto } from './dto/trash.dto';
 import { Trash } from './trash.entity';
-import { UpdateTrashDto } from './dto/update-trash.dto';
 
 @Controller('trash')
 export class TrashController {
@@ -14,6 +13,11 @@ export class TrashController {
     return this.trashService.findAll();
   }
 
+  @MessagePattern('findAllByUser')
+  async findAllByUser(@Payload() posterId: string): Promise<Trash[]> {
+    return this.trashService.findAllByUser(posterId);
+  }
+
   @MessagePattern('findOne')
   async findOne(@Payload() id: string): Promise<Trash> {
     console.log('id', id);
@@ -21,12 +25,12 @@ export class TrashController {
   }
 
   @MessagePattern('create')
-  async create(@Payload() createTrashDto: CreateTrashDto): Promise<Trash> {
+  async create(@Payload() createTrashDto: TrashDto): Promise<Trash> {
     return this.trashService.create(createTrashDto);
   }
 
   @MessagePattern('update')
-  async update(@Param('id') id: string, @Payload() updateTrashDto: UpdateTrashDto): Promise<Trash> {
+  async update(@Param('id') id: string, @Payload() updateTrashDto: TrashDto): Promise<Trash> {
     return this.trashService.update(id, updateTrashDto);
   }
 }
