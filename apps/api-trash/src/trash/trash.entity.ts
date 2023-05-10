@@ -17,6 +17,9 @@ export class Trash {
     @Column({ default: true})
     isActive: boolean;
 
+    @Column()
+    posterId: string;
+
     @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
     createdAt: Date;
 
