@@ -7,6 +7,12 @@
       "status": 200
     },
     {
+      "src": "/socket.io/(.*)",
+      "dest": "https://api.j-irais-bruler-chez-vous.com/socket.io/$1",
+      "headers": { "x-forwarded-host": "origin" },
+      "status": 200
+    },
+    {
       "src": "/[^.]+",
       "dest": "/",
       "status": 200
