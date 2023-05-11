@@ -5,6 +5,7 @@ import React from "react";
 import { TrashComponent } from "../../components/Trash/TrashComponent";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import prodUrl from "../../utils/url/url";
 
 interface List {
     id: string;
@@ -26,7 +27,9 @@ export const Trashs = () => {
     const { register, handleSubmit } = useForm<TrashData>();
 
     const onSubmit = async ({ reference, description }: any) => {
-        const response = await fetch("/api/trash", {
+        const response = await fetch(
+        `${import.meta.env.VITE_APP_BACKEND_URL}/api/trash`,
+        {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

@@ -13,6 +13,8 @@ async function bootstrap() {
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
   const port = process.env.PORT || 3333;
+  console.log(process.env.FRONTEND_URL)
+  app.enableCors({origin: process.env.FRONTEND_URL});
   app.use(helmet());
   await app.listen(port);
   Logger.log(
