@@ -3,4 +3,5 @@ export class TrashDto {
     reference: string;
     description: string;
     posterId: string;
+    burnerId?: string;
 }

@@ -20,6 +20,9 @@ export class Trash {
     @Column()
     posterId: string;
 
+    @Column({ nullable: true, default: null})
+    burnerId: string;
+
     @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
     createdAt: Date;
 

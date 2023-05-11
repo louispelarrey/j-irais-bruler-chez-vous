@@ -39,4 +39,9 @@ export class TrashService {
         const trash = await lastValueFrom(this.trashClient.send('update', { id, updateTrashDto }));
         return this.trashClient.send('update', { id, updateTrashDto });
     }
+
+    async updateBurner(id: string, updateTrashDto: TrashDto) {
+        const trash = await lastValueFrom(this.trashClient.send('updateBurner', { id, updateTrashDto }));
+        return this.trashClient.send('updateBurner', { id, updateTrashDto });
+    }
 }
