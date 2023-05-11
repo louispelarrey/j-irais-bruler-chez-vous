@@ -1,7 +1,18 @@
+import {IsDate, IsString} from "class-validator";
+
 export class CreateManifestationDto {
-  id?: string;
+  @IsString()
   title: string;
+
+  @IsString()
   description: string;
+
+  @IsDate()
+  start_date: string;
+
+  @IsDate()
   ville: string;
-  // participants: Array;
+
+  @IsString()
+  creatorId?: string | undefined;
 }

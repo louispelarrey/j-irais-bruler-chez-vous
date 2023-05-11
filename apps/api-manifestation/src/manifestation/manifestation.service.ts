@@ -3,7 +3,6 @@ import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
 import {Manifestation} from "./manifestation.entity";
 import {CreateManifestationDto} from "./dto/create-manifestation.dto";
-import {MessagePattern} from "@nestjs/microservices";
 import {UpdateManifestationDto} from "./dto/update-manifestation.dto";
 
 @Injectable()
@@ -14,7 +13,6 @@ export class ManifestationService {
     private readonly manifestationRepository: Repository<Manifestation>
   ) {}
 
-  @MessagePattern('findAll')
   async findAll() {
     return this.manifestationRepository.find();
   }
@@ -29,6 +27,8 @@ export class ManifestationService {
     const manifestation = new Manifestation();
     manifestation.title = createManifestationDto.title;
     manifestation.description = createManifestationDto.description;
+    manifestation.creatorId = createManifestationDto.creatorId;
+    manifestation.ville = createManifestationDto.ville;
     return this.manifestationRepository.save(manifestation);
   }
 

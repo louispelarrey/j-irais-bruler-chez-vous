@@ -9,13 +9,19 @@ export class Manifestation {
     title: string;
 
     @Column()
+    ville: string;
+
+    @Column()
     description: string;
 
     @Column({ default: true})
     isActive: boolean;
 
+    @Column()
+    creatorId: string;
+
     @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-    date_debut: Date;
+    start_date: Date;
 
     // @Column()
     // participants: Array<CreateUserDto>;
