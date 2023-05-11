@@ -15,13 +15,15 @@ export const Login = () => {
   const navigate = useNavigate();
 
   const onSubmit = async ({ email, password }: LoginData) => {
-    const response = await fetch("/api/authentication/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        username: email,
-        password
-      }),
+    const response = await fetch(
+      import.meta.env.VITE_APP_BACKEND_URL + "/api/authentication/login",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: email,
+          password
+        }),
     });
     const data = await response.json();
     if(data.access_token) {
