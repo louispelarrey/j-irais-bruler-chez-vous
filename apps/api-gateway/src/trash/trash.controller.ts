@@ -31,7 +31,8 @@ export class TrashController {
     return this.trashService.create(createTrashDto);
   }
 
-  @Put()
+  @Put(':id')
+  @Public()
   update(@Param('id') id: string, @Body() updateTrashDto: TrashDto) {
     return this.trashService.update(id, updateTrashDto);
   }

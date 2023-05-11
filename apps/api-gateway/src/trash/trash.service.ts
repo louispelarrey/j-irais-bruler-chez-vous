@@ -32,11 +32,11 @@ export class TrashService {
     async create(createTrashDto: TrashDto) {
         const trash = await lastValueFrom(this.trashClient.send('create', createTrashDto));
         trash.posterId = await lastValueFrom(this.userClient.send('findUserById', trash.posterId));
-        console.log('user:' ,trash.posterId);
         return trash;
     }
 
     async update(id: string, updateTrashDto: TrashDto) {
+        const trash = await lastValueFrom(this.trashClient.send('update', { id, updateTrashDto }));
         return this.trashClient.send('update', { id, updateTrashDto });
     }
 }
