@@ -33,4 +33,9 @@ export class TrashController {
   async update(@Payload() updateTrashDto: TrashDto ): Promise<Trash> {
     return this.trashService.update(updateTrashDto.id, updateTrashDto);
   }
+
+  @MessagePattern('updateBurner')
+  async updateBurner(@Payload() updateTrashDto: TrashDto ): Promise<Trash> {
+    return this.trashService.updateBurner(updateTrashDto.id, updateTrashDto);
+  }
 }

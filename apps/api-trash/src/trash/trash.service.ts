@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpException, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Trash } from './trash.entity';
@@ -46,6 +46,15 @@ export class TrashService {
         const trash = await this.trashRepository.findOne({where: {id}});
         trash.reference = updateTrashDto.updateTrashDto.reference;
         trash.description = updateTrashDto.updateTrashDto.description;
+        return this.trashRepository.save(trash);
+    }
+
+    async updateBurner(id: string, updateTrashDto: TrashDto): Promise<Trash> {
+        const trash = await this.trashRepository.findOne({where: {id}});
+        if (trash.posterId === updateTrashDto.updateTrashDto.burnerId) {
+            throw new HttpException('Le créateur ne peut pas être le bruleur', HttpStatus.BAD_REQUEST);
+        }
+        trash.burnerId = updateTrashDto.updateTrashDto.burnerId;
         return this.trashRepository.save(trash);
     }
 }

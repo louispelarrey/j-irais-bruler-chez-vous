@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Put } from '@nestjs/common';
 import { TrashService } from './trash.service';
 import { Public } from '../authentication/decorators/public.decorator';
 import { TrashDto } from './dto/trash.dto';
@@ -35,5 +35,11 @@ export class TrashController {
   @Public()
   update(@Param('id') id: string, @Body() updateTrashDto: TrashDto) {
     return this.trashService.update(id, updateTrashDto);
+  }
+
+  @Patch(':id')
+  @Public()
+  updateBurner(@Param('id') id: string, @Body() updateTrashDto: TrashDto) {
+    return this.trashService.updateBurner(id, updateTrashDto);
   }
 }
