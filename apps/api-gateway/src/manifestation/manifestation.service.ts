@@ -1,6 +1,7 @@
 import {Inject, Injectable} from "@nestjs/common";
 import { ClientProxy } from '@nestjs/microservices';
-import { lastValueFrom } from 'rxjs';
+import {CreateManifestationDto} from "./dto/create-manifestation.dto";
+import {UpdateManifestationDto} from "./dto/update-manifestation";
 
 
 @Injectable()
@@ -11,8 +12,18 @@ export class ManifestationService {
   ){}
 
   async findAll() {
-    const test = await lastValueFrom(this.manifestationClient.send('findAll', { test: 'test'}));
-    console.log('api-gateway',test);
-    return test;
+    return this.manifestationClient.send('findAll', {});
+  }
+
+  async findOne(id: string) {
+    return this.manifestationClient.send('findOne', id);
+  }
+
+  async create(createManifestationDto: CreateManifestationDto) {
+    return this.manifestationClient.send('create', createManifestationDto);
+  }
+
+  async update(id: string, updateManifestationDto: UpdateManifestationDto) {
+    return this.manifestationClient.send('update', { id, updateManifestationDto });
   }
 }
