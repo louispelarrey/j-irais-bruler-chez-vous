@@ -39,14 +39,13 @@ export class TrashService {
         trash.reference = createTrashDto.reference;
         trash.description = createTrashDto.description;
         trash.posterId = createTrashDto.posterId;
-        return this.trashRepository.save(trash);
+        return await this.trashRepository.save(trash);
     }
 
     async update(id: string, updateTrashDto: TrashDto): Promise<Trash> {
         const trash = await this.trashRepository.findOne({where: {id}});
-        trash.reference = updateTrashDto.reference;
-        trash.description = updateTrashDto.description;
-        trash.posterId = updateTrashDto.posterId;
+        trash.reference = updateTrashDto.updateTrashDto.reference;
+        trash.description = updateTrashDto.updateTrashDto.description;
         return this.trashRepository.save(trash);
     }
 }

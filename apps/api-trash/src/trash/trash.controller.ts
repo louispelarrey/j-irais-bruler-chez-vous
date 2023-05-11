@@ -30,7 +30,7 @@ export class TrashController {
   }
 
   @MessagePattern('update')
-  async update(@Param('id') id: string, @Payload() updateTrashDto: TrashDto): Promise<Trash> {
-    return this.trashService.update(id, updateTrashDto);
+  async update(@Payload() updateTrashDto: TrashDto ): Promise<Trash> {
+    return this.trashService.update(updateTrashDto.id, updateTrashDto);
   }
 }
