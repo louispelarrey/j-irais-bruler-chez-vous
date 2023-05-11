@@ -5,7 +5,6 @@ import React from "react";
 import { TrashComponent } from "../../components/Trash/TrashComponent";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import prodUrl from "../../utils/url/url";
 
 interface List {
     id: string;
