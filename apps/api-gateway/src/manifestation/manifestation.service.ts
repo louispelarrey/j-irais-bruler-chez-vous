@@ -19,8 +19,14 @@ export class ManifestationService {
     return this.manifestationClient.send('findOne', id);
   }
 
-  async create(createManifestationDto: CreateManifestationDto) {
-    return this.manifestationClient.send('create', createManifestationDto);
+  async create(createManifestationDto: CreateManifestationDto, sub:string) {
+    return this.manifestationClient.send('create', {
+      description: createManifestationDto.description,
+      title: createManifestationDto.title,
+      ville: createManifestationDto.ville,
+      start_date: createManifestationDto.start_date,
+      creatorId: sub,
+    });
   }
 
   async update(id: string, updateManifestationDto: UpdateManifestationDto) {
