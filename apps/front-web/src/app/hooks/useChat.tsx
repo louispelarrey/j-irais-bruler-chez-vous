@@ -47,7 +47,7 @@ export const useChat = ({ roomName = 'default' }: ChatProps) => {
   const userId = getUserIdFromToken(token);
   const socket = useMemo(() => {
     // Socket.io instanciation
-    return io(`${import.meta.env.VITE_APP_BACKEND_URL}:9001`,
+    return io(`${import.meta.env.VITE_APP_BACKEND_URL}`,
       {
         query: {
           roomName,
