@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Trash } from './trash.entity';
 import { TrashDto } from './dto/trash.dto';
 import { ClientProxy } from '@nestjs/microservices';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class TrashService {
@@ -31,6 +32,10 @@ export class TrashService {
 
     async findOne(id: string) {
         const trash = await this.trashRepository.findOne({where: {id}});
+        trash.posterId = await lastValueFrom(this.userClient.send('findUserById', trash.posterId));
+        if (trash.burnerId) {
+            trash.burnerId = await lastValueFrom(this.userClient.send('findUserById', trash.burnerId));
+        }
         return trash;
     }
 
