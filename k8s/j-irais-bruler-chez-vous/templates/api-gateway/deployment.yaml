@@ -32,4 +32,3 @@ spec:
             value: "https://j-irais-bruler-chez-vous.com"
         ports:
           - containerPort: 3333
-          - containerPort: 9001
