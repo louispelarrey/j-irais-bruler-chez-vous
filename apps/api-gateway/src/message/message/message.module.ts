@@ -3,7 +3,6 @@ import { MessageService } from './message.service';
 import { MessageGateway } from './message.gateway';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { UsersService } from '../../user/users.service';
-import { UsersModule } from '../../user/users.module';
 
 @Module({
   imports: [
