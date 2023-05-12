@@ -1,12 +1,11 @@
 import { useParams } from "react-router-dom";
 import { Box, Typography } from "@mui/material";
 import useGet from "../../hooks/useGet";
+import { useState } from "react";
 
 export const Trash = () => {
     const { id } = useParams();
     const { data, error, loading } = useGet(`/api/trash/${id}`);
-
-    console.log(data);
 
     if (loading) {
         return <div>Loading...</div>;
@@ -29,10 +28,14 @@ export const Trash = () => {
                     { data.reference }
                 </Typography>
                 <Typography variant="body1" gutterBottom>
-                    { data.description }
-                </Typography>
-                <Typography variant="body2" gutterBottom>
-                    { data.posterId }
+                    <ul>
+                        <li>{ data.description }</li>
+                        <li>{ data.createdAt }</li>
+                        <li>{ data.posterId.email }</li>
+                        { data.burnerId &&
+                            <li>{ data.burnerId.email }</li>
+                        }
+                    </ul>
                 </Typography>
             </Box>
         </div>
