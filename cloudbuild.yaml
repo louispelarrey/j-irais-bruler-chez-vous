@@ -19,3 +19,6 @@ steps:
         'deployment',
         '${_MICROSERVICE}'
       ]
+    env:
+    - 'CLOUDSDK_COMPUTE_ZONE=europe-west1'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=jbcv'
