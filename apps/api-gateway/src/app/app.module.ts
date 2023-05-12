@@ -5,7 +5,6 @@ import { UsersModule } from '../user/users.module';
 import { JwtAuthGuard } from '../authentication/guards/jwt-auth.guard';
 import { RoleGuard } from '../user/role/guard/role.guard';
 import { MessageModule } from '../message/message/message.module';
-import { AppController } from './app.controller';
 import { TrashModule } from '../trash/trash.module';
 
 @Module({
@@ -63,6 +62,5 @@ import { TrashModule } from '../trash/trash.module';
       useClass: RoleGuard,
     },
   ],
-  controllers: [AppController],
 })
 export class AppModule {}
