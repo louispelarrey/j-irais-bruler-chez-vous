@@ -37,8 +37,7 @@ export class TrashController {
   }
 
   @Patch(':id')
-  @Public()
-  updateBurner(@Param('id') id: string, @Body() updateTrashDto: TrashDto) {
-    return this.trashService.updateBurner(id, updateTrashDto);
+  takeTrash(@Request() req, @Param('id') id: string, @Body() updateTrashDto: TrashDto) {
+    return this.trashService.takeTrash(id, req.user.sub,updateTrashDto);
   }
 }

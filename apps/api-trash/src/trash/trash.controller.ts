@@ -20,7 +20,6 @@ export class TrashController {
 
   @MessagePattern('findOne')
   async findOne(@Payload() id: string): Promise<Trash> {
-    console.log('id', id);
     return await this.trashService.findOne(id);
   }
 
@@ -34,8 +33,8 @@ export class TrashController {
     return this.trashService.update(updateTrashDto.id, updateTrashDto);
   }
 
-  @MessagePattern('updateBurner')
-  async updateBurner(@Payload() updateTrashDto: TrashDto ): Promise<Trash> {
-    return this.trashService.updateBurner(updateTrashDto.id, updateTrashDto);
+  @MessagePattern('takeTrash')
+  async takeTrash(@Payload() { id, burnerId }: { id: string, burnerId: string }): Promise<Trash> {
+    return this.trashService.takeTrash(id, burnerId);
   }
 }
