@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start:mobile": "nx build front-web && cap sync ios && cap open ios"
+    "start:mobile": "VITE_APP_BACKEND_URL=https://api.j-irais-bruler-chez-vous.com nx build front-web && cap sync ios && cap open ios"
   },
   "private": true,
   "dependencies": {
