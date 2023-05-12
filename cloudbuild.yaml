@@ -1,72 +1,24 @@
 steps:
-  # Message
   - name: 'gcr.io/cloud-builders/docker'
     args:
       [
         'build',
         '-t',
-        'europe-west9-docker.pkg.dev/j-irais-bruler-chez-vous/api-message/production',
+        'europe-west9-docker.pkg.dev/j-irais-bruler-chez-vous/${_MICROSERVICE}/production',
         '-f',
-        'apps/api-message/Dockerfile',
+        'apps/${_MICROSERVICE}/Dockerfile',
         '.',
       ]
   - name: 'gcr.io/cloud-builders/docker'
-    args:
-      ['push', 'europe-west9-docker.pkg.dev/j-irais-bruler-chez-vous/api-message/production']
-
-  # Authentication
-  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'europe-west9-docker.pkg.dev/j-irais-bruler-chez-vous/${_MICROSERVICE}/production']
+  - name: 'gcr.io/cloud-builders/kubectl'
     args:
       [
-        'build',
-        '-t',
-        'europe-west9-docker.pkg.dev/j-irais-bruler-chez-vous/api-authentication/production',
-        '-f',
-        'apps/api-authentication/Dockerfile',
-        '.',
+        'rollout',
+        'restart',
+        'deployment',
+        '${_MICROSERVICE}'
       ]
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'europe-west9-docker.pkg.dev/j-irais-bruler-chez-vous/api-authentication/production']
-
-  # Gateway
-  - name: 'gcr.io/cloud-builders/docker'
-    args:
-      [
-        'build',
-        '-t',
-        'europe-west9-docker.pkg.dev/j-irais-bruler-chez-vous/api-gateway/production',
-        '-f',
-        'apps/api-gateway/Dockerfile',
-        '.',
-      ]
-  - name: 'gcr.io/cloud-builders/docker'
-    args:
-      ['push', 'europe-west9-docker.pkg.dev/j-irais-bruler-chez-vous/api-gateway/production']
-
-  # User
-  - name: 'gcr.io/cloud-builders/docker'
-    args:
-      [
-        'build',
-        '-t',
-        'europe-west9-docker.pkg.dev/j-irais-bruler-chez-vous/api-user/production',
-        '-f',
-        'apps/api-user/Dockerfile',
-        '.',
-      ]
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'europe-west9-docker.pkg.dev/j-irais-bruler-chez-vous/api-user/production']
-
-  # Trash
-  - name: 'gcr.io/cloud-builders/docker'
-    args:
-      [
-        'build',
-        '-t',
-        'europe-west9-docker.pkg.dev/j-irais-bruler-chez-vous/api-trash/production',
-        '-f',
-        'apps/api-trash/Dockerfile',
-        '.',
-      ]
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'europe-west9-docker.pkg.dev/j-irais-bruler-chez-vous/api-trash/production']
+    env:
+    - 'CLOUDSDK_COMPUTE_ZONE=europe-west1'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=jbcv'

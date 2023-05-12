@@ -15,7 +15,11 @@ const ShowTrash = lazy(() => import('./containers/Trash/Show').then(module => ({
 const ListTrash = lazy(() => import('./containers/Trash/List').then(module => ({ default: module.Trashs })));
 
 const StyledApp = styled.div`
-  // Your style here
+  margin-top: constant(safe-area-inset-top); // for ios 11.1
+  margin-top: env(safe-area-inset-top); // for ios 11.2 and onwards
+  margin-bottom: env(safe-area-inset-bottom);
+  height: calc(100% - constant(safe-area-inset-top));
+  height: calc(100% - env(safe-area-inset-top) - env(safe-area-inset-bottom));
 `;
 
 const darkTheme = createTheme({

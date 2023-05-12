@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start:mobile": "nx build front-web && cap sync ios && cap open ios"
+    "start:mobile": "VITE_APP_BACKEND_URL=https://api.j-irais-bruler-chez-vous.com nx build front-web && cap sync ios && cap open ios"
   },
   "private": true,
   "dependencies": {
@@ -29,7 +29,9 @@
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
+    "csurf": "^1.11.0",
     "date-fns": "^2.29.3",
+    "helmet": "^7.0.0",
     "jwt-decode": "^3.1.2",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
@@ -50,6 +52,7 @@
   },
   "devDependencies": {
     "@babel/preset-react": "^7.14.5",
+    "@capacitor/assets": "^2.0.4",
     "@capacitor/cli": "^5.0.2",
     "@nestjs/schematics": "^9.0.0",
     "@nestjs/testing": "^9.0.0",
