@@ -16,7 +16,7 @@ const useGet = (url: string) => {
         const response = await fetch(url, {
           signal,
           headers: {
-            "Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
+            "Authorization": `Bearer ${localStorage.getItem("token")}`,
           },
         });
         const data = await response.json();

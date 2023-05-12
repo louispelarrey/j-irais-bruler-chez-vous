@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Put, Request } from '@nestjs/common';
 import { TrashService } from './trash.service';
 import { Public } from '../authentication/decorators/public.decorator';
 import { TrashDto } from './dto/trash.dto';
@@ -26,9 +26,8 @@ export class TrashController {
   }
 
   @Post()
-  @Public()
-  create(@Body() createTrashDto: TrashDto) {
-    return this.trashService.create(createTrashDto);
+  create(@Request() req, @Body() createTrashDto: TrashDto) {
+    return this.trashService.create(req.user.sub, createTrashDto);
   }
 
   @Put(':id')
