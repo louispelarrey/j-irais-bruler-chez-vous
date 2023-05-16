@@ -38,4 +38,13 @@ export class ManifestationService {
     manifestation.description = updateManifestationDto.description;
     return this.manifestationRepository.save(manifestation);
   }
+
+  async joinManifestation(id: string, sub: string): Promise<Manifestation> {
+    const manifestation = await this.manifestationRepository.findOne({where: {id}});
+    if (manifestation.creatorId === sub) {
+      throw new Error('You are the creator of this manifestation');
+    }
+    manifestation.participants.push(sub);
+    return this.manifestationRepository.save(manifestation);
+  }
 }

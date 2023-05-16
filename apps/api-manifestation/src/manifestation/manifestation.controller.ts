@@ -29,4 +29,9 @@ export class ManifestationController {
   async update(@Param('id') id: string, @Payload() updateManifestationDto: UpdateManifestationDto): Promise<Manifestation> {
     return this.manifestationService.update(id, updateManifestationDto);
   }
+
+  @MessagePattern('joinManifestation')
+  async joinManifestation(@Param('id') id: string, @Payload() sub: string): Promise<Manifestation> {
+    return this.manifestationService.joinManifestation(id, sub);
+  }
 }
