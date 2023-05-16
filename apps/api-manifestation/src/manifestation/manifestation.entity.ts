@@ -22,7 +22,4 @@ export class Manifestation {
 
     @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
     start_date: Date;
-
-    // @Column()
-    // participants: Array<CreateUserDto>;
 }
