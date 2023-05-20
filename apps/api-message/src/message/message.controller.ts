@@ -18,4 +18,8 @@ export class MessageController {
     return this.messageService.create(message);
   }
 
+  @MessagePattern('remove')
+  async remove(@Payload() id: string): Promise<Message> {
+    return this.messageService.remove(id);
+  }
 }

@@ -3,10 +3,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MessageModule } from '../message/message.module';
 import { RoomModule } from '../room/room.module';
+import { ModerationModule } from '@api-message/moderation/moderation.module';
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
-      imports: [ConfigModule, MessageModule, RoomModule],
+      imports: [ConfigModule, MessageModule, RoomModule, ModerationModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
