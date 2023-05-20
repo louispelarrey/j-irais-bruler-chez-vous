@@ -5,6 +5,7 @@ export const transformApiResponse = (
 ): Message | Message[] => {
   if (Array.isArray(apiMessages)) {
     return apiMessages.map((apiMessage) => ({
+      id: apiMessage.id,
       username: apiMessage.sender.username,
       userId: apiMessage.sender.id,
       message: apiMessage.message,
@@ -14,6 +15,7 @@ export const transformApiResponse = (
   }
 
   return {
+    id: apiMessages.id,
     username: apiMessages.sender.username,
     userId: apiMessages.sender.id,
     message: apiMessages.message,
