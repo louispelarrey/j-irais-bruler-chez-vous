@@ -18,9 +18,6 @@ export class MessageService {
     private readonly roomRepository: Repository<Room>,
 
     private readonly roomService: RoomService,
-
-    @Inject('USER')
-    private readonly userClient: ClientProxy
   ) {}
 
   async create(messageDto: MessageDto) {

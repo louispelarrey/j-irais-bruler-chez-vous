@@ -17,7 +17,7 @@ export class UsersService {
   }
 
   findOne(id: string) {
-    return this.userClient.send('findOne', id);
+    return this.userClient.send('findUserById', id);
   }
 
   findUserByIdentifier(identifier: string) {

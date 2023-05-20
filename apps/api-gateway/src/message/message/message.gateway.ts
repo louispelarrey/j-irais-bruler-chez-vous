@@ -2,10 +2,10 @@ import { WebSocketGateway, SubscribeMessage, MessageBody, WebSocketServer, Conne
 import { MessageService } from './message.service';
 import { Server, Socket } from 'socket.io';
 import { MessageDto } from '@j-irais-bruler-chez-vous/message/feature';
-import { lastValueFrom } from 'rxjs';
 import { UsersService } from '../../user/users.service';
+import { lastValueFrom } from 'rxjs';
 
-@WebSocketGateway(9001, { cors: { origin: '*' } })
+@WebSocketGateway({ cors: { origin: [process.env.FRONTEND_URL, 'capacitor://localhost'] } })
 export class MessageGateway implements OnGatewayConnection {
 
   @WebSocketServer()
@@ -16,6 +16,7 @@ export class MessageGateway implements OnGatewayConnection {
   ) {}
 
   async handleConnection(client: Socket, ..._args: any[]) {
+
     const roomName = client.handshake.query.roomName;
     if(!Array.isArray(roomName)) {
 
