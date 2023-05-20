@@ -33,7 +33,7 @@ export const Menu = () => {
               </StyledLink>
 
               <StyledLink to="/trash" className="menu-link">
-                <Button>Poubelles</Button>
+                <Button>Annonces</Button>
               </StyledLink>
 
               <Button onClick={logout}>Déconnexion</Button>
