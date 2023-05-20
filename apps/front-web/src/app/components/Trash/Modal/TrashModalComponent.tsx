@@ -6,12 +6,12 @@ export interface TrashData {
     description: string;
 }
 
-interface TrashProps {
+interface TrashModalProps {
     register: UseFormRegister<TrashData>;
     handleSubmit: any;
 }
 
-export const TrashComponent = ({handleSubmit, register}: TrashProps) => {
+export const TrashModalComponent = ({handleSubmit, register}: TrashModalProps) => {
     return (
         <Grid container component="main">
             <Grid item component={Paper} elevation={6} square>
