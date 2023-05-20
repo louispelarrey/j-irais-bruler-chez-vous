@@ -35,6 +35,9 @@ export const CardComponent = ({
           <Button component={Link} to={`/trash/${trashId}`} size="small">
             Voir
           </Button>
+          <Button component={Link} size="small">
+            Prendre le contrat
+          </Button>
         </CardActions>
       </Card>
     </Grid>
