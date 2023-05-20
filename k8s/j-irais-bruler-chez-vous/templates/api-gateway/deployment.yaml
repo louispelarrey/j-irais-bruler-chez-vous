@@ -28,6 +28,7 @@ spec:
             value: "api-user"
           - name: TCP_TRASH_HOST
             value: "api-trash"
+          - name: FRONTEND_URL
+            value: "https://j-irais-bruler-chez-vous.com"
         ports:
           - containerPort: 3333
-          - containerPort: 9001

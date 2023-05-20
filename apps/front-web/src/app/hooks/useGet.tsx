@@ -13,11 +13,13 @@ const useGet = (url: string) => {
 
     const fetchData = async () => {
       try {
-        const response = await fetch(url, {
-          signal,
-          headers: {
-            "Authorization": `Bearer ${localStorage.getItem("token")}`,
-          },
+        const response = await fetch(
+          import.meta.env.VITE_APP_BACKEND_URL + url,
+          {
+            signal,
+            headers: {
+              "Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
+            },
         });
         const data = await response.json();
         setData(data);
