@@ -13,8 +13,8 @@ interface TrashProps {
 
 export const TrashComponent = ({handleSubmit, register}: TrashProps) => {
     return (
-        <Grid container component="main" sx={{ height: '40vh' }}>
-            <Grid item xs={12} sm={8} md={12} component={Paper} elevation={6} square>
+        <Grid container component="main">
+            <Grid item component={Paper} elevation={6} square>
                 <Box
                 sx={{
                     my: 8,
