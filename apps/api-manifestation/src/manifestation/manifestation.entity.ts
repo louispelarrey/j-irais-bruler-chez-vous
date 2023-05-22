@@ -1,4 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Participant } from '../participant/participant.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class Manifestation {
@@ -22,4 +24,7 @@ export class Manifestation {
 
     @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
     start_date: Date;
+
+    @OneToMany(() => Participant, (participant) => participant.manifestation)
+    participants: Participant[];
 }
