@@ -33,10 +33,7 @@ export class ManifestationService {
     return this.manifestationClient.send('update', { id, updateManifestationDto });
   }
 
-  async joinManifestation(id: string,  sub) {
-    return this.manifestationClient.send('joinManifestation', {
-      id,
-      sub
-    });
+  async joinManifestation(id: string,  sub: string) {
+    return this.manifestationClient.send('joinManifestation', { id, sub });
   }
 }
