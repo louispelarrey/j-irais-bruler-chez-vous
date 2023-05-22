@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { CreateParticipantDto } from './dto/create-participant.dto';
-import { UpdateParticipantDto } from './dto/update-participant.dto';
 
 @Injectable()
 export class ParticipantService {
@@ -14,10 +13,6 @@ export class ParticipantService {
 
   findOne(id: number) {
     return `This action returns a #${id} participant`;
-  }
-
-  update(id: number, updateParticipantDto: UpdateParticipantDto) {
-    return `This action updates a #${id} participant`;
   }
 
   remove(id: number) {
