@@ -16,7 +16,6 @@ export class ManifestationController {
 
   @MessagePattern('findOne')
   async findOne(@Payload() id: string): Promise<Manifestation> {
-    console.log('id', id);
     return await this.manifestationService.findOne(id);
   }
 
