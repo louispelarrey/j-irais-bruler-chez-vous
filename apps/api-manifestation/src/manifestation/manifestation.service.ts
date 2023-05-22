@@ -4,13 +4,16 @@ import {Repository} from "typeorm";
 import {Manifestation} from "./manifestation.entity";
 import {CreateManifestationDto} from "./dto/create-manifestation.dto";
 import {UpdateManifestationDto} from "./dto/update-manifestation.dto";
+import { Participant } from '../participant/participant.entity';
 
 @Injectable()
 export class ManifestationService {
 
   constructor(
     @InjectRepository(Manifestation)
-    private readonly manifestationRepository: Repository<Manifestation>
+    private readonly manifestationRepository: Repository<Manifestation>,
+    @InjectRepository(Participant)
+    private readonly participantRepository: Repository<Participant>
   ) {}
 
   async findAll() {
@@ -40,11 +43,21 @@ export class ManifestationService {
   }
 
   async joinManifestation(id: string, sub: string): Promise<Manifestation> {
-    const manifestation = await this.manifestationRepository.findOne({where: {id}});
+    const manifestation = await this.manifestationRepository.findOne({where: {id}, relations: ['participants']});
+    if(!manifestation) {
+      throw new Error('Manifestation not found');
+    }
+    
     if (manifestation.creatorId === sub) {
       throw new Error('You are the creator of this manifestation');
     }
-    manifestation.participants.push(sub);
+
+    const participant = new Participant();
+    participant.participantId = sub;
+
+    await this.participantRepository.save(participant);
+
+    manifestation.participants.push(participant);
     return this.manifestationRepository.save(manifestation);
   }
 }
