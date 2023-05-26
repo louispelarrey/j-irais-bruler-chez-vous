@@ -12,7 +12,7 @@ export class TrashService {
     constructor(
         @InjectRepository(Trash)
         private readonly trashRepository: Repository<Trash>,
-        
+
         @Inject('USER')
         private readonly userClient: ClientProxy
     ) {}
@@ -49,8 +49,8 @@ export class TrashService {
 
     async update(id: string, updateTrashDto: TrashDto): Promise<Trash> {
         const trash = await this.trashRepository.findOne({where: {id}});
-        trash.reference = updateTrashDto.updateTrashDto.reference;
-        trash.description = updateTrashDto.updateTrashDto.description;
+        trash.reference = updateTrashDto.reference;
+        trash.description = updateTrashDto.description;
         return this.trashRepository.save(trash);
     }
 
