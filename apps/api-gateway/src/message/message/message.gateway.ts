@@ -2,8 +2,6 @@ import { WebSocketGateway, SubscribeMessage, MessageBody, WebSocketServer, Conne
 import { MessageService } from './message.service';
 import { Server, Socket } from 'socket.io';
 import { MessageDto } from '@j-irais-bruler-chez-vous/message/feature';
-import { UsersService } from '../../user/users.service';
-import { lastValueFrom } from 'rxjs';
 
 @WebSocketGateway({ cors: { origin: [process.env.FRONTEND_URL, 'capacitor://localhost'] } })
 export class MessageGateway implements OnGatewayConnection {
@@ -39,6 +37,14 @@ export class MessageGateway implements OnGatewayConnection {
   async create(@MessageBody() messageDto: MessageDto) {
     const message = await this.messageService.create(messageDto);
     this.server.to(messageDto.roomName).emit('newMessage', message);
+
+    //check if the message is appropriate, but don't wait for the response to create the message
+    const isAppropriate = await this.messageService.checkAppropriate(messageDto.message)
+
+    if(!isAppropriate) {
+      this.server.to(messageDto.roomName).emit('moderateMessage', message.id);
+      this.messageService.remove(message.id);
+    }
   }
 
   @SubscribeMessage('findOneMessage')

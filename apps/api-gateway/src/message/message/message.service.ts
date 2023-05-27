@@ -37,6 +37,10 @@ export class MessageService {
   }
 
   remove(id: string) {
-    return this.messageClient.send('remove', id);
+    return lastValueFrom(this.messageClient.send('remove', id));
+  }
+
+  checkAppropriate(text: string): Promise<boolean> {
+    return lastValueFrom(this.messageClient.send('check-moderation', text));
   }
 }
