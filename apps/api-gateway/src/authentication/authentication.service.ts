@@ -7,8 +7,8 @@ export class AuthenticationService {
     @Inject('AUTHENTICATION') private readonly authenticationClient: ClientProxy,
   ){}
 
-  getLogin(body: any) {
-    return this.authenticationClient.send('login', body)
+  getLogin(username: string) {
+    return this.authenticationClient.send('login', username)
   }
 
   validateUser(identifier: string, password: string) {
