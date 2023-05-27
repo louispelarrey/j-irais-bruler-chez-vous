@@ -2,11 +2,13 @@ import { Box, Button, Grid, Paper, TextField, Typography } from '@mui/material';
 import { UseFormRegister } from 'react-hook-form';
 import { MapComponent } from '../../Map/MapComponent';
 import { useState } from 'react';
+import { ImageDropzone } from '../../ImageDropzone/ImageDropzone';
 
 export interface TrashData {
   reference: string;
   description: string;
   address: string;
+  image: string;
 }
 
 interface TrashModalProps {
@@ -54,6 +56,7 @@ export const TrashModalComponent = ({
               autoComplete="address"
               {...register('address')}
             />
+            <ImageDropzone/>
             <TextField
               margin="normal"
               required
