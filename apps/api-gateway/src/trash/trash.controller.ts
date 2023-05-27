@@ -1,8 +1,7 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Put, Request } from '@nestjs/common';
 import { TrashService } from './trash.service';
 import { Public } from '../authentication/decorators/public.decorator';
-import { CreateTrashDto } from './dto/create-trash.dto';
-import { UpdateTrashDto } from './dto/update-trash.dto';
+import { TrashDto } from './dto/trash.dto';
 
 @Controller('trash')
 export class TrashController {
@@ -20,14 +19,25 @@ export class TrashController {
     return this.trashService.findOne(id);
   }
 
-  @Post()
+  @Get('myTrash/:posterId')
   @Public()
-  create(@Body() createTrashDto: CreateTrashDto) {
-    return this.trashService.create(createTrashDto);
+  findAllByUser(@Param('posterId') posterId: string) {
+    return this.trashService.findAllByUser(posterId);
   }
 
-  @Put()
-  update(@Param('id') id: string, @Body() updateTrashDto: UpdateTrashDto) {
+  @Post()
+  create(@Request() req, @Body() createTrashDto: TrashDto) {
+    return this.trashService.create(req.user.sub, createTrashDto);
+  }
+
+  @Put(':id')
+  @Public()
+  update(@Param('id') id: string, @Body() updateTrashDto: TrashDto) {
     return this.trashService.update(id, updateTrashDto);
+  }
+
+  @Patch(':id')
+  takeTrash(@Request() req, @Param('id') id: string, @Body() updateTrashDto: TrashDto) {
+    return this.trashService.takeTrash(id, req.user.sub,updateTrashDto);
   }
 }
