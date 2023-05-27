@@ -54,7 +54,7 @@ export const TrashModalComponent = ({
               id="address"
               value={address}
               autoComplete="address"
-              {...register('address')}
+              {...register('address', { required: true })}
             />
             <ImageDropzone/>
             <TextField
@@ -65,7 +65,7 @@ export const TrashModalComponent = ({
               type="reference"
               label="Titre"
               autoComplete="reference"
-              {...register('reference')}
+              {...register('reference', { required: true })}
               autoFocus
             />
             <TextField
@@ -76,7 +76,7 @@ export const TrashModalComponent = ({
               type="description"
               id="description"
               autoComplete="description"
-              {...register('description')}
+              {...register('description', { required: true })}
             />
             <Button
               type="submit"
