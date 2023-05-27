@@ -25,10 +25,10 @@ export const TrashModalComponent = ({
 
   return (
     <Grid container component="main">
-      <Grid item component={Paper} elevation={6} square>
+      <Grid item component={Paper} square>
         <Box
           sx={{
-            my: 8,
+            my: 2,
             mx: 4,
             display: 'flex',
             flexDirection: 'column',
@@ -39,9 +39,8 @@ export const TrashModalComponent = ({
             component="form"
             noValidate
             onSubmit={handleSubmit}
-            sx={{ mt: 1 }}
           >
-            <Typography id="modal-modal-title" variant="h6" component="h2">
+            <Typography id="modal-modal-title" variant="h6" component="h6">
               Créer une annonce
             </Typography>
             <MapComponent setAddress={setAddress}/>
@@ -50,39 +49,40 @@ export const TrashModalComponent = ({
               required
               fullWidth
               label="Adresse"
+              size='small'
               type="address"
               id="address"
               value={address}
               autoComplete="address"
               {...register('address', { required: true })}
             />
-            <ImageDropzone/>
             <TextField
-              margin="normal"
               required
               fullWidth
+              size='small'
               id="reference"
               type="reference"
               label="Titre"
               autoComplete="reference"
               {...register('reference', { required: true })}
-              autoFocus
             />
             <TextField
-              margin="normal"
+              margin='dense'
               required
               fullWidth
+              size='small'
               label="Description"
               type="description"
               id="description"
               autoComplete="description"
               {...register('description', { required: true })}
             />
+            <ImageDropzone/>
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 2, mb: 2 }}
             >
               Créer
             </Button>
