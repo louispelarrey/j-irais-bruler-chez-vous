@@ -31,11 +31,31 @@ export const TrashListingComponent = ({
 }: ITrashListingComponent) => {
   return (
     <>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        sx={{
+          px: 2,
+          my: 2,
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: 'column',
+          overflowY: 'scroll',
+        }}
+      >
+        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          <TrashModalComponent
+            handleSubmit={handleSubmit(onSubmit)}
+            register={register}
+          />
+        </Typography>
+      </Modal>
       <Grid
         container
         spacing={2}
         sx={{
-          mx: 'auto',
           px: 2,
           my: 2,
           display: 'flex',
@@ -56,28 +76,6 @@ export const TrashListingComponent = ({
           />
         ))}
       </Grid>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        sx={{
-          mx: 'auto',
-          px: 2,
-          my: 2,
-          display: 'flex',
-          alignItems: 'center',
-          flexDirection: 'column',
-          marginTop: '20vh',
-        }}
-      >
-      <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-        <TrashModalComponent
-          handleSubmit={handleSubmit(onSubmit)}
-          register={register}
-        />
-      </Typography>
-      </Modal>
     </>
   );
 };

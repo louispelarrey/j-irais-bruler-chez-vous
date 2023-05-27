@@ -21,11 +21,12 @@ export const ImageDropzone = () => {
     ) || "";
 
   return (
-    <Box position="relative" height={57} width="100%" sx={{ mt: 1 }}>
+    <Box position="relative" height={40} width="100%" sx={{ mt: 1 }}>
       <Box position="absolute" width="100%">
         <TextField
           fullWidth
           label="Sélectionner une photo"
+          size='small'
           value={getFileNames()}
           required
           sx={{ pointerEvents: "none" }}
