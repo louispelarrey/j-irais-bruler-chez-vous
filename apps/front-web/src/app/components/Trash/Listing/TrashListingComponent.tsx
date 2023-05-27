@@ -1,7 +1,6 @@
 import { Button, Card, Grid, Modal, Typography } from '@mui/material';
 import { TrashModalComponent } from '../Modal/TrashModalComponent';
 import { CardComponent } from './Card/TrashCardComponent';
-import { StyledTrashBox } from './Box/TrashBox.style';
 import { UseFormRegister } from 'react-hook-form';
 import { ITrashOnSubmit } from '../../../containers/Trash/List';
 
@@ -72,14 +71,12 @@ export const TrashListingComponent = ({
           marginTop: '20vh',
         }}
       >
-        <StyledTrashBox>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            <TrashModalComponent
-              handleSubmit={handleSubmit(onSubmit)}
-              register={register}
-            />
-          </Typography>
-        </StyledTrashBox>
+      <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+        <TrashModalComponent
+          handleSubmit={handleSubmit(onSubmit)}
+          register={register}
+        />
+      </Typography>
       </Modal>
     </>
   );
