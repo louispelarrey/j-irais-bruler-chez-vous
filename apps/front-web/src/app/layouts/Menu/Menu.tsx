@@ -13,7 +13,7 @@ export const Menu = () => {
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <StyledLink to="/">
-              JBCV
+              🔥 JBCV
             </StyledLink>
           </Typography>
           {!token ? (
