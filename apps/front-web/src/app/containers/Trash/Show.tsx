@@ -8,7 +8,7 @@ export const Trash = () => {
     const { data, error, loading } = useGet(`/api/trash/${id}`);
 
     if (loading) {
-        return <div>Loading...</div>;
+      return <div>Chargement ...</div>;
     }
 
     if (error) {
