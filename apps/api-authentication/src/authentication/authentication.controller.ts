@@ -8,8 +8,8 @@ export class AuthenticationController {
     private authService: AuthenticationService) { }
 
   @MessagePattern('login')
-  async handleLogin(@Payload() body: any) {
-    return this.authService.login(body);
+  async handleLogin(@Payload() username: string) {
+    return this.authService.login(username);
   }
 
   @MessagePattern('validateUser')

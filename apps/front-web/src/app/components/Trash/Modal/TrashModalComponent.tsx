@@ -1,9 +1,14 @@
 import { Box, Button, Grid, Paper, TextField, Typography } from '@mui/material';
 import { UseFormRegister } from 'react-hook-form';
+import { MapComponent } from '../../Map/MapComponent';
+import { useState } from 'react';
+import { ImageDropzone } from '../../ImageDropzone/ImageDropzone';
 
 export interface TrashData {
   reference: string;
   description: string;
+  address: string;
+  image: string;
 }
 
 interface TrashModalProps {
@@ -15,12 +20,15 @@ export const TrashModalComponent = ({
   handleSubmit,
   register,
 }: TrashModalProps) => {
+
+  const [address, setAddress] = useState('');
+
   return (
     <Grid container component="main">
-      <Grid item component={Paper} elevation={6} square>
+      <Grid item component={Paper} square>
         <Box
           sx={{
-            my: 8,
+            my: 2,
             mx: 4,
             display: 'flex',
             flexDirection: 'column',
@@ -31,37 +39,50 @@ export const TrashModalComponent = ({
             component="form"
             noValidate
             onSubmit={handleSubmit}
-            sx={{ mt: 1 }}
           >
-            <Typography id="modal-modal-title" variant="h6" component="h2">
+            <Typography id="modal-modal-title" variant="h6" component="span">
               Créer une annonce
             </Typography>
+            <MapComponent setAddress={setAddress}/>
             <TextField
               margin="normal"
               required
               fullWidth
-              id="reference"
-              type="reference"
-              label="Référence"
-              autoComplete="reference"
-              {...register('reference')}
-              autoFocus
+              label="Adresse"
+              size='small'
+              type="address"
+              id="address"
+              value={address}
+              autoComplete="address"
+              {...register('address', { required: true })}
             />
             <TextField
-              margin="normal"
               required
               fullWidth
+              size='small'
+              id="reference"
+              type="reference"
+              label="Titre"
+              autoComplete="reference"
+              {...register('reference', { required: true })}
+            />
+            <TextField
+              margin='dense'
+              required
+              fullWidth
+              size='small'
               label="Description"
               type="description"
               id="description"
               autoComplete="description"
-              {...register('description')}
+              {...register('description', { required: true })}
             />
+            <ImageDropzone/>
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 2, mb: 2 }}
             >
               Créer
             </Button>
