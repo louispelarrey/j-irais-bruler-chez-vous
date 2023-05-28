@@ -17,7 +17,7 @@ export class Trash {
   @Column()
   posterId: string;
 
-  @Column('jsonb', {default: ['']})
+  @Column('jsonb', {default: []})
   burners: string[];
 
   @Column({ default: false })
