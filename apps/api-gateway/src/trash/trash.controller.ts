@@ -26,7 +26,7 @@ export class TrashController {
   }
 
   @Post()
-  create(@Request() req, @Body() createTrashDto: TrashDto) {
+  create(@Request() req: any, @Body() createTrashDto: TrashDto) {
     return this.trashService.create(req.user.sub, createTrashDto);
   }
 
@@ -37,7 +37,7 @@ export class TrashController {
   }
 
   @Patch(':id')
-  takeTrash(@Request() req, @Param('id') id: string, @Body() updateTrashDto: TrashDto) {
-    return this.trashService.takeTrash(id, req.user.sub,updateTrashDto);
+  takeTrash(@Request() req: any, @Param('id') id: string) {
+    return this.trashService.takeTrash(id, req.user.sub);
   }
 }

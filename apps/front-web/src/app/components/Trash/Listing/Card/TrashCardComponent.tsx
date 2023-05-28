@@ -1,10 +1,26 @@
-import { Card, CardActions, CardContent, CardMedia, Button, Typography, Grid } from '@mui/material';
+import {
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Button,
+  Typography,
+  Grid,
+  Divider,
+  ListItem,
+  ListItemAvatar,
+  Avatar,
+  ListItemText,
+} from '@mui/material';
+import SignpostIcon from '@mui/icons-material/Signpost';
 import { Link } from 'react-router-dom';
 
 interface CardComponentProps {
   title: string;
   description: string;
   image: string;
+  address: string;
+  updatedAt: string;
   trashId: string;
 }
 
@@ -12,17 +28,14 @@ export const CardComponent = ({
   title,
   description,
   image,
+  address,
+  updatedAt,
   trashId,
 }: CardComponentProps) => {
   return (
     <Grid item xs={12} sm={6} md={4} sx={{ mb: 3 }}>
       <Card sx={{ height: '100%' }}>
-        <CardMedia
-          component="img"
-          height="140"
-          image={image}
-          alt="image"
-        />
+        <CardMedia component="img" height="140" image={image} alt="image" />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
             {title}
@@ -31,6 +44,27 @@ export const CardComponent = ({
             {description}
           </Typography>
         </CardContent>
+        <Divider light />
+        <CardContent>
+          <Typography variant="body2" color="text.secondary">
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar>
+                  <SignpostIcon />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                primary={address}
+                secondary={new Date(updatedAt).toLocaleDateString('fr-FR', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              />
+            </ListItem>
+          </Typography>
+        </CardContent>
+        <Divider light />
         <CardActions>
           <Button component={Link} to={`/trash/${trashId}`} size="small">
             Voir
@@ -43,4 +77,3 @@ export const CardComponent = ({
     </Grid>
   );
 };
-

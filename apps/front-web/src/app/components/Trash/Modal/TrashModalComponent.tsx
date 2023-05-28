@@ -40,7 +40,7 @@ export const TrashModalComponent = ({
             noValidate
             onSubmit={handleSubmit}
           >
-            <Typography id="modal-modal-title" variant="h6" component="h6">
+            <Typography id="modal-modal-title" variant="h6" component="span">
               Créer une annonce
             </Typography>
             <MapComponent setAddress={setAddress}/>
