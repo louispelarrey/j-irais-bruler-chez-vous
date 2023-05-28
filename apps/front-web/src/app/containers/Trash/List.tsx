@@ -12,17 +12,18 @@ export interface TrashData {
 export interface ITrashOnSubmit {
   reference: string;
   description: string;
+  address: string;
 }
 
 export const Trashs = () => {
   const { data, error, loading } = useGet('/api/trash');
-  const [open, setOpen] = React.useState(false);
+  const [ open, setOpen ] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm<TrashData>();
 
-  const onSubmit = async ({ reference, description }: ITrashOnSubmit) => {
+  const onSubmit = async ({ reference, description, address }: ITrashOnSubmit) => {
     const response = await fetch('/api/trash', {
       method: 'POST',
       headers: {
@@ -32,6 +33,7 @@ export const Trashs = () => {
       body: JSON.stringify({
         reference,
         description,
+        address
       }),
     });
     const data = await response.json();
@@ -41,11 +43,11 @@ export const Trashs = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>Chargement ...</div>;
   }
 
   if (error) {
-    return <div>{error}</div>;
+    return <div>Erreur : {error}</div>;
   }
 
   return <TrashListingComponent
