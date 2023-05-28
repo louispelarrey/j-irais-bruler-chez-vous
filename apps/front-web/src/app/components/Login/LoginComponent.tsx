@@ -6,9 +6,10 @@ import { UseFormRegister } from "react-hook-form";
 interface LoginProps {
   register: UseFormRegister<LoginData>;
   handleSubmit: any;
+  error: string;
 }
 
-export const LoginComponent = ({handleSubmit, register}: LoginProps) => {
+export const LoginComponent = ({handleSubmit, register, error}: LoginProps) => {
   return (
     <Grid container component="main" sx={{ height: '100vh' }}>
       <Grid
@@ -42,6 +43,7 @@ export const LoginComponent = ({handleSubmit, register}: LoginProps) => {
             Se connecter
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            {error && <Typography variant="body2" color="error">{error}</Typography>}
             <TextField
               margin="normal"
               required

@@ -1,7 +1,6 @@
 import { Button, Card, Grid, Modal, Typography } from '@mui/material';
 import { TrashModalComponent } from '../Modal/TrashModalComponent';
 import { CardComponent } from './Card/TrashCardComponent';
-import { StyledTrashBox } from './Box/TrashBox.style';
 import { UseFormRegister } from 'react-hook-form';
 import { ITrashOnSubmit } from '../../../containers/Trash/List';
 
@@ -9,6 +8,8 @@ interface List {
   id: string;
   reference: string;
   description: string;
+  address: string;
+  updatedAt: string;
 }
 
 interface ITrashListingComponent {
@@ -32,11 +33,31 @@ export const TrashListingComponent = ({
 }: ITrashListingComponent) => {
   return (
     <>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        sx={{
+          px: 2,
+          my: 2,
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: 'column',
+          overflowY: 'scroll',
+        }}
+      >
+        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          <TrashModalComponent
+            handleSubmit={handleSubmit(onSubmit)}
+            register={register}
+          />
+        </Typography>
+      </Modal>
       <Grid
         container
         spacing={2}
         sx={{
-          mx: 'auto',
           px: 2,
           my: 2,
           display: 'flex',
@@ -52,35 +73,13 @@ export const TrashListingComponent = ({
             key={item.id}
             title={item.reference}
             description={item.description}
+            address={item.address}
+            updatedAt={item.updatedAt}
             image="https://picsum.photos/200/300"
             trashId={item.id}
           />
         ))}
       </Grid>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        sx={{
-          mx: 'auto',
-          px: 2,
-          my: 2,
-          display: 'flex',
-          alignItems: 'center',
-          flexDirection: 'column',
-          marginTop: '20vh',
-        }}
-      >
-        <StyledTrashBox>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            <TrashModalComponent
-              handleSubmit={handleSubmit(onSubmit)}
-              register={register}
-            />
-          </Typography>
-        </StyledTrashBox>
-      </Modal>
     </>
   );
 };
