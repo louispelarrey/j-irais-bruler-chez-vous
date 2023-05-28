@@ -40,9 +40,8 @@ export function App() {
             <Route path="/logout" element={<Logout />} />
             <Route path="/register" element={<Register />} />
             <Route path="/chat" element={<Protected><Chat /></Protected>} />
-            <Route path="/" element={<Protected><div>Home</div></Protected>} />
-            <Route path="/trash" element={<Protected><ListTrash/></Protected>} />
-            <Route path="/trash/:id" element={<Protected><ShowTrash/></Protected>} />
+            <Route path="/posting" element={<Protected><ListTrash/></Protected>} />
+            <Route path="/posting/:id" element={<Protected><ShowTrash/></Protected>} />
             <Route path="*" element={<div>404</div>} />
           </Routes>
         </ThemeProvider>
