@@ -34,13 +34,17 @@ export class TrashService {
     trash.posterId = await lastValueFrom(
       this.userClient.send('findUserById', trash.posterId)
     );
-    trash.burners = await Promise.all(
-      trash.burners.map(async burnerId => {
-        return await lastValueFrom(
-          this.userClient.send('findUserById', burnerId)
-        );
-      })
-    );
+    if (trash.burners.length > 0) {
+      trash.burners = await Promise.all(
+        trash.burners.map(async (burnerId) => {
+          return await lastValueFrom(
+            this.userClient.send('findUserById', burnerId)
+          );
+        })
+      );
+    }
+    console.log(trash.burners);
+
     return trash;
   }
 
