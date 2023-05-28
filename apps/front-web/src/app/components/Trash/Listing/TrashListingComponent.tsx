@@ -8,6 +8,8 @@ interface List {
   id: string;
   reference: string;
   description: string;
+  address: string;
+  updatedAt: string;
 }
 
 interface ITrashListingComponent {
@@ -71,6 +73,8 @@ export const TrashListingComponent = ({
             key={item.id}
             title={item.reference}
             description={item.description}
+            address={item.address}
+            updatedAt={item.updatedAt}
             image="https://picsum.photos/200/300"
             trashId={item.id}
           />

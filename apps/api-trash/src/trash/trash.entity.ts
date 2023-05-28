@@ -2,30 +2,30 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Trash {
-    @PrimaryGeneratedColumn("uuid")
-    id: string;
-    
-    @Column()
-    reference: string;
-    
-    @Column()
-    description: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @Column({ default: false})
-    isBurned: boolean;
+  @Column()
+  reference: string;
 
-    @Column({ default: true})
-    isActive: boolean;
+  @Column()
+  description: string;
 
-    @Column()
-    posterId: string;
+  @Column()
+  address: string;
 
-    @Column({ nullable: true, default: null})
-    burnerId: string;
+  @Column()
+  posterId: string;
 
-    @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-    createdAt: Date;
+  @Column('jsonb', {default: ['']})
+  burners: string[];
 
-    @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-    updatedAt: Date;
+  @Column({ default: false })
+  isBurned: boolean;
+
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  createdAt: Date;
+
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  updatedAt: Date;
 }
