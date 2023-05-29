@@ -5,6 +5,7 @@ import {Manifestation} from "./manifestation.entity";
 import {CreateManifestationDto} from "./dto/create-manifestation.dto";
 import {UpdateManifestationDto} from "./dto/update-manifestation.dto";
 import { Participant } from '../participant/participant.entity';
+import { last } from 'rxjs';
 
 @Injectable()
 export class ManifestationService {
@@ -21,8 +22,7 @@ export class ManifestationService {
   }
 
   async findOne(id: string) {
-    const manifestation = await this.manifestationRepository.findOne({where: {id}});
-    console.log('service :', id);
+    const manifestation = await this.manifestationRepository.findOne({ where: { id } });
     return manifestation;
   }
 
