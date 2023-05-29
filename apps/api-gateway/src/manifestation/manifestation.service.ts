@@ -2,6 +2,7 @@ import {Inject, Injectable} from "@nestjs/common";
 import { ClientProxy } from '@nestjs/microservices';
 import {CreateManifestationDto} from "./dto/create-manifestation.dto";
 import {UpdateManifestationDto} from "./dto/update-manifestation";
+import { lastValueFrom } from "rxjs";
 
 
 @Injectable()
@@ -34,6 +35,11 @@ export class ManifestationService {
   }
 
   async joinManifestation(id: string,  sub: string) {
-    return this.manifestationClient.send('joinManifestation', { id, sub });
+    return await lastValueFrom(
+      this.manifestationClient.send('joinManifestation', {
+        id,
+        participantId: sub,
+      })
+    );
   }
 }

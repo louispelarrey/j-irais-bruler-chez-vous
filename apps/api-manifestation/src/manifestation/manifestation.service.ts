@@ -1,4 +1,4 @@
-import {Injectable} from '@nestjs/common';
+import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
 import {Manifestation} from "./manifestation.entity";
@@ -42,22 +42,37 @@ export class ManifestationService {
     return this.manifestationRepository.save(manifestation);
   }
 
-  async joinManifestation(id: string, sub: string): Promise<Manifestation> {
+  async joinManifestation(id: string, participantId: string): Promise<Manifestation> {
     const manifestation = await this.manifestationRepository.findOne({where: {id}, relations: ['participants']});
+
     if(!manifestation) {
-      throw new Error('Manifestation not found');
+      throw new HttpException(
+        'Manifestation non trouvée',
+        HttpStatus.NOT_FOUND
+      );
     }
     
-    if (manifestation.creatorId === sub) {
-      throw new Error('You are the creator of this manifestation');
+    if (manifestation.creatorId === participantId) {
+      throw new HttpException(
+        'Vous ne pouvez pas rejoindre votre propre manifestation',
+        HttpStatus.BAD_REQUEST
+      );
+    }
+
+    const participantAlreadyInManifestation = manifestation.participants.find(participant => participant.participantId === participantId);
+    if (participantAlreadyInManifestation) {
+      throw new HttpException(
+        'Vous participez déjà à cette manifestation',
+        HttpStatus.BAD_REQUEST
+      );
     }
 
     const participant = new Participant();
-    participant.participantId = sub;
-
+    participant.participantId = participantId;
     await this.participantRepository.save(participant);
 
-    manifestation.participants.push(participant);
+    const newParticipant = await this.participantRepository.findOne({where: {participantId}});
+    manifestation.participants.push(newParticipant);
     return this.manifestationRepository.save(manifestation);
   }
 }
