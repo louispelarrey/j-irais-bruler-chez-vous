@@ -32,6 +32,10 @@ export const Menu = () => {
                 <Button>Annonces</Button>
               </StyledLink>
 
+              <StyledLink to="/manifestation" className="menu-link">
+                <Button>Manifestations</Button>
+              </StyledLink>
+              
               <Button onClick={logout}>Déconnexion</Button>
             </>
           )}
