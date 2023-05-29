@@ -1,5 +1,5 @@
 import { Button, Card, Grid, Modal, Typography } from '@mui/material';
-import { TrashModalComponent } from '../Modal/TrashModalComponent';
+import { TrashData, TrashModalComponent } from '../Modal/TrashModalComponent';
 import { CardComponent } from './Card/TrashCardComponent';
 import { UseFormRegister } from 'react-hook-form';
 import { ITrashOnSubmit } from '../../../containers/Trash/List';
@@ -17,7 +17,7 @@ interface ITrashListingComponent {
   open: boolean;
   handleOpen: () => void;
   handleClose: () => void;
-  register: UseFormRegister<ITrashOnSubmit>;
+  register: UseFormRegister<TrashData>;
   handleSubmit: any;
   onSubmit: any;
 }
