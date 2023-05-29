@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Param, Post, Put, Request} from '@nestjs/common';
+import {Body, Controller, Get, Param, Patch, Post, Put, Request} from '@nestjs/common';
 import {ManifestationService} from "./manifestation.service";
 import {CreateManifestationDto} from "./dto/create-manifestation.dto";
 import {UpdateManifestationDto} from "./dto/update-manifestation";
@@ -30,8 +30,8 @@ export class ManifestationController {
     return this.manifestationService.update(id, updateManifestationDto);
   }
 
-  @Put(':id/join')
-  joinManifestation(@Request() request, @Param() id: string) {
-    return this.manifestationService.joinManifestation(id, request.user.sub);
+  @Patch(':id')
+  joinManifestation(@Request() req: any, @Param('id') id: string) {
+    return this.manifestationService.joinManifestation(id, req.user.sub);
   }
 }

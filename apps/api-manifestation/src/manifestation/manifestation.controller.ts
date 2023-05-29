@@ -30,7 +30,7 @@ export class ManifestationController {
   }
 
   @MessagePattern('joinManifestation')
-  async joinManifestation(@Param('id') id: string, @Payload() sub: string): Promise<Manifestation> {
-    return this.manifestationService.joinManifestation(id, sub);
+  async joinManifestation(@Payload() { id, participantId }: { id: string, participantId: string }): Promise<Manifestation> {
+    return this.manifestationService.joinManifestation(id, participantId);
   }
 }
