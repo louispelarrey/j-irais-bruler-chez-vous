@@ -3,11 +3,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { TrashListingComponent } from '../../components/Trash/Listing/TrashListingComponent';
-
-export interface TrashData {
-  reference: string;
-  description: string;
-}
+import { TrashData } from '../../components/Trash/Modal/TrashModalComponent';
 
 export interface ITrashOnSubmit {
   reference: string;
@@ -23,7 +19,7 @@ export const Trashs = () => {
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm<TrashData>();
 
-  const onSubmit = async ({ reference, description, address }: ITrashOnSubmit) => {
+  const onSubmit = async ({ reference, description, address }: TrashData) => {
     const response = await fetch('/api/trash', {
       method: 'POST',
       headers: {
