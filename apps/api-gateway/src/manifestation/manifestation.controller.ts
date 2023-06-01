@@ -21,6 +21,11 @@ export class ManifestationController {
     return this.manifestationService.findOne(id);
   }
 
+  @Post('/me')
+  findMyManifestations(@Request() req: any) {
+    return this.manifestationService.findMyManifestations(req.user.sub);
+  }
+
   @Post()
   create(@Request() req, @Body() createManifestationDto: CreateManifestationDto) {
     return this.manifestationService.create(createManifestationDto, req.user.sub);
