@@ -7,6 +7,9 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import useGet from '../../hooks/useGet';
+import { ChatComponent } from '../../components/Chat/ChatComponent';
+import { useChat } from '../../hooks/useChat';
+
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -58,6 +61,9 @@ export const Manifestation = () => {
   const { id } = useParams();
   const { data: currentManifestation, error, loading} = useGet(`/api/manifestation/${id}`);
   const { data: myManifestations } = usePost('/api/manifestation/me', {});
+  const { messages, userId, scrollTarget, handleSubmit, register, sendMessage } = useChat({
+    roomName: 'default',
+  });
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -129,11 +135,17 @@ export const Manifestation = () => {
     </CardActions>
     <Collapse in={expanded} timeout="auto" unmountOnExit>
       <CardContent>
-        <Typography paragraph>Comments:</Typography>
-        <Typography paragraph>
-          fezfezfezfezfef
-        </Typography>
-      </CardContent>
+        <Typography paragraph>Chat :</Typography>
+        <ChatComponent
+          messages={messages}
+          handleSubmit={handleSubmit(sendMessage)}
+          register={register}
+          userId={userId}
+          scrollTarget={scrollTarget}
+          heightPercentage={90}
+          widthPercentage={100}
+        />
+        </CardContent>
     </Collapse>
     </Card>
     </div>
