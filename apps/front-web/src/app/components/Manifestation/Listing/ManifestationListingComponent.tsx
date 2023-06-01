@@ -65,20 +65,20 @@ export const ManifestationListingComponent = ({
             flexDirection: 'column',
         }}
         >
-            <Card sx={{ height: 'fit-content' }}>
-                <Button onClick={handleOpen}>Créer une manifestation</Button>
-            </Card>
-            {data.map((item: List) => (
-                <CardComponent
-                    key={item.id}
-                    title={item.title}
-                    description={item.description}
-                    ville={item.ville}
-                    start_date={item.start_date}
-                    image="https://picsum.photos/200/300"
-                    manifestationId={item.id}
-                />
-            ))}
+          <Card sx={{ height: 'fit-content' }}>
+              <Button onClick={handleOpen}>Créer une manifestation</Button>
+          </Card>
+          {data.map((item: List) => (
+              <CardComponent
+                  key={item.id}
+                  title={item.title}
+                  description={item.description}
+                  ville={item.ville}
+                  start_date={item.start_date}
+                  image="https://picsum.photos/200/300"
+                  manifestationId={item.id}
+              />
+          ))}
         </Grid>
     </>
     );
