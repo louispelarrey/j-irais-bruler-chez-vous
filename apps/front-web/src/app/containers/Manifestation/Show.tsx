@@ -23,16 +23,47 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
     }),
 }));
 
+const usePost = (url: string, body: any) => {
+  const [data, setData] = React.useState<any[]>([]);
+  const [error, setError] = React.useState<any>(null);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          body: JSON.stringify(body),
+        });
+        const data = await response.json();
+        console.log(data);
+        setData(data);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+  return { data, error, loading };
+};
+
 export const Manifestation = () => {
   const [expanded, setExpanded] = React.useState(false);
   const { id } = useParams();
-  const { data, error, loading } = useGet(`/api/manifestation/${id}`);
+  const { data: currentManifestation, error, loading} = useGet(`/api/manifestation/${id}`);
+  const { data: myManifestations } = usePost('/api/manifestation/me', {});
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
-  if (loading) {
+  if (loading || !currentManifestation || !myManifestations) {
       return <div>Chargement ...</div>;
   }
 
@@ -40,12 +71,30 @@ export const Manifestation = () => {
     return <div>{error}</div>;
   }
 
+  const currentIndex = myManifestations.findIndex((manifestation: any) => manifestation.id === id);
+  const previousManifestation = currentIndex > 0 ? myManifestations[currentIndex - 1] : null;
+  const nextManifestation = currentIndex < myManifestations.length - 1 ? myManifestations[currentIndex + 1] : null
+
+  const handlePreviousManifestation = () => {
+    if (previousManifestation) {
+      // Rediriger vers la page de la manifestation précédente
+      window.location.href = `/manifestation/${previousManifestation.id}`;
+    }
+  };
+
+  const handleNextManifestation = () => {
+    if (nextManifestation) {
+      // Rediriger vers la page de la manifestation suivante
+      window.location.href = `/manifestation/${nextManifestation.id}`;
+    }
+  };
+
   return (
     <div>
     <Card sx={{ maxWidth: 345 }}>
       <CardHeader
-        title = {data.title}
-        subheader = {data.start_date}
+        title = {currentManifestation.title}
+        subheader = {currentManifestation.start_date}
       />
     <CardMedia
       component="img"
@@ -55,16 +104,20 @@ export const Manifestation = () => {
     />
     <CardContent>
       <Typography variant="body2" color="text.secondary">
-        {data.description}
+        {currentManifestation.description}
       </Typography>
     </CardContent>
     <CardActions disableSpacing>
-      <IconButton aria-label="before">
-        <KeyboardDoubleArrowLeftIcon />
-      </IconButton>
-      <IconButton aria-label="next">
-        <KeyboardDoubleArrowRightIcon />
-      </IconButton>
+      {previousManifestation && (
+        <IconButton aria-label="before" onClick={handlePreviousManifestation}>
+          <KeyboardDoubleArrowLeftIcon />
+        </IconButton>
+      )}
+      {nextManifestation && (
+        <IconButton aria-label="next" onClick={handleNextManifestation}>
+          <KeyboardDoubleArrowRightIcon />
+        </IconButton>
+      )}
       <ExpandMore
           expand={expanded}
           onClick={handleExpandClick}
