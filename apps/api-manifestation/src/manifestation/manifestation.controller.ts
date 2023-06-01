@@ -19,6 +19,11 @@ export class ManifestationController {
     return await this.manifestationService.findOne(id);
   }
 
+  @MessagePattern('findMyManifestations')
+  async findMyManifestations(@Payload() sub: string): Promise<Manifestation[]> {
+    return this.manifestationService.findMyManifestations(sub);
+  }
+
   @MessagePattern('create')
   async create(@Payload() createManifestationDto: CreateManifestationDto): Promise<Manifestation> {
     return this.manifestationService.create(createManifestationDto);

@@ -26,6 +26,12 @@ export class ManifestationService {
     return manifestation;
   }
 
+  async findMyManifestations(sub: string) {
+    console.log("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
+    const manifestations = await this.manifestationRepository.find({ where: { participants: { participantId: sub } } });
+    return manifestations;
+  }
+
   async create( createManifestationDto: CreateManifestationDto ): Promise<Manifestation> {
     const manifestation = new Manifestation();
     manifestation.title = createManifestationDto.title;
