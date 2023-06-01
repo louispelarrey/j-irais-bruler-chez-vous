@@ -20,6 +20,12 @@ export class ManifestationService {
     return this.manifestationClient.send('findOne', id);
   }
 
+  async findMyManifestations(sub: string) {
+    return await lastValueFrom(
+      this.manifestationClient.send('findMyManifestations', sub)
+    );
+  }
+
   async create(createManifestationDto: CreateManifestationDto, sub:string) {
     return this.manifestationClient.send('create', {
       description: createManifestationDto.description,
