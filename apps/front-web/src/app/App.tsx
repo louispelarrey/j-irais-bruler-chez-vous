@@ -7,6 +7,7 @@ import { lazy } from 'react';
 import { SuspenseLoader } from './suspense/SuspenseLoader';
 import FontMedium from './fonts/font-medium.woff2';
 
+const Home = lazy(() => import('./containers/Home/Home').then(module => ({ default: module.Home })));
 const Login = lazy(() => import('./containers/Login/Login').then(module => ({ default: module.Login })));
 const Logout = lazy(() => import('./containers/Logout/Logout').then(module => ({ default: module.Logout })));
 const Protected = lazy(() => import('./containers/Protected/Protected').then(module => ({ default: module.Protected })));
@@ -53,13 +54,13 @@ export function App() {
           <CssBaseline />
           <Menu />
           <Routes>
+            <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/logout" element={<Logout />} />
             <Route path="/register" element={<Register />} />
             <Route path="/posting" element={<Protected><ListTrash/></Protected>} />
             <Route path="/posting/:id" element={<Protected><ShowSpecific/></Protected>} />
             <Route path="/chat" element={<Protected><Chat /></Protected>} />
-            <Route path="/" element={<Protected><div>Home</div></Protected>} />
             <Route path="/trash" element={<Protected><ListTrash/></Protected>} />
             <Route path="/trash/:id" element={<Protected><ShowTrash/></Protected>} />
             <Route path="/manifestation" element={<Protected><ListManifestation/></Protected>} />
