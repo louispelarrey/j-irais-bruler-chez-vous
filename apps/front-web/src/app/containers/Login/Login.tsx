@@ -36,7 +36,7 @@ export const Login = () => {
 
     if (data.access_token) {
       setToken(data.access_token);
-      navigate('/posting');
+      navigate('/');
     }
   };
 
