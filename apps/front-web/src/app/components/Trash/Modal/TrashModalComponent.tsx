@@ -8,12 +8,12 @@ export interface TrashData {
   reference: string;
   description: string;
   address: string;
-  image: string;
+  trashImage: File;
 }
 
 interface TrashModalProps {
   register: UseFormRegister<TrashData>;
-  handleSubmit: any;
+  handleSubmit: () => void;
 }
 
 export const TrashModalComponent = ({

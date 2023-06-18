@@ -2,6 +2,8 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { TrashDto } from './dto/trash.dto';
 import { lastValueFrom } from 'rxjs';
+import { Express } from 'express';
+import { Multer } from 'multer';
 
 @Injectable()
 export class TrashService {
@@ -33,13 +35,18 @@ export class TrashService {
     return this.trashClient.send('findOne', id);
   }
 
-  async create(sub: string, createTrashDto: TrashDto) {
-    return await lastValueFrom(this.trashClient.send('create', {
-      reference: createTrashDto.reference,
-      description: createTrashDto.description,
-      address: createTrashDto.address,
-      posterId: sub,
-    }));
+  async create(sub: string, createTrashDto: TrashDto, file: Express.Multer.File) {
+    return await lastValueFrom(
+      this.trashClient.send('create', {
+        file,
+        data: {
+          reference: createTrashDto.data.reference,
+          description: createTrashDto.data.description,
+          address: createTrashDto.data.address,
+          posterId: sub,
+        },
+      })
+    );
   }
 
   async update(id: string, updateTrashDto: TrashDto) {

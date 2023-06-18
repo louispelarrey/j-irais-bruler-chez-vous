@@ -2,7 +2,6 @@ import { Button, Card, Grid, Modal, Typography } from '@mui/material';
 import { TrashData, TrashModalComponent } from '../Modal/TrashModalComponent';
 import { CardComponent } from './Card/TrashCardComponent';
 import { UseFormRegister } from 'react-hook-form';
-import { ITrashOnSubmit } from '../../../containers/Trash/List';
 
 interface List {
   id: string;
