@@ -38,7 +38,7 @@ export class TrashController {
           fileType: 'image',
         })
         .addMaxSizeValidator({
-          maxSize: 5000000,
+          maxSize: 10 * 1024 * 1024,
         })
         .build({
           errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY
