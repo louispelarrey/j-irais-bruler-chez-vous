@@ -41,7 +41,9 @@ export const CardComponent = ({
             {title}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            {description}
+            {description.length > 100
+              ? description.substring(0, 100) + '...'
+              : description}
           </Typography>
         </CardContent>
         <Divider light />
