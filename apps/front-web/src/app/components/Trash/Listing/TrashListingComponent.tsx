@@ -74,7 +74,7 @@ export const TrashListingComponent = ({
             description={item.description}
             address={item.address}
             updatedAt={item.updatedAt}
-            image="https://picsum.photos/200/300"
+            image={item.fileImageUrl}
             trashId={item.id}
           />
         ))}
