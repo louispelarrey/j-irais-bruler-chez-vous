@@ -66,8 +66,8 @@ export const TrashListingComponent = ({
           flexDirection: 'column',
         }}
       >
-        <Card sx={{ height: 'fit-content' }}>
-          <Button onClick={handleOpen}>Créer une annonce</Button>
+        <Card>
+          <Button onClick={handleOpen} sx={{ fontSize: '1rem'}}>Créer une annonce</Button>
         </Card>
       </Grid>
 
