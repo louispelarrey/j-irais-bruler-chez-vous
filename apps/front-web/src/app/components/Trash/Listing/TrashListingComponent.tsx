@@ -2,6 +2,7 @@ import { Button, Card, Grid, Modal, Typography } from '@mui/material';
 import { TrashData, TrashModalComponent } from '../Modal/TrashModalComponent';
 import { CardComponent } from './Card/TrashCardComponent';
 import { UseFormRegister } from 'react-hook-form';
+import { StyledTrashListingComponent } from './TrashListingComponent.style';
 
 interface List {
   id: string;
@@ -9,6 +10,7 @@ interface List {
   description: string;
   address: string;
   updatedAt: string;
+  fileImageUrl: string;
 }
 
 interface ITrashListingComponent {
@@ -67,6 +69,9 @@ export const TrashListingComponent = ({
         <Card sx={{ height: 'fit-content' }}>
           <Button onClick={handleOpen}>Créer une annonce</Button>
         </Card>
+      </Grid>
+
+      <StyledTrashListingComponent>
         {data.map((item: List) => (
           <CardComponent
             key={item.id}
@@ -78,7 +83,7 @@ export const TrashListingComponent = ({
             trashId={item.id}
           />
         ))}
-      </Grid>
+      </StyledTrashListingComponent>
     </>
   );
 };

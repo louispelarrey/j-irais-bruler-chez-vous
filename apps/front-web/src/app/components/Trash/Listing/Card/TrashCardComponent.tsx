@@ -34,9 +34,9 @@ export const CardComponent = ({
 }: CardComponentProps) => {
   return (
     <Grid item xs={12} sm={6} md={4} sx={{ mb: 3 }}>
-      <Card sx={{ height: '100%' }}>
-        <CardMedia component="img" height="140" image={image} alt="image" />
-        <CardContent>
+      <Card sx={{ height: '100%', maxWidth: "350px" }}>
+        <CardMedia component="img" height="240" image={image} alt="image"/>
+        <CardContent sx={{minHeight: '130px'}}> {/* Change here */}
           <Typography gutterBottom variant="h5" component="div">
             {title}
           </Typography>
