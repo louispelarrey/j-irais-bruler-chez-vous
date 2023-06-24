@@ -1,7 +1,10 @@
-import { Body, Controller, Get, Param, Patch, Post, Put, Request } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Param, ParseFilePipeBuilder, Patch, Post, Put, Request, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { TrashService } from './trash.service';
 import { Public } from '../authentication/decorators/public.decorator';
 import { TrashDto } from './dto/trash.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { Express } from 'express';
+import { Multer } from 'multer';
 
 @Controller('trash')
 export class TrashController {
@@ -26,8 +29,27 @@ export class TrashController {
   }
 
   @Post()
-  create(@Request() req: any, @Body() createTrashDto: TrashDto) {
-    return this.trashService.create(req.user.sub, createTrashDto);
+  @UseInterceptors(FileInterceptor('trashImage'))
+  async create(
+    @Request() req: any,
+    @UploadedFile(
+      new ParseFilePipeBuilder()
+        .addFileTypeValidator({
+          fileType: 'image',
+        })
+        .addMaxSizeValidator({
+          maxSize: 10 * 1024 * 1024,
+        })
+        .build({
+          errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY
+        }),
+    )
+    file: Express.Multer.File,
+    @Body('data') data: string
+  ) {
+    const trashDto = new TrashDto();
+    trashDto.data = JSON.parse(data);
+    return this.trashService.create(req.user.sub, trashDto, file);
   }
 
   @Put(':id')

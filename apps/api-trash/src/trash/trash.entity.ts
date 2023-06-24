@@ -23,6 +23,9 @@ export class Trash {
   @Column({ default: false })
   isBurned: boolean;
 
+  @Column()
+  fileImageUrl: string;
+
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 

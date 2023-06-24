@@ -4,6 +4,7 @@ import { TrashController } from './trash.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Trash } from './trash.entity';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { FileUploadService } from '../file-upload/file-upload.service';
 
 @Module({
   imports: [
@@ -20,6 +21,6 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
     ])
   ],
   controllers: [TrashController],
-  providers: [TrashService]
+  providers: [TrashService, FileUploadService]
 })
 export class TrashModule {}

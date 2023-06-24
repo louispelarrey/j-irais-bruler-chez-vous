@@ -1,8 +1,8 @@
 import { Button, Card, Grid, Modal, Typography } from '@mui/material';
-import { TrashModalComponent } from '../Modal/TrashModalComponent';
+import { TrashData, TrashModalComponent } from '../Modal/TrashModalComponent';
 import { CardComponent } from './Card/TrashCardComponent';
 import { UseFormRegister } from 'react-hook-form';
-import { ITrashOnSubmit } from '../../../containers/Trash/List';
+import { StyledTrashListingComponent } from './TrashListingComponent.style';
 
 interface List {
   id: string;
@@ -10,6 +10,7 @@ interface List {
   description: string;
   address: string;
   updatedAt: string;
+  fileImageUrl: string;
 }
 
 interface ITrashListingComponent {
@@ -17,7 +18,7 @@ interface ITrashListingComponent {
   open: boolean;
   handleOpen: () => void;
   handleClose: () => void;
-  register: UseFormRegister<ITrashOnSubmit>;
+  register: UseFormRegister<TrashData>;
   handleSubmit: any;
   onSubmit: any;
 }
@@ -65,9 +66,12 @@ export const TrashListingComponent = ({
           flexDirection: 'column',
         }}
       >
-        <Card sx={{ height: 'fit-content' }}>
-          <Button onClick={handleOpen}>Créer une annonce</Button>
+        <Card>
+          <Button onClick={handleOpen} sx={{ fontSize: '1rem'}}>Créer une annonce</Button>
         </Card>
+      </Grid>
+
+      <StyledTrashListingComponent>
         {data.map((item: List) => (
           <CardComponent
             key={item.id}
@@ -75,11 +79,11 @@ export const TrashListingComponent = ({
             description={item.description}
             address={item.address}
             updatedAt={item.updatedAt}
-            image="https://picsum.photos/200/300"
+            image={item.fileImageUrl}
             trashId={item.id}
           />
         ))}
-      </Grid>
+      </StyledTrashListingComponent>
     </>
   );
 };

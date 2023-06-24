@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TrashModule } from '../trash/trash.module';
+
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({

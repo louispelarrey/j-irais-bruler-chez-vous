@@ -1,24 +1,18 @@
 import { Box, Button, InputAdornment, TextField } from "@mui/material";
 import { AttachFile } from "@mui/icons-material";
-import { useRef, useState } from "react";
+import { useCallback, useContext, useRef } from "react";
+import { TrashImageContext } from "../../containers/Trash/List";
 
 export const ImageDropzone = () => {
-  const [files, setFiles] = useState<File[] | null>(null);
   const ref = useRef<HTMLInputElement>(null);
+  const {trashImage, setTrashImage} = useContext(TrashImageContext);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
 
     const files = Array.from(e.target.files);
-    setFiles(files);
-  };
-
-  const getFileNames = () =>
-    files?.reduce(
-      (fileNames, file) =>
-        `${fileNames} ${fileNames !== "" ? "," : ""} ${file.name}`,
-      ""
-    ) || "";
+    setTrashImage?.(files[0]);
+  }, [setTrashImage]);
 
   return (
     <Box position="relative" height={40} width="100%" sx={{ mt: 1 }}>
@@ -27,7 +21,7 @@ export const ImageDropzone = () => {
           fullWidth
           label="Sélectionner une photo"
           size='small'
-          value={getFileNames()}
+          value={trashImage?.name || ""}
           required
           sx={{ pointerEvents: "none" }}
           InputProps={{
