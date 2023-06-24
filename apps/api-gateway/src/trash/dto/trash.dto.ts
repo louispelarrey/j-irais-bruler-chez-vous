@@ -1,8 +1,11 @@
 export class TrashDto {
   id?: string;
-  reference: string;
-  description: string;
-  address: string;
-  posterId: string;
-  burners?: string[];
+  data : {
+    reference: string;
+    description: string;
+    address: string;
+    posterId: string;
+    burners?: string[];
+  }
+  file: any;
 }

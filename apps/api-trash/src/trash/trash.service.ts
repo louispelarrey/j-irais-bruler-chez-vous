@@ -5,6 +5,7 @@ import { Trash } from './trash.entity';
 import { TrashDto } from './dto/trash.dto';
 import { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
+import { FileUploadService } from '../file-upload/file-upload.service';
 
 @Injectable()
 export class TrashService {
@@ -13,7 +14,9 @@ export class TrashService {
     private readonly trashRepository: Repository<Trash>,
 
     @Inject('USER')
-    private readonly userClient: ClientProxy
+    private readonly userClient: ClientProxy,
+
+    private readonly fileUploadService: FileUploadService
   ) {}
 
   findAll() {
@@ -50,18 +53,20 @@ export class TrashService {
 
   async create(createTrashDto: TrashDto): Promise<Trash> {
     const trash = new Trash();
-    trash.reference = createTrashDto.reference;
-    trash.description = createTrashDto.description;
-    trash.posterId = createTrashDto.posterId;
-    trash.address = createTrashDto.address;
+    trash.reference = createTrashDto.data.reference;
+    trash.description = createTrashDto.data.description;
+    trash.posterId = createTrashDto.data.posterId;
+    trash.address = createTrashDto.data.address;
+    trash.fileImageUrl = await this.fileUploadService.uploadFile(createTrashDto.file);
     return await this.trashRepository.save(trash);
   }
 
   async update(id: string, updateTrashDto: TrashDto): Promise<Trash> {
     const trash = await this.trashRepository.findOne({ where: { id } });
-    trash.reference = updateTrashDto.reference;
-    trash.description = updateTrashDto.description;
-    trash.address = updateTrashDto.address;
+    trash.reference = updateTrashDto.data.reference;
+    trash.description = updateTrashDto.data.description;
+    trash.address = updateTrashDto.data.address;
+    //todo: add google storage
     return this.trashRepository.save(trash);
   }
 

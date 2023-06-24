@@ -1,8 +1,14 @@
+import { Express } from 'express';
+import { Multer } from 'multer';
+
 export class TrashDto {
   id?: string;
-  reference: string;
-  description: string;
-  address: string;
-  posterId: string;
-  burners?: string[];
+  data: {
+    reference: string;
+    description: string;
+    address: string;
+    posterId: string;
+    burners?: string[];
+  };
+  file: Express.Multer.File;
 }

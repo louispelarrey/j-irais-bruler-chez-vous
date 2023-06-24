@@ -12,7 +12,7 @@ export const Menu = () => {
       <AppBar position="sticky">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <StyledLink to="/">
+            <StyledLink to="/posting">
               🔥 JBCV
             </StyledLink>
           </Typography>
@@ -32,7 +32,7 @@ export const Menu = () => {
                 <Button>Chat</Button>
               </StyledLink>
 
-              <StyledLink to="/trash" className="menu-link">
+              <StyledLink to="/posting" className="menu-link">
                 <Button>Annonces</Button>
               </StyledLink>
 
