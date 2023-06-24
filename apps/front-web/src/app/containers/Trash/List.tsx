@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { TrashListingComponent } from '../../components/Trash/Listing/TrashListingComponent';
 import { TrashData } from '../../components/Trash/Modal/TrashModalComponent';
+import { SuspenseLoader } from '../../suspense/SuspenseLoader';
 
 export const TrashImageContext = createContext({
   trashImage: null as File | null,
@@ -25,7 +26,6 @@ export const Trashs = () => {
     address,
   }: TrashData) => {
     const formData = new FormData();
-    console.log(trashImage);
 
     if (trashImage) formData.append('trashImage', trashImage);
     formData.append(
@@ -46,12 +46,12 @@ export const Trashs = () => {
     });
     const data = await response.json();
     if (data.id) {
-      navigate(`/trash/${data.id}`);
+      navigate(`/posting/${data.id}`);
     }
   };
 
   if (loading) {
-    return <div>Chargement ...</div>;
+    return <SuspenseLoader children={<></>} />;
   }
 
   if (error) {

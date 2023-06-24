@@ -46,7 +46,6 @@ export class TrashService {
         })
       );
     }
-    console.log(trash.burners);
 
     return trash;
   }
