@@ -94,7 +94,6 @@ export class TrashService {
 
   async removeBurner(id: string, burnerId: string): Promise<Trash> {
     const trash = await this.trashRepository.findOne({ where: { id } });
-    console.log(burnerId, trash.burners)
     if (trash.posterId !== burnerId && !trash.burners.includes(burnerId)) {
       throw new HttpException(
         'Seuls le créateur ou le bruleur peuvent annuler le contrat',
