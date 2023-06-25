@@ -1,10 +1,9 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import useGet from '../../hooks/useGet';
 import { ContractView } from '../../components/Trash/View/ContractView';
 import { SuspenseLoader } from '../../suspense/SuspenseLoader';
 import { useCallback, useEffect, useState } from 'react';
 import getUserIdFromToken from '../../utils/user/getUserIdFromToken';
-import { useChat } from '../../hooks/useChat';
 import { Chat } from '../Chat/Chat';
 
 export const ShowSpecific = () => {
@@ -12,6 +11,7 @@ export const ShowSpecific = () => {
   const { data, error, loading } = useGet(`/api/trash/${id}`);
   const [isContractTaken, setIsContractTaken] = useState<boolean>(false);
   const [isCreator, setIsCreator] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const onContractTaken = useCallback(
     () => async () => {
@@ -28,10 +28,52 @@ export const ShowSpecific = () => {
       }
 
       if (data.id) {
-        window.location.reload();
+        setIsContractTaken(true);
       }
     },
     [id]
+  );
+
+  const onContractCanceled = useCallback(
+    () => async () => {
+      const response = await fetch(`/api/trash/${id}/contract`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      const data = await response.json();
+
+      if (data.statusCode === 401) {
+        navigate('/logout');
+      }
+
+      if (data.id) {
+        setIsContractTaken(false);
+      }
+    },
+    [id, navigate]
+  );
+
+  const onContractDeleted = useCallback(
+    () => async () => {
+      const response = await fetch(`/api/trash/${id}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      const data = await response.json();
+
+      if (data.statusCode === 401) {
+        navigate('/logout');
+      }
+
+      if (data.statusCode === 200) {
+        navigate('/postings');
+      }
+    },
+    [id, navigate]
   );
 
   /**
@@ -67,13 +109,12 @@ export const ShowSpecific = () => {
     <ContractView
       data={data}
       onContractTaken={onContractTaken}
+      onContractCanceled={onContractCanceled}
+      onContractDeleted={onContractDeleted}
       isContractTaken={isContractTaken}
       isCreator={isCreator}
     >
-      <Chat
-        roomName={id}
-        heightVh={30}
-      />
+      <Chat roomName={id} heightVh={30} />
     </ContractView>
   );
 };
