@@ -1,10 +1,11 @@
 import useGet from '../../hooks/useGet';
-import React, {Dispatch, SetStateAction, createContext, useState} from 'react';
+import React, {Dispatch, SetStateAction, createContext, useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { TrashListingComponent } from '../../components/Trash/Listing/TrashListingComponent';
 import { TrashData } from '../../components/Trash/Modal/TrashModalComponent';
 import { SuspenseLoader } from '../../suspense/SuspenseLoader';
+import { List } from '../../components/Trash/Listing/TrashListingComponent';
 
 export const TrashImageContext = createContext({
   trashImage: null as File | null,
@@ -45,6 +46,10 @@ export const Trashs = () => {
       body: formData,
     });
     const data = await response.json();
+    //check if 401
+    if (data.statusCode === 401) {
+      navigate('/logout');
+    }
     if (data.id) {
       navigate(`/posting/${data.id}`);
     }
@@ -61,7 +66,7 @@ export const Trashs = () => {
   return (
     <TrashImageContext.Provider value={{ trashImage, setTrashImage }}>
       <TrashListingComponent
-        data={data}
+        data={data as List[]}
         open={open}
         handleOpen={handleOpen}
         handleClose={handleClose}
