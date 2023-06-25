@@ -76,10 +76,10 @@ export const ContractView: React.FC<ContractViewProps> = ({
           marginLeft: '2rem',
           zIndex: 2,
           borderRadius: '50%',
-          border: '1px solid rgb(144, 202, 249)',
+          border: '1px solid white',
           backgroundColor: '#121212',
-          opacity: '0.9',
-          color: 'rgb(144, 202, 249)',
+          opacity: '0.92',
+          color: 'white',
           scale: '1.4',
           ':hover': {
             opacity: '1',
