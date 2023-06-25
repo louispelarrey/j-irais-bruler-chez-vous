@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Param, ParseFilePipeBuilder, Patch, Post, Put, Request, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, ParseFilePipeBuilder, Patch, Post, Put, Request, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { TrashService } from './trash.service';
 import { Public } from '../authentication/decorators/public.decorator';
 import { TrashDto } from './dto/trash.dto';
@@ -11,19 +11,16 @@ export class TrashController {
   constructor(private readonly trashService: TrashService) {}
 
   @Get()
-  @Public()
   findAll() {
     return this.trashService.findAll();
   }
 
   @Get(':id')
-  @Public()
   findOne(@Param('id') id: string) {
     return this.trashService.findOne(id);
   }
 
   @Get('myTrash/:posterId')
-  @Public()
   findAllByUser(@Param('posterId') posterId: string) {
     return this.trashService.findAllByUser(posterId);
   }
@@ -58,8 +55,18 @@ export class TrashController {
     return this.trashService.update(id, updateTrashDto);
   }
 
-  @Patch(':id')
-  takeTrash(@Request() req: any, @Param('id') id: string) {
-    return this.trashService.takeTrash(id, req.user.sub);
+  @Post(':id/contract')
+  takeContract(@Param('id') id: string, @Request() req: any) {
+    return this.trashService.takeContract(id, req.user.sub);
+  }
+
+  @Delete(':id/contract')
+  removeBurner(@Param('id') id: string, @Request() req: any) {
+    return this.trashService.removeBurner(id, req.user.sub);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string, @Request() req: any) {
+    return this.trashService.remove(id, req.user.sub);
   }
 }

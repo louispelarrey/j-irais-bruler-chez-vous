@@ -2,13 +2,12 @@ import styled from 'styled-components';
 
 interface StyledChatProps {
   widthPercentage: number;
-  heightPercentage: number;
+  heightVh: number;
 }
 
 export const StyledChat = styled.div<StyledChatProps>`
 
   width: ${props => props.widthPercentage}%;
-  height: ${props => props.heightPercentage}%;
 
   .table {
     min-width: 650px;
@@ -23,7 +22,7 @@ export const StyledChat = styled.div<StyledChatProps>`
   }
 
   .messageArea {
-    height: 70vh;
+    height: ${props => props.heightVh}vh;
     overflow-y: auto;
   }
 

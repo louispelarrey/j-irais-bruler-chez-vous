@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 const useGet = (url: string) => {
@@ -7,37 +7,44 @@ const useGet = (url: string) => {
   const [loading, setLoading] = useState<boolean>(true);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const abortController = new AbortController();
-    const signal = abortController.signal;
+  const isMounted = useRef(false);
 
+  useEffect(() => {
+    isMounted.current = true;
     const fetchData = async () => {
       try {
         const response = await fetch(
           import.meta.env.VITE_APP_BACKEND_URL + url,
           {
-            signal,
             headers: {
-              "Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
+              "Authorization": `Bearer ${localStorage.getItem("token")}`,
             },
         });
         const data = await response.json();
-        setData(data);
-        setLoading(false);
+        if (isMounted.current) {
+          setData(data);
+        }
       } catch (error: Error | any) {
-        if (error.name !== "AbortError") {
-          setError(error.message);
-          setLoading(false);
-          if (error.status === 401) {
-            navigate("/logout");
+        if (isMounted.current) {
+          if (error.name !== "AbortError") {
+            setError(error.message);
+            if (error.status === 401) {
+              navigate("/logout");
+            }
           }
+        }
+      } finally {
+        if (isMounted.current) {
+          setLoading(false);
         }
       }
     };
 
     fetchData();
 
-    return () => abortController.abort();
+    return () => {
+      isMounted.current = false;
+    };
   }, [navigate, url]);
 
   return { data, error, loading };

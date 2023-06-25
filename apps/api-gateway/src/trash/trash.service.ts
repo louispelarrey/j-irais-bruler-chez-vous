@@ -7,6 +7,7 @@ import { Multer } from 'multer';
 
 @Injectable()
 export class TrashService {
+
   constructor(
     @Inject('TRASH') private readonly trashClient: ClientProxy,
     @Inject('USER') private readonly userClient: ClientProxy
@@ -55,9 +56,27 @@ export class TrashService {
     );
   }
 
-  async takeTrash(id: string, sub: string) {
+  async takeContract(id: string, sub: any) {
     return await lastValueFrom(
-      this.trashClient.send('takeTrash', {
+      this.trashClient.send('takeContract', {
+        id,
+        burnerId: sub,
+      })
+    );
+  }
+
+  async remove(id: string, sub: any) {
+    return await lastValueFrom(
+      this.trashClient.send('remove', {
+        id,
+        burnerId: sub,
+      })
+    );
+  }
+
+  async removeBurner(id: string, sub: any) {
+    return await lastValueFrom(
+      this.trashClient.send('removeBurner', {
         id,
         burnerId: sub,
       })

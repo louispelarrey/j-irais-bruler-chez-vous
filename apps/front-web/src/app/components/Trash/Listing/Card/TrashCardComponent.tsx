@@ -68,11 +68,8 @@ export const CardComponent = ({
         </CardContent>
         <Divider light />
         <CardActions>
-          <Button component={Link} to={`/trash/${trashId}`} size="small">
+          <Button component={Link} to={`/posting/${trashId}`} size="small">
             Voir
-          </Button>
-          <Button component={Link} size="small">
-            Prendre le contrat
           </Button>
         </CardActions>
       </Card>

@@ -4,7 +4,7 @@ import { CardComponent } from './Card/TrashCardComponent';
 import { UseFormRegister } from 'react-hook-form';
 import { StyledTrashListingComponent } from './TrashListingComponent.style';
 
-interface List {
+export interface List {
   id: string;
   reference: string;
   description: string;
