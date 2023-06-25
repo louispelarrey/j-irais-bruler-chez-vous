@@ -10,6 +10,7 @@ import {
   CardContent,
   Divider,
   IconButton,
+  Paper,
   Typography,
 } from '@mui/material';
 import { ShowOnMap } from './Map/ShowOnMap';
@@ -65,143 +66,148 @@ export const ContractView: React.FC<ContractViewProps> = ({
   children,
 }) => {
   return (
-    <StyledImageDescription>
-      <IconButton
-        component={Link}
-        to="/posting"
-        color="primary"
-        sx={{
-          position: 'absolute',
-          marginTop: '2rem',
-          marginLeft: '2rem',
-          zIndex: 2,
-          borderRadius: '50%',
-          border: '1px solid white',
-          backgroundColor: '#121212',
-          opacity: '0.92',
-          color: 'white',
-          scale: '1.4',
-          ':hover': {
-            opacity: '1',
-            backgroundColor: '#121212',
-            transform: 'scale(1.2)',
-            transition: 'all 0.2s ease-in-out',
-          },
-        }}
-      >
-        <ArrowBackIcon />
-      </IconButton>
-      <StyledImageViewer src={fileImageUrl} alt={reference} />
-      <Card>
-        <CardContent>
-          <Typography variant="h4">{reference}</Typography>
-          <Typography variant="body1">{description}</Typography>
-          <Typography variant="body1" color="text.secondary">
-            {new Date(updatedAt).toLocaleDateString('fr-FR', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-              hour: 'numeric',
-            })}
-          </Typography>
-        </CardContent>
-        <Divider light />
-        <CardContent
+    <>
+      <StyledImageDescription>
+        <IconButton
+          component={Link}
+          to="/posting"
+          color="primary"
           sx={{
-            marginTop: '-20px',
+            position: 'absolute',
+            marginTop: '2rem',
+            marginLeft: '2rem',
+            zIndex: 2,
+            borderRadius: '50%',
+            border: '1px solid white',
+            backgroundColor: '#121212',
+            opacity: '0.92',
+            color: 'white',
+            scale: '1.33',
+            ':hover': {
+              opacity: '1',
+              backgroundColor: '#121212',
+              transform: 'scale(1.2)',
+              transition: 'all 0.2s ease-in-out',
+            },
           }}
         >
-          <ShowOnMap address={address} />
-          <Typography
-            variant="body1"
-            color="text.secondary"
+          <ArrowBackIcon />
+        </IconButton>
+        <StyledImageViewer src={fileImageUrl} alt={reference} />
+        <Card>
+          <CardContent>
+            <Typography variant="h4">{reference}</Typography>
+            <Typography variant="body1">{description}</Typography>
+            <Typography variant="body1" color="text.secondary">
+              {new Date(updatedAt).toLocaleDateString('fr-FR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: 'numeric',
+              })}
+            </Typography>
+          </CardContent>
+          <Divider light />
+          <CardContent
             sx={{
-              textAlign: 'center',
-              marginTop: '0.6rem',
+              marginTop: '-20px',
             }}
           >
-            {address}
-          </Typography>
-        </CardContent>
-        <Divider light />
-        <CardActions
-          sx={{
-            justifyContent: 'center',
-            margin: '0.6rem',
-          }}
-        >
-          {isCreator && (
-            <Button
-              size="small"
-              variant="contained"
-              color="error"
+            <ShowOnMap address={address} />
+            <Typography
+              variant="body1"
+              color="text.secondary"
               sx={{
-                width: '100%',
-                padding: '0.6rem',
-                borderRadius: '2rem',
+                textAlign: 'center',
+                marginTop: '0.6rem',
               }}
-              onClick={onContractDeleted(reference)}
             >
-              <Typography variant="body1">Supprimer le contrat</Typography>
-            </Button>
+              {address}
+            </Typography>
+          </CardContent>
+          <Divider light />
+          {(isCreator || isContractTaken) && (
+            <>
+              <Divider light />
+              <CardContent>{children}</CardContent>
+            </>
           )}
-          {isContractTaken && (
-            <Button
-              size="small"
-              variant="contained"
-              color="error"
-              sx={{
-                width: '100%',
-                padding: '0.6rem',
-                borderRadius: '2rem',
-              }}
-              onClick={onContractCanceled(reference)}
-            >
-              <Typography variant="body1">
-                Annuler la prise en charge
-              </Typography>
-            </Button>
-          )}
-          {!isCreator && !isContractTaken && (
-            <Button
-              size="small"
-              variant="contained"
-              sx={{
-                width: '100%',
-                padding: '0.6rem',
-                borderRadius: '2rem',
-              }}
-              onClick={onContractTaken(reference)}
-            >
-              <Typography variant="body1">
-                Prendre le contrat en charge !
-              </Typography>
-            </Button>
-          )}
-        </CardActions>
-        {(isCreator || isContractTaken) && (
-          <>
-            <Divider light />
-            <CardContent>{children}</CardContent>
-          </>
+          <Divider light />
+          <CardContent>
+            <Typography variant="body1" color="text.secondary">
+              Publié par : {posterId.username}
+            </Typography>
+            <Typography variant="body1" color="text.secondary">
+              <Link
+                to={`/profile/${posterId.id}`}
+                style={{
+                  color: 'inherit',
+                }}
+              >
+                Voir le profil de l'utilisateur
+              </Link>
+            </Typography>
+          </CardContent>
+        </Card>
+      </StyledImageDescription>
+      <Paper
+        style={{
+          position: 'sticky',
+          bottom: '0',
+          width: '100%',
+          padding: '1rem',
+          borderRadius: '0',
+          borderTop: '1px solid rgba(255, 255, 255, 0.8)',
+          zIndex: 99999,
+        }}
+      >
+        {isCreator && (
+          <Button
+            size="small"
+            variant="contained"
+            color="error"
+            sx={{
+              width: '100%',
+              padding: '0.6rem',
+              borderRadius: '2rem',
+            }}
+            onClick={onContractDeleted(reference)}
+          >
+            <Typography variant="body1">Supprimer le contrat</Typography>
+          </Button>
         )}
-        <Divider light />
-        <CardContent>
-          <Typography variant="body1" color="text.secondary">
-            Publié par : {posterId.username}
-          </Typography>
-          <Typography variant="body1" color="text.secondary">
-            <Link
-              to={`/profile/${posterId.id}`}
-              style={{
-                color: 'inherit',
-              }}
-            >
-              Voir le profil de l'utilisateur
-            </Link>
-          </Typography>
-        </CardContent>
-      </Card>
-    </StyledImageDescription>
+        {isContractTaken && (
+          <Button
+            size="small"
+            variant="contained"
+            color="error"
+            sx={{
+              width: '100%',
+              padding: '0.6rem',
+              borderRadius: '2rem',
+            }}
+            onClick={onContractCanceled(reference)}
+          >
+            <Typography variant="body1">Annuler la prise en charge</Typography>
+          </Button>
+        )}
+        {!isCreator && !isContractTaken && (
+          <Button
+            size="small"
+            variant="contained"
+            sx={{
+              width: '100%',
+              padding: '0.6rem',
+              borderRadius: '2rem',
+            }}
+            onClick={onContractTaken(reference)}
+          >
+            <Typography variant="body1">
+              Prendre le contrat en charge !
+            </Typography>
+          </Button>
+        )}
+      </Paper>
+    </>
   );
 };
