@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 
 import { Link } from 'react-router-dom';
 import { StyledImageViewer } from './Image/ImageViewer.style';
@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import { ShowOnMap } from './Map/ShowOnMap';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Chat } from '../../../containers/Chat/Chat';
 
 interface ContractData {
   id: string;
@@ -36,7 +37,10 @@ interface ContractData {
 
 interface ContractViewProps {
   data: ContractData;
+  isCreator: boolean;
+  isContractTaken: boolean;
   onContractTaken: (uuid: string) => () => void;
+  children: ReactElement<typeof Chat>;
 }
 
 export const ContractView: React.FC<ContractViewProps> = ({
@@ -48,16 +52,20 @@ export const ContractView: React.FC<ContractViewProps> = ({
     fileImageUrl,
     createdAt,
     updatedAt,
+    burners,
+    isBurned,
   },
-  onContractTaken
+  onContractTaken,
+  isCreator,
+  isContractTaken,
+  children,
 }) => {
   return (
-      <StyledImageDescription>
+    <StyledImageDescription>
       <IconButton
         component={Link}
         to="/posting"
-        color='primary'
-
+        color="primary"
         sx={{
           position: 'absolute',
           marginTop: '2rem',
@@ -69,7 +77,7 @@ export const ContractView: React.FC<ContractViewProps> = ({
           opacity: '0.95',
           color: 'rgb(144, 202, 249)',
           scale: '1.4',
-          ":hover": {
+          ':hover': {
             opacity: '1',
             backgroundColor: '#121212',
             transform: 'scale(1.2)',
@@ -79,45 +87,77 @@ export const ContractView: React.FC<ContractViewProps> = ({
       >
         <ArrowBackIcon />
       </IconButton>
-        <StyledImageViewer src={fileImageUrl} alt={reference} />
-        <Card>
-          <CardContent>
-            <Typography variant="h4">{reference}</Typography>
-            <Typography variant="body1">{description}</Typography>
-            <Typography variant="body1" color="text.secondary">
-              {new Date(updatedAt).toLocaleDateString('fr-FR', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: 'numeric',
-              })}
-            </Typography>
-          </CardContent>
-          <Divider light />
-          <CardContent
+      <StyledImageViewer src={fileImageUrl} alt={reference} />
+      <Card>
+        <CardContent>
+          <Typography variant="h4">{reference}</Typography>
+          <Typography variant="body1">{description}</Typography>
+          <Typography variant="body1" color="text.secondary">
+            {new Date(updatedAt).toLocaleDateString('fr-FR', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+              hour: 'numeric',
+            })}
+          </Typography>
+        </CardContent>
+        <Divider light />
+        <CardContent
+          sx={{
+            marginTop: '-20px',
+          }}
+        >
+          <ShowOnMap address={address} />
+          <Typography
+            variant="body1"
+            color="text.secondary"
             sx={{
-              marginTop: '-20px',
+              textAlign: 'center',
+              marginTop: '0.6rem',
             }}
           >
-            <ShowOnMap address={address} />
-            <Typography
-              variant="body1"
-              color="text.secondary"
+            {address}
+          </Typography>
+        </CardContent>
+        <Divider light />
+        <CardActions
+          sx={{
+            justifyContent: 'center',
+            margin: '0.6rem',
+          }}
+        >
+          {isCreator && (
+            <Button
+              size="small"
+              variant="contained"
+              color="error"
               sx={{
-                textAlign: 'center',
-                marginTop: '0.6rem',
+                width: '100%',
+                padding: '0.6rem',
+                borderRadius: '2rem',
+              }}
+              disabled
+            >
+              <Typography variant="body1">Supprimer le contrat</Typography>
+            </Button>
+          )}
+          {isContractTaken && (
+            <Button
+              size="small"
+              variant="contained"
+              color="error"
+              sx={{
+                width: '100%',
+                padding: '0.6rem',
+                borderRadius: '2rem',
               }}
             >
-              {address}
-            </Typography>
-          </CardContent>
-          <Divider light />
-          <CardActions
-            sx={{
-              justifyContent: 'center',
-              margin: '0.6rem',
-            }}
-          >
+              <Typography variant="body1">
+                Annuler la prise en charge
+              </Typography>
+            </Button>
+          )}
+          {!isCreator && !isContractTaken && (
             <Button
               size="small"
               variant="contained"
@@ -132,24 +172,31 @@ export const ContractView: React.FC<ContractViewProps> = ({
                 Prendre le contrat en charge !
               </Typography>
             </Button>
-          </CardActions>
-          <Divider light />
-          <CardContent>
-            <Typography variant="body1" color="text.secondary">
-              Publié par : {posterId.username}
-            </Typography>
-            <Typography variant="body1" color="text.secondary">
-              <Link
-                to={`/profile/${posterId.id}`}
-                style={{
-                  color: 'inherit',
-                }}
-              >
-                Voir le profil de l'utilisateur
-              </Link>
-            </Typography>
-          </CardContent>
-        </Card>
-      </StyledImageDescription>
+          )}
+        </CardActions>
+        {(isCreator || isContractTaken) && (
+          <>
+            <Divider light />
+            <CardContent>{children}</CardContent>
+          </>
+        )}
+        <Divider light />
+        <CardContent>
+          <Typography variant="body1" color="text.secondary">
+            Publié par : {posterId.username}
+          </Typography>
+          <Typography variant="body1" color="text.secondary">
+            <Link
+              to={`/profile/${posterId.id}`}
+              style={{
+                color: 'inherit',
+              }}
+            >
+              Voir le profil de l'utilisateur
+            </Link>
+          </Typography>
+        </CardContent>
+      </Card>
+    </StyledImageDescription>
   );
 };

@@ -12,7 +12,7 @@ interface ChatComponentProps {
   register: any;
   userId?: string | null;
   scrollTarget: MutableRefObject<any>;
-  heightPercentage: number;
+  heightVh: number;
   widthPercentage: number;
 }
 
@@ -22,11 +22,11 @@ export const ChatComponent = ({
   register,
   userId,
   scrollTarget,
-  heightPercentage,
+  heightVh,
   widthPercentage,
 }: ChatComponentProps) => {
   return (
-    <StyledChat heightPercentage={heightPercentage} widthPercentage={widthPercentage}>
+    <StyledChat heightVh={heightVh} widthPercentage={widthPercentage}>
       <Grid container component={Paper} className="chatSection">
         <Grid item xs={12}>
           <List className="messageArea">
