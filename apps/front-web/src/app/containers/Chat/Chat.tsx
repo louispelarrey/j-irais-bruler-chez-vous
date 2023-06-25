@@ -1,9 +1,15 @@
 import { ChatComponent } from '../../components/Chat/ChatComponent';
 import { useChat } from '../../hooks/useChat';
 
-export const Chat = () => {
+interface ChatProps {
+  roomName?: string;
+  widthPercentage?: number;
+  heightVh?: number;
+}
+
+export const Chat = ({roomName, widthPercentage, heightVh}: ChatProps) => {
   const { messages, userId, scrollTarget, handleSubmit, register, sendMessage } = useChat({
-    roomName: 'default',
+    roomName: roomName ?? 'default',
   });
 
   return (
@@ -13,8 +19,8 @@ export const Chat = () => {
       register={register}
       userId={userId}
       scrollTarget={scrollTarget}
-      heightPercentage={100}
-      widthPercentage={100}
+      heightVh={heightVh ?? 100}
+      widthPercentage={widthPercentage ?? 100}
     />
   );
 };
