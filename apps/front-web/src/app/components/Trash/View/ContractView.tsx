@@ -40,6 +40,8 @@ interface ContractViewProps {
   isCreator: boolean;
   isContractTaken: boolean;
   onContractTaken: (uuid: string) => () => void;
+  onContractCanceled: (uuid: string) => () => void;
+  onContractDeleted: (uuid: string) => () => void;
   children: ReactElement<typeof Chat>;
 }
 
@@ -56,6 +58,8 @@ export const ContractView: React.FC<ContractViewProps> = ({
     isBurned,
   },
   onContractTaken,
+  onContractCanceled,
+  onContractDeleted,
   isCreator,
   isContractTaken,
   children,
@@ -74,7 +78,7 @@ export const ContractView: React.FC<ContractViewProps> = ({
           borderRadius: '50%',
           border: '1px solid rgb(144, 202, 249)',
           backgroundColor: '#121212',
-          opacity: '0.95',
+          opacity: '0.9',
           color: 'rgb(144, 202, 249)',
           scale: '1.4',
           ':hover': {
@@ -136,7 +140,7 @@ export const ContractView: React.FC<ContractViewProps> = ({
                 padding: '0.6rem',
                 borderRadius: '2rem',
               }}
-              disabled
+              onClick={onContractDeleted(reference)}
             >
               <Typography variant="body1">Supprimer le contrat</Typography>
             </Button>
@@ -151,6 +155,7 @@ export const ContractView: React.FC<ContractViewProps> = ({
                 padding: '0.6rem',
                 borderRadius: '2rem',
               }}
+              onClick={onContractCanceled(reference)}
             >
               <Typography variant="body1">
                 Annuler la prise en charge

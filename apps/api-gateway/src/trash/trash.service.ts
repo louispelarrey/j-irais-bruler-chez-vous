@@ -64,4 +64,22 @@ export class TrashService {
       })
     );
   }
+
+  async remove(id: string, sub: any) {
+    return await lastValueFrom(
+      this.trashClient.send('remove', {
+        id,
+        burnerId: sub,
+      })
+    );
+  }
+
+  async removeBurner(id: string, sub: any) {
+    return await lastValueFrom(
+      this.trashClient.send('removeBurner', {
+        id,
+        burnerId: sub,
+      })
+    );
+  }
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Param, ParseFilePipeBuilder, Patch, Post, Put, Request, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, ParseFilePipeBuilder, Patch, Post, Put, Request, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { TrashService } from './trash.service';
 import { Public } from '../authentication/decorators/public.decorator';
 import { TrashDto } from './dto/trash.dto';
@@ -58,5 +58,15 @@ export class TrashController {
   @Post(':id/contract')
   takeContract(@Param('id') id: string, @Request() req: any) {
     return this.trashService.takeContract(id, req.user.sub);
+  }
+
+  @Delete(':id/contract')
+  removeBurner(@Param('id') id: string, @Request() req: any) {
+    return this.trashService.removeBurner(id, req.user.sub);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string, @Request() req: any) {
+    return this.trashService.remove(id, req.user.sub);
   }
 }
