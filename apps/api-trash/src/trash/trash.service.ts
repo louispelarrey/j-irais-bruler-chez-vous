@@ -46,7 +46,6 @@ export class TrashService {
         })
       );
     }
-    console.log(trash.burners);
 
     return trash;
   }
@@ -70,7 +69,7 @@ export class TrashService {
     return this.trashRepository.save(trash);
   }
 
-  async takeTrash(id: string, burnerId: string): Promise<Trash> {
+  async takeContract(id: string, burnerId: string): Promise<Trash> {
     const trash = await this.trashRepository.findOne({ where: { id } });
     if (trash.posterId === burnerId) {
       throw new HttpException(
@@ -79,6 +78,29 @@ export class TrashService {
       );
     }
     trash.burners.push(burnerId);
+    return this.trashRepository.save(trash);
+  }
+
+  async remove(id: string, burnerId: string): Promise<Trash> {
+    const trash = await this.trashRepository.findOne({ where: { id } });
+    if (trash.posterId !== burnerId) {
+      throw new HttpException(
+        'Seul le créateur peut supprimer la poubelle',
+        HttpStatus.BAD_REQUEST
+      );
+    }
+    return this.trashRepository.remove(trash);
+  }
+
+  async removeBurner(id: string, burnerId: string): Promise<Trash> {
+    const trash = await this.trashRepository.findOne({ where: { id } });
+    if (trash.posterId !== burnerId && !trash.burners.includes(burnerId)) {
+      throw new HttpException(
+        'Seuls le créateur ou le bruleur peuvent annuler le contrat',
+        HttpStatus.BAD_REQUEST
+      );
+    }
+    trash.burners = trash.burners.filter((burner) => burner !== burnerId);
     return this.trashRepository.save(trash);
   }
 }

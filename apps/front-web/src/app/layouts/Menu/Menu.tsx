@@ -28,10 +28,6 @@ export const Menu = () => {
             </>
           ) : (
             <>
-              <StyledLink to="/chat" className="menu-link">
-                <Button>Chat</Button>
-              </StyledLink>
-
               <StyledLink to="/posting" className="menu-link">
                 <Button>Annonces</Button>
               </StyledLink>
