@@ -33,8 +33,8 @@ export class TrashController {
     return this.trashService.update(updateTrashDto.id, updateTrashDto);
   }
 
-  @MessagePattern('takeTrash')
-  async takeTrash(@Payload() { id, burnerId }: { id: string, burnerId: string }): Promise<Trash> {
-    return this.trashService.takeTrash(id, burnerId);
+  @MessagePattern('takeContract')
+  async takeContract(@Payload() { id, burnerId }: { id: string, burnerId: string }): Promise<Trash> {
+    return this.trashService.takeContract(id, burnerId);
   }
 }

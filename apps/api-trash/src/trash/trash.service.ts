@@ -69,7 +69,7 @@ export class TrashService {
     return this.trashRepository.save(trash);
   }
 
-  async takeTrash(id: string, burnerId: string): Promise<Trash> {
+  async takeContract(id: string, burnerId: string): Promise<Trash> {
     const trash = await this.trashRepository.findOne({ where: { id } });
     if (trash.posterId === burnerId) {
       throw new HttpException(

@@ -11,19 +11,16 @@ export class TrashController {
   constructor(private readonly trashService: TrashService) {}
 
   @Get()
-  @Public()
   findAll() {
     return this.trashService.findAll();
   }
 
   @Get(':id')
-  @Public()
   findOne(@Param('id') id: string) {
     return this.trashService.findOne(id);
   }
 
   @Get('myTrash/:posterId')
-  @Public()
   findAllByUser(@Param('posterId') posterId: string) {
     return this.trashService.findAllByUser(posterId);
   }
@@ -58,8 +55,8 @@ export class TrashController {
     return this.trashService.update(id, updateTrashDto);
   }
 
-  @Patch(':id')
-  takeTrash(@Request() req: any, @Param('id') id: string) {
-    return this.trashService.takeTrash(id, req.user.sub);
+  @Post(':id/contract')
+  takeContract(@Param('id') id: string, @Request() req: any) {
+    return this.trashService.takeContract(id, req.user.sub);
   }
 }

@@ -12,7 +12,6 @@ import {
   IconButton,
   Typography,
 } from '@mui/material';
-import { MapComponent } from '../../Map/MapComponent';
 import { ShowOnMap } from './Map/ShowOnMap';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
@@ -37,6 +36,7 @@ interface ContractData {
 
 interface ContractViewProps {
   data: ContractData;
+  onContractTaken: (uuid: string) => () => void;
 }
 
 export const ContractView: React.FC<ContractViewProps> = ({
@@ -49,6 +49,7 @@ export const ContractView: React.FC<ContractViewProps> = ({
     createdAt,
     updatedAt,
   },
+  onContractTaken
 }) => {
   return (
       <StyledImageDescription>
@@ -118,8 +119,6 @@ export const ContractView: React.FC<ContractViewProps> = ({
             }}
           >
             <Button
-              component={Link}
-              to={`/posting/${reference}`}
               size="small"
               variant="contained"
               sx={{
@@ -127,6 +126,7 @@ export const ContractView: React.FC<ContractViewProps> = ({
                 padding: '0.6rem',
                 borderRadius: '2rem',
               }}
+              onClick={onContractTaken(reference)}
             >
               <Typography variant="body1">
                 Prendre le contrat en charge !
