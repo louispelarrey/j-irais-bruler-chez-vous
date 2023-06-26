@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
-import { Card, CardHeader, Typography, CardMedia, CardContent, CardActions, Collapse } from '@mui/material';
+import { Card, CardHeader, Typography, CardMedia, CardContent, CardActions, Collapse, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import useGet from '../../hooks/useGet';
-import { ChatComponent } from '../../components/Chat/ChatComponent';
+import { Chat } from '../Chat/Chat';
 import { useChat } from '../../hooks/useChat';
 
 
@@ -97,57 +97,66 @@ export const Manifestation = () => {
 
   return (
     <div>
-    <Card sx={{ maxWidth: 345 }}>
-      <CardHeader
-        title = {currentManifestation.title}
-        subheader = {currentManifestation.start_date}
-      />
-    <CardMedia
-      component="img"
-      height="194"
-      image="https://picsum.photos/200/300"
-      alt="Paella dish"
-    />
-    <CardContent>
-      <Typography variant="body2" color="text.secondary">
-        {currentManifestation.description}
-      </Typography>
-    </CardContent>
-    <CardActions disableSpacing>
-      {previousManifestation && (
-        <IconButton aria-label="before" onClick={handlePreviousManifestation}>
-          <KeyboardDoubleArrowLeftIcon />
-        </IconButton>
-      )}
-      {nextManifestation && (
-        <IconButton aria-label="next" onClick={handleNextManifestation}>
-          <KeyboardDoubleArrowRightIcon />
-        </IconButton>
-      )}
-      <ExpandMore
-          expand={expanded}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show chat"
-        >
-        <ExpandMoreIcon/>
-      </ExpandMore>
-    </CardActions>
-    <Collapse in={expanded} timeout="auto" unmountOnExit>
-      <CardContent>
-        <Typography paragraph>Chat :</Typography>
-        <ChatComponent
-          messages={messages}
-          handleSubmit={handleSubmit(sendMessage)}
-          register={register}
-          userId={userId}
-          scrollTarget={scrollTarget}
-          heightPercentage={90}
-          widthPercentage={100}
+      <Card sx={{ width: '100%' }}>
+        <CardMedia
+          component="img"
+          height="194"
+          image="https://picsum.photos/200/300"
+          alt="Paella dish"
         />
+        <CardHeader
+          title = {currentManifestation.title}
+          subheader = {
+            new Date(currentManifestation.start_date).toLocaleDateString('fr-FR', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+              hour: 'numeric',
+            })}
+        />
+        <CardContent>
+          <Typography variant="body2" color="text.secondary">
+            {currentManifestation.description}
+          </Typography>
         </CardContent>
-    </Collapse>
-    </Card>
+        <CardActions disableSpacing sx={{ justifyContent: 'center' }}>
+          {previousManifestation && (
+            <React.Fragment>
+              <IconButton aria-label="before" onClick={handlePreviousManifestation}>
+                <KeyboardDoubleArrowLeftIcon />
+              </IconButton>
+              <Button variant="text" color="primary" onClick={handlePreviousManifestation}>
+                Précédent
+              </Button>
+            </React.Fragment>
+          )}
+          {nextManifestation && (
+            <React.Fragment>
+              <Button variant="text" color="primary" onClick={handleNextManifestation}>
+                Suivant
+              </Button>
+              <IconButton aria-label="next" onClick={handleNextManifestation}>
+                <KeyboardDoubleArrowRightIcon />
+              </IconButton>
+            </React.Fragment>
+          )}
+          <div style={{ flex: 1 }}></div>
+          <ExpandMore
+              expand={expanded}
+              onClick={handleExpandClick}
+              aria-expanded={expanded}
+              aria-label="show chat"
+            >
+            <Typography>Discuter</Typography>
+            <ExpandMoreIcon/>
+          </ExpandMore>
+        </CardActions>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <CardContent>
+            <Chat roomName={currentManifestation.id} heightVh={50}/>
+            </CardContent>
+        </Collapse>
+      </Card>
     </div>
   );
 };

@@ -60,9 +60,7 @@ export function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/posting" element={<Protected><ListTrash/></Protected>} />
             <Route path="/posting/:id" element={<Protected><ShowSpecific/></Protected>} />
-            <Route path="/chat" element={<Protected><Chat /></Protected>} />
             <Route path="/trash" element={<Protected><ListTrash/></Protected>} />
-            <Route path="/trash/:id" element={<Protected><ShowTrash/></Protected>} />
             <Route path="/manifestation" element={<Protected><ListManifestation/></Protected>} />
             <Route path="/manifestation/:id" element={<Protected><ShowManifestation/></Protected>} />
             <Route path="*" element={<div>404</div>} />
