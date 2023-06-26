@@ -6,6 +6,7 @@ import { JwtAuthGuard } from '../authentication/guards/jwt-auth.guard';
 import { RoleGuard } from '../user/role/guard/role.guard';
 import { MessageModule } from '../message/message/message.module';
 import { TrashModule } from '../trash/trash.module';
+import {ManifestationModule} from "../manifestation/manifestation.module";
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { TrashModule } from '../trash/trash.module';
     UsersModule,
     MessageModule,
     TrashModule,
+    ManifestationModule,
     ClientsModule.register([
       {
         name: 'AUTHENTICATION',
@@ -44,6 +46,14 @@ import { TrashModule } from '../trash/trash.module';
         options: {
           host: process.env.TCP_TRASH_HOST,
           port: 3003,
+        },
+      },
+      {
+        name: 'MANIFESTATION',
+        transport: Transport.TCP,
+        options: {
+          host: process.env.TCP_MANIFESTATION_HOST,
+          port: 3004,
         },
       },
     ])
