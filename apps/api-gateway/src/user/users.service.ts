@@ -1,6 +1,7 @@
 import { CreateUserDto } from '@j-irais-bruler-chez-vous/user/feature';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
+import { lastValueFrom } from "rxjs";
 
 @Injectable()
 export class UsersService {
@@ -10,6 +11,12 @@ export class UsersService {
 
   findAll() {
     return this.userClient.send('findAll', {});
+  }
+
+  async profil(sub: string) {
+    return await lastValueFrom(
+      this.userClient.send('profil', sub)
+    );
   }
 
   createUser(createUserDto: CreateUserDto) {
