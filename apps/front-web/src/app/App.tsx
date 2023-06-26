@@ -12,6 +12,7 @@ const Login = lazy(() => import('./containers/Login/Login').then(module => ({ de
 const Logout = lazy(() => import('./containers/Logout/Logout').then(module => ({ default: module.Logout })));
 const Protected = lazy(() => import('./containers/Protected/Protected').then(module => ({ default: module.Protected })));
 const Register = lazy(() => import('./containers/Register/Register').then(module => ({ default: module.Register })));
+const Profile = lazy(() => import('./containers/Profile/Profile').then(module => ({ default: module.Profile })));
 const ShowSpecific = lazy(() => import('./containers/Trash/ShowSpecific').then(module => ({ default: module.ShowSpecific })));
 const ListTrash = lazy(() => import('./containers/Trash/List').then(module => ({ default: module.Trashs })));
 const ShowManifestation = lazy(() => import('./containers/Manifestation/Show').then(module => ({ default: module.Manifestation })));
@@ -58,6 +59,7 @@ export function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/logout" element={<Logout />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/profile" element={<Protected><Profile/></Protected>} />
             <Route path="/posting" element={<Protected><ListTrash/></Protected>} />
             <Route path="/posting/:id" element={<Protected><ShowSpecific/></Protected>} />
             <Route path="/trash" element={<Protected><ListTrash/></Protected>} />

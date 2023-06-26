@@ -66,6 +66,7 @@ export class UsersService {
     return user;
   }
 
+
   /**
    * Find all users
    *
@@ -74,6 +75,15 @@ export class UsersService {
   async findAll(): Promise<Users[]> {
     return await this.userRepository.find();
   }
+
+  /** Profil User
+   * 
+   * @param {string} sub
+   * @returns {Promise<User>} Promise User Profil
+   */
+    async profil(id: string): Promise<Users> {
+      return await this.userRepository.findOne({ where: { id } });
+    }
 
   /**
    * Creates User
@@ -88,8 +98,6 @@ export class UsersService {
     user.password = await bcrypt.hash(createUserDto.password, 10);
     return this.userRepository.save(user);
   }
-
-
 
   /**
    * Update User

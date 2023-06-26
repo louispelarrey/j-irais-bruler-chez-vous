@@ -20,6 +20,11 @@ export class UsersController {
     return this.userService.findOne(id);
   }
 
+  @MessagePattern('profil')
+  async profil(@Payload() sub: string): Promise<Users> {
+    return this.userService.profil(sub);
+  }
+
   @MessagePattern('createUser')
   handleCreateUser(@Payload() createUserDto: CreateUserDto): Promise<Users> {
     return this.userService.createUser(createUserDto);

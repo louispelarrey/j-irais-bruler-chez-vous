@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards, Request } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { Roles } from './role/decorators/role.decorator';
 import { Public } from '../authentication/decorators/public.decorator';
@@ -49,6 +49,11 @@ export class UsersController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.userService.findOne(id);
+  }
+
+  @Post('/me')
+  profil(@Request() req: any) {
+    return this.userService.profil(req.user.sub);
   }
 
   @Post()
