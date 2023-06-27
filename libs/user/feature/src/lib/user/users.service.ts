@@ -98,11 +98,9 @@ export class UsersService {
    * @returns {Promise<Users>} Promise User Updated
    */
   async updateUser(id: string, updateUserDto: UpdateUserDto): Promise<Users> {
-    const user = await this.userRepository.findOneBy({ id });
+    const user = await this.userRepository.findOne({ where: { id } });
     user.username = updateUserDto.username;
-    user.email = updateUserDto.email;
-    user.password = await bcrypt.hash(updateUserDto.password, 10);
-    return this.userRepository.save(user);
+    return await this.userRepository.save(user);
   }
 
   /**
@@ -113,8 +111,6 @@ export class UsersService {
    */
   async deleteUser(id: string): Promise<Users> {
     const user = await this.userRepository.findOneBy({ id });
-    if(!user) throw new NotFoundException('User not found');
-
     return this.userRepository.remove(user);
   }
 

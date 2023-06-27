@@ -1,17 +1,32 @@
-import { Box, Typography, Stack } from '@mui/material';
+import { Box, Typography, Stack, Button, Modal, TextField } from '@mui/material';
+import { useState } from 'react';
+import { UseFormRegister } from 'react-hook-form';
 
 interface UserData {
   email: string;
   username: string;
 }
 
-export const ProfileComponent = ({ data }: { data: UserData }) => {
+interface IProfileComponent {
+  data: any;
+  onSubmit: any;
+  register: UseFormRegister<UserData>;
+}
 
+export const ProfileComponent = ({
+  data,
+  onSubmit,
+  register
+}: IProfileComponent) =>{
   const statistics = {
     trash: 30,
     manifestation: 10,
     notation: 3
   };
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', p: 2 }}>
@@ -50,6 +65,23 @@ export const ProfileComponent = ({ data }: { data: UserData }) => {
           </Box>
         </Stack>
       </Box>
+      <Button variant="outlined" onClick={handleOpen} sx={{ mt: 2 }}>
+        Modifier
+      </Button>
+
+      <Modal open={open} onClose={handleClose} aria-labelledby="modal-title">
+        <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', bgcolor: '#000000', p: 4, borderRadius: '8px', outline: 'none' }}>
+          <Typography variant="h5" component="h2" mb={3}>
+            Modifier le profil
+          </Typography>
+          <form onSubmit={onSubmit}>
+            <TextField label="Pseudo" defaultValue={data?.username} fullWidth margin="normal" required {...register('username')} />
+            <Button type="submit" variant="contained" sx={{ mt: 2 }}>
+              Enregistrer
+            </Button>
+          </form>
+        </Box>
+      </Modal>
     </Box>
   );
 };
