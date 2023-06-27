@@ -20,25 +20,25 @@ export const Profile = () => {
   const onSubmit = async ({
     username
   }: UserData) => {
-
-    const formData = new FormData();
-    formData.append('username', username);
-
-    const response = await fetch(`/api/users/${userId}`, {
-      method: 'PUT',
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-      body: formData,
+    const response = await fetch(`
+      ${import.meta.env.VITE_APP_BACKEND_URL}/api/users/${userId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify({
+          username
+      }),
     });
     const data = await response.json();
 
     if (data.statusCode === 401) {
-      // navigate('/logout');
-      navigate(`/users/${userId}`);
+      navigate('/logout');
     }
     if (data.id) {
-      navigate(`/users/${userId}`);
+      navigate('/logout');
     }
   };
 
