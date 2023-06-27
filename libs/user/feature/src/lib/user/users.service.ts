@@ -76,15 +76,6 @@ export class UsersService {
     return await this.userRepository.find();
   }
 
-  /** Profil User
-   * 
-   * @param {string} sub
-   * @returns {Promise<User>} Promise User Profil
-   */
-    async profil(id: string): Promise<Users> {
-      return await this.userRepository.findOne({ where: { id } });
-    }
-
   /**
    * Creates User
    *
