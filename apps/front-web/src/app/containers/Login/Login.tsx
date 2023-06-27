@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { LoginComponent } from '../../components/Login/LoginComponent';
 import { UserContext } from '../../contexts/UserContext';
+import getUserRoleFromToken from '../../utils/user/getUserRoleFromToken';
 
 export interface LoginData {
   email: string;
@@ -36,7 +37,12 @@ export const Login = () => {
 
     if (data.access_token) {
       setToken(data.access_token);
-      navigate('/');
+      const role = getUserRoleFromToken(localStorage.getItem('token') ?? '');
+      if (role?.includes('ADMIN')) {
+        navigate('/admin');
+      } else {
+        navigate('/');
+      }
     }
   };
 
