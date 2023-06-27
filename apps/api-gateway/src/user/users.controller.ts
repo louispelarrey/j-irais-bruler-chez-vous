@@ -1,10 +1,11 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards, Request } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { Roles } from './role/decorators/role.decorator';
 import { Public } from '../authentication/decorators/public.decorator';
 import { UserIsAllowedChange } from './guard/user-is-allow-change.guard';
 import { Role } from '@j-irais-bruler-chez-vous/shared';
 import { CreateUserDto } from '@j-irais-bruler-chez-vous/user/feature';
+import { UpdateUserDto } from '@j-irais-bruler-chez-vous/user/feature';
 
 @Controller('users')
 export class UsersController {
@@ -47,6 +48,7 @@ export class UsersController {
   }
 
   @Get(':id')
+  @Public()
   findOne(@Param('id') id: string) {
     return this.userService.findOne(id);
   }
@@ -59,7 +61,8 @@ export class UsersController {
 
   @Put(':id')
   @UseGuards(UserIsAllowedChange)
-  updateUser(@Param('id') id: string, @Body() updateUserDto: CreateUserDto) {
+  updateUser(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    console.log('updateUserDto cntroller', updateUserDto);
     return this.userService.updateUser(id, updateUserDto);
   }
 

@@ -19,6 +19,10 @@ export const Menu = () => {
           {!token ? (
             <>
               <StyledLink to="/register" className="menu-link">
+                <Button>Manifestations</Button>
+              </StyledLink>
+
+              <StyledLink to="/register" className="menu-link">
                 <Button>Inscription</Button>
               </StyledLink>
 
@@ -36,6 +40,10 @@ export const Menu = () => {
                 <Button>Manifestations</Button>
               </StyledLink>
               
+              <StyledLink to="/profile" className="menu-link">
+                <Button>Profil</Button>
+              </StyledLink>
+
               <Button onClick={logout}>Déconnexion</Button>
             </>
           )}

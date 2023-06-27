@@ -26,10 +26,7 @@ export class UsersController {
   }
 
   @MessagePattern('updateUser')
-  handleUpdateUser(
-    @Payload()
-    { id, updateUserDto }: { id: string; updateUserDto: CreateUserDto }
-  ): Promise<Users> {
+  async handleUpdateUser(@Payload(){ id, updateUserDto }: { id: string; updateUserDto: CreateUserDto }): Promise<Users> {
     return this.userService.updateUser(id, updateUserDto);
   }
 
