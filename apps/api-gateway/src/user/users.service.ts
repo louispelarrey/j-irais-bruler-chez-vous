@@ -13,12 +13,6 @@ export class UsersService {
     return this.userClient.send('findAll', {});
   }
 
-  async profil(sub: string) {
-    return await lastValueFrom(
-      this.userClient.send('profil', sub)
-    );
-  }
-
   createUser(createUserDto: CreateUserDto) {
     return this.userClient.send('createUser', createUserDto);
   }

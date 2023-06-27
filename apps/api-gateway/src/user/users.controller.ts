@@ -47,13 +47,9 @@ export class UsersController {
   }
 
   @Get(':id')
+  @Public()
   findOne(@Param('id') id: string) {
     return this.userService.findOne(id);
-  }
-
-  @Post('/me')
-  profil(@Request() req: any) {
-    return this.userService.profil(req.user.sub);
   }
 
   @Post()
