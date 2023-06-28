@@ -6,16 +6,16 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 
-export const Trashs = () => {
-    const { data, error, loading } = useGet('/api/admin/trashs');
+export const Manifestations = () => {
+    const { data, error, loading } = useGet('/api/admin/manifestations');
 
     const headers = [
         'ID',
-        'Référence',
+        'Titre',
         'Description',
-        'Adresse',
+        'Ville',
         'Statut',
-        'Date de création',
+        'Date',
         'Actions'
     ];
 
@@ -29,17 +29,17 @@ export const Trashs = () => {
         return <div>Aucune donnée disponible</div>;
     }
 
-    const adaptedData = data.map((trash: any) => ({
-        ID: trash.id,
-        Référence: trash.reference,
-        Description: trash.description,
-        Adresse: trash.address,
-        Statut: trash.isBurned ?
+    const adaptedData = data.map((manifestation: any) => ({
+        ID: manifestation.id,
+        Titre: manifestation.title,
+        Description: manifestation.description,
+        Ville: manifestation.ville,
+        Statut: manifestation.isActive ?
         <LocalFireDepartmentIcon color="error" />
         :
         <LocalFireDepartmentIcon />
         ,
-        'Date de création': trash.createdAt,
+        Date: manifestation.start_date,
         Actions: <div>
             <IconButton aria-label="edit" size="large" color="primary">
                 <EditIcon />
@@ -53,11 +53,11 @@ export const Trashs = () => {
     return (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
             <div>
-                <h1>Tableau des poubelles</h1>
+                <h1>Tableau des manifestations</h1>
                 <TableComponent headers={headers} data={adaptedData} />
             </div>
         </div>
     );
 };
 
-export default Trashs;
+export default Manifestations;
