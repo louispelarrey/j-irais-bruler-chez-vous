@@ -10,7 +10,7 @@ import {ManifestationController} from "./manifestation.controller";
         name: 'MANIFESTATION',
         transport: Transport.TCP,
         options: {
-          host: process.env.TCP_MESSAGE_HOST,
+          host: process.env.TCP_MANIFESTATION_HOST,
           port: 3004,
         },
       },

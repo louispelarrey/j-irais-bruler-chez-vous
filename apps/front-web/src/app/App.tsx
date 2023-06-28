@@ -91,7 +91,7 @@ export function App() {
             <Route path="*" element={<div>404</div>} />
 
             <Route path="/dashboard" element={<AdminProtected><Dashboard/></AdminProtected>} />
-            <Route path="/admin/users" element={<AdminProtected><User/></AdminProtected>} />
+            <Route path="/admin/user" element={<AdminProtected><User/></AdminProtected>} />
           </Routes>
         </ThemeProvider>
       </SuspenseLoader>
