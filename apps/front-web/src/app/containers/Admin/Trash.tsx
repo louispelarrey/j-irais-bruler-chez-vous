@@ -10,6 +10,7 @@ export const Trashs = () => {
     const { data, error, loading } = useGet('/api/admin/trashs');
 
     const headers = [
+        'Image',
         'ID',
         'Référence',
         'Description',
@@ -30,14 +31,15 @@ export const Trashs = () => {
     }
 
     const adaptedData = data.map((trash: any) => ({
+        Image: <img src={trash.fileImageUrl} alt="image" style={{ width: '100px' }} />,
         ID: trash.id,
         Référence: trash.reference,
         Description: trash.description,
         Adresse: trash.address,
         Statut: trash.isBurned ?
-        <LocalFireDepartmentIcon color="error" />
-        :
         <LocalFireDepartmentIcon />
+        :
+        <LocalFireDepartmentIcon color="error"/>
         ,
         'Date de création': trash.createdAt,
         Actions: <div>
