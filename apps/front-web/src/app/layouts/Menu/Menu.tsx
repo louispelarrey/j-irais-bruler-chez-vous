@@ -59,7 +59,7 @@ export const Menu = () => {
                 </>
               )}
               {role?.includes('ADMIN') && (
-                <StyledLink to="/dashboard" className="menu-link">
+                <>
                   <Button
                     id="basic-button"
                     aria-controls={open ? 'basic-menu' : undefined}
@@ -83,7 +83,7 @@ export const Menu = () => {
                     <MenuItem component={Link} to="/admin/manifestation">Manifestations</MenuItem>
                     <MenuItem onClick={logout}>Déconnexion</MenuItem>
                   </MenuBar>
-                </StyledLink>
+                </>
               )}
               </>
           )}

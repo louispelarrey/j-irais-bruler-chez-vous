@@ -16,7 +16,7 @@ const TableComponent = ({ headers, data }) => {
                     {data.map((item) => (
                         <TableRow key={item.id}>
                             {headers.map((header) => (
-                                <TableCell key={header}>{item[header]}</TableCell>
+                                <TableCell key={header} style={{ color: '#ffffff' }}>{item[header]}</TableCell>
                             ))}
                         </TableRow>
                     ))}

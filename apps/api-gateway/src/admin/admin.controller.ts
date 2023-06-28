@@ -10,7 +10,7 @@ export class AdminController {
         return this.adminService.findAllTrash();
     }
     
-    @Get('/users')
+    @Get('users')
     findAllUser() {
         return this.adminService.findAllUser();
     }
