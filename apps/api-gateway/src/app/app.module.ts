@@ -7,6 +7,7 @@ import { RoleGuard } from '../user/role/guard/role.guard';
 import { MessageModule } from '../message/message/message.module';
 import { TrashModule } from '../trash/trash.module';
 import {ManifestationModule} from "../manifestation/manifestation.module";
+import { AdminModule } from '../admin/admin.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import {ManifestationModule} from "../manifestation/manifestation.module";
     MessageModule,
     TrashModule,
     ManifestationModule,
+    AdminModule,
     ClientsModule.register([
       {
         name: 'AUTHENTICATION',
@@ -54,6 +56,14 @@ import {ManifestationModule} from "../manifestation/manifestation.module";
         options: {
           host: process.env.TCP_MANIFESTATION_HOST,
           port: 3004,
+        },
+      },
+      {
+        name: 'ADMIN',
+        transport: Transport.TCP,
+        options: {
+          host: process.env.TCP_ADMIN_HOST,
+          port: 3005,
         },
       },
     ])

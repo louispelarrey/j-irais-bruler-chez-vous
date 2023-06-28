@@ -78,9 +78,9 @@ export const Menu = () => {
                       'aria-labelledby': 'basic-button',
                     }}
                   >
-                    <MenuItem component={Link} to="/admin/users">Utilisateurs</MenuItem>
-                    <MenuItem component={Link} to="/admin/postings">Annonces</MenuItem>
-                    <MenuItem component={Link} to="/admin/manifestations">Manifestations</MenuItem>
+                    <MenuItem component={Link} to="/admin/user">Utilisateurs</MenuItem>
+                    <MenuItem component={Link} to="/admin/posting">Annonces</MenuItem>
+                    <MenuItem component={Link} to="/admin/manifestation">Manifestations</MenuItem>
                     <MenuItem onClick={logout}>Déconnexion</MenuItem>
                   </MenuBar>
                 </StyledLink>
