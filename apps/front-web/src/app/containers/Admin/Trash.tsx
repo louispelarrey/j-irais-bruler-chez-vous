@@ -5,13 +5,16 @@ import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
-export const Users = () => {
-    const { data, error, loading } = useGet('/api/admin/users');
+export const Trashs = () => {
+    const { data, error, loading } = useGet('/api/admin/trashs');
+
     const headers = [
         'ID',
-        'Nom d\'utilisateur',
-        'Email',
-        'Rôles',
+        'Référence',
+        'Description',
+        'Adresse',
+        'Statut',
+        'Date de création',
         'Actions'
     ];
 
@@ -24,11 +27,14 @@ export const Users = () => {
     if (!data || data.length === 0) {
         return <div>Aucune donnée disponible</div>;
     }
-    const adaptedData = data.map((user: any) => ({
-        ID: user.id,
-        'Nom d\'utilisateur': user.username,
-        Email: user.email,
-        Rôles: user.roles.join(', '),
+
+    const adaptedData = data.map((trash: any) => ({
+        ID: trash.id,
+        Référence: trash.reference,
+        Description: trash.description,
+        Adresse: trash.address,
+        Statut: trash.isBurned ? 'Brûlé' : 'Non brûlé',
+        'Date de création': trash.createdAt,
         Actions: <div>
             <IconButton aria-label="edit" size="large" color="primary">
                 <EditIcon />
@@ -42,11 +48,11 @@ export const Users = () => {
     return (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
             <div>
-                <h1>Tableau d'utilisateurs</h1>
+                <h1>Tableau des poubelles</h1>
                 <TableComponent headers={headers} data={adaptedData} />
             </div>
         </div>
     );
 };
 
-export default Users;
+export default Trashs;
