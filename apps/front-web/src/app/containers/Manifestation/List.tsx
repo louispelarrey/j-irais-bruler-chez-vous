@@ -3,6 +3,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { ManifestationListingComponent } from '../../components/Manifestation/Listing/ManifestationListingComponent';
+import { SuspenseLoader } from '../../suspense/SuspenseLoader';
 
 export interface ManifestationData {
   title: string;
@@ -47,7 +48,7 @@ export const Manifestations = () => {
   };
 
   if (loading) {
-    return <div>Chargement ...</div>;
+    return <SuspenseLoader children={<></>} />;
   }
 
   if (error) {
