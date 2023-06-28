@@ -20,6 +20,7 @@ const ShowManifestation = lazy(() => import('./containers/Manifestation/Show').t
 const ListManifestation = lazy(() => import('./containers/Manifestation/List').then(module => ({ default: module.Manifestations })));
 
 const Dashboard = lazy(() => import('./containers/Admin/Dashboard').then(module => ({ default: module.Dashboard })));
+const User = lazy(() => import('./containers/Admin/User').then(module => ({ default: module.Users })));
 
 const StyledApp = styled.div`
   margin-top: constant(safe-area-inset-top); // for ios 11.1
@@ -90,6 +91,7 @@ export function App() {
             <Route path="*" element={<div>404</div>} />
 
             <Route path="/dashboard" element={<AdminProtected><Dashboard/></AdminProtected>} />
+            <Route path="/admin/users" element={<AdminProtected><User/></AdminProtected>} />
           </Routes>
         </ThemeProvider>
       </SuspenseLoader>
