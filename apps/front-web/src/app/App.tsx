@@ -11,12 +11,15 @@ const Home = lazy(() => import('./containers/Home/Home').then(module => ({ defau
 const Login = lazy(() => import('./containers/Login/Login').then(module => ({ default: module.Login })));
 const Logout = lazy(() => import('./containers/Logout/Logout').then(module => ({ default: module.Logout })));
 const Protected = lazy(() => import('./containers/Protected/Protected').then(module => ({ default: module.Protected })));
+const AdminProtected = lazy(() => import('./containers/Protected/AdminProtected').then(module => ({ default: module.AdminProtected })));
 const Register = lazy(() => import('./containers/Register/Register').then(module => ({ default: module.Register })));
 const Profile = lazy(() => import('./containers/Profile/Profile').then(module => ({ default: module.Profile })));
 const ShowSpecific = lazy(() => import('./containers/Trash/ShowSpecific').then(module => ({ default: module.ShowSpecific })));
 const ListTrash = lazy(() => import('./containers/Trash/List').then(module => ({ default: module.Trashs })));
 const ShowManifestation = lazy(() => import('./containers/Manifestation/Show').then(module => ({ default: module.Manifestation })));
 const ListManifestation = lazy(() => import('./containers/Manifestation/List').then(module => ({ default: module.Manifestations })));
+
+const Dashboard = lazy(() => import('./containers/Admin/Dashboard').then(module => ({ default: module.Dashboard })));
 
 const StyledApp = styled.div`
   margin-top: constant(safe-area-inset-top); // for ios 11.1
@@ -30,6 +33,25 @@ const StyledApp = styled.div`
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
+  },
+  typography: {
+    fontFamily: 'FontMedium',
+  },
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: `
+        @font-face {
+          font-family: 'FontMedium';
+          src: local('FontMedium'), local('FontMedium-Regular'), url(${FontMedium}) format('woff2');
+        }
+      `,
+    },
+  },
+});
+
+const adminTheme = createTheme({
+  palette: {
+    mode: 'light',
   },
   typography: {
     fontFamily: 'FontMedium',
@@ -66,6 +88,8 @@ export function App() {
             <Route path="/manifestation" element={<Protected><ListManifestation/></Protected>} />
             <Route path="/manifestation/:id" element={<Protected><ShowManifestation/></Protected>} />
             <Route path="*" element={<div>404</div>} />
+
+            <Route path="/dashboard" element={<AdminProtected><Dashboard/></AdminProtected>} />
           </Routes>
         </ThemeProvider>
       </SuspenseLoader>
