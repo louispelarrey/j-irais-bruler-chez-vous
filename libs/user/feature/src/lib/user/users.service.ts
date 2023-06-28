@@ -1,10 +1,11 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { Users } from '@j-irais-bruler-chez-vous/user/feature'
 import * as bcrypt from 'bcryptjs';
+import { ClientProxy } from "@nestjs/microservices";
 
 @Injectable()
 export class UsersService {
@@ -12,6 +13,9 @@ export class UsersService {
   constructor(
     @InjectRepository(Users)
     private readonly userRepository: Repository<Users>,
+
+    @Inject('MAILING_SERVICE')
+    private readonly mailingClient: ClientProxy
   ) { }
 
   /**
@@ -48,6 +52,12 @@ export class UsersService {
    * @returns {Promise<User | undefined>} Found User, or undefined if user doesn't exists
    */
   async findByIdentifier(identifier: string): Promise<Users | undefined> {
+
+    // this.mailingClient.emit('sendMail', {
+    //   to: 'louispelarrey@gmail.com',
+    //   subject: 'test',
+    //   text: 'test'
+    // });
 
     const user = await this.userRepository.findOne({
       //check if identifier is an email or a username

@@ -10,7 +10,6 @@ services:
       - ./tools/scripts/db:/docker-entrypoint-initdb.d/
       - postgres:/var/lib/postgresql/data
 
-
   pgadmin:
     container_name: pgAdmin
     image: dpage/pgadmin4
@@ -23,5 +22,18 @@ services:
     depends_on:
     - db
 
+  rabbit-mq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    hostname: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_VHOST=/
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
 volumes:
   postgres:
+  rabbit-mq:
