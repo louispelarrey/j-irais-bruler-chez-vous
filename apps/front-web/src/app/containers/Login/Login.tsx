@@ -39,7 +39,7 @@ export const Login = () => {
       setToken(data.access_token);
       const role = getUserRoleFromToken(localStorage.getItem('token') ?? '');
       if (role?.includes('ADMIN')) {
-        navigate('/admin');
+        navigate('/dashboard');
       } else {
         navigate('/');
       }
