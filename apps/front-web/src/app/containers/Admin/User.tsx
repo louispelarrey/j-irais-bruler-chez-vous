@@ -37,9 +37,7 @@ export const Users = () => {
         setSelectedUser(null);
     };
 
-    const handleUpdateUser = async ({
-        username
-    }: UserData) => {
+    const handleUpdateUser = async (username: string) => {
         if(selectedUser) {
             const response = await fetch(`
             ${import.meta.env.VITE_APP_BACKEND_URL}/api/users/${selectedUser.id}`,
@@ -58,7 +56,7 @@ export const Users = () => {
                 navigate('/logout');
             }
             if(data.id) {
-                navigate('/admin/users');
+                navigate('/admin/user');
             }
         }
     };
