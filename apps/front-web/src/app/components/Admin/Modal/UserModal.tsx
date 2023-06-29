@@ -1,9 +1,18 @@
 import { Modal, Button, TextField, Box } from '@mui/material';
 
-const UserModalComponent = ({ open, onClose, onSubmit, defaultValue }: any) => {
+interface UserModalProps {
+    open: boolean;
+    onClose: () => void;
+    onSubmit: (username: string) => void;
+    defaultValue: {
+        username: string;
+    };
+}
+
+const UserModalComponent = ({ open, onClose, onSubmit, defaultValue }: UserModalProps) => {
     const handleSubmit = (e: any) => {
         e.preventDefault();
-        onSubmit(e.target.username.value);
+        onSubmit(e.target.username.value as string);
         onClose();
     };
 

@@ -1,3 +1,4 @@
+import { UpdateUserDto } from '@j-irais-bruler-chez-vous/user/feature';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
@@ -18,6 +19,11 @@ export class AdminService {
 
     async findAllUser() {
         return this.userClient.send('findAllUsers', {});
+    }
+
+    async updateUser(id: string, updateUserDto: UpdateUserDto) {
+        console.log('updateUserDtoService', updateUserDto);
+        return this.userClient.send('updateUser', { id, updateUserDto });
     }
 
     async findAllManifestation() {

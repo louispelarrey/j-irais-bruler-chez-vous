@@ -62,7 +62,6 @@ export class UsersController {
   @Put(':id')
   @UseGuards(UserIsAllowedChange)
   updateUser(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    console.log('updateUserDto cntroller', updateUserDto);
     return this.userService.updateUser(id, updateUserDto);
   }
 
