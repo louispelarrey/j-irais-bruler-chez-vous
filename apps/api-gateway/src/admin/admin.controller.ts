@@ -4,6 +4,7 @@ import { Roles } from '../user/role/decorators/role.decorator';
 import { Role } from '@j-irais-bruler-chez-vous/shared';
 import { UpdateUserDto } from '@j-irais-bruler-chez-vous/user/feature';
 import { TrashDto } from './dto/trash.dto';
+import { UpdateTrashDto } from './dto/updateTrashDto.dto';
 import { MessageDto } from '@j-irais-bruler-chez-vous/message/feature';
 
 @Controller('admin')
@@ -14,6 +15,13 @@ export class AdminController {
     @Roles(Role.Admin)
     findAllTrash() {
         return this.adminService.findAllTrash();
+    }
+
+    @Put('trashs/:id')
+    @Roles(Role.Admin)
+    updateTrash(@Param('id') id: string, @Body() updateTrashDto: UpdateTrashDto) {
+        console.log('gate controller', updateTrashDto);
+        return this.adminService.updateTrash(id, updateTrashDto);
     }
     
     @Get('users')
@@ -37,7 +45,6 @@ export class AdminController {
     @Put('messages/:id')
     @Roles(Role.Admin)
     updateMessage(@Param('id') id: string, @Body() messageDto: MessageDto) {
-        console.log('gate controller', messageDto);
         return this.adminService.updateMessage(id, messageDto);
     }
 }
