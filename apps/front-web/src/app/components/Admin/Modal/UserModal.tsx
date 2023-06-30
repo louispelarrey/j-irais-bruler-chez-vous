@@ -46,6 +46,7 @@ const UserModalComponent = ({ open, onClose, onSubmit, defaultValue }: UserModal
                         id="username"
                         defaultValue={defaultValue.username}
                         autoComplete="username"
+                        name='username'
                     />
                     <Button type="submit" variant="contained" sx={{ mt: 2 }}>
                         Enregistrer

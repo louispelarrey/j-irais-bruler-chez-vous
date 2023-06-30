@@ -9,37 +9,38 @@ const useGet = (url: string) => {
 
   const isMounted = useRef(false);
 
-  useEffect(() => {
-    isMounted.current = true;
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          import.meta.env.VITE_APP_BACKEND_URL + url,
-          {
-            headers: {
-              "Authorization": `Bearer ${localStorage.getItem("token")}`,
-            },
-        });
-        const data = await response.json();
-        if (isMounted.current) {
-          setData(data);
-        }
-      } catch (error: Error | any) {
-        if (isMounted.current) {
-          if (error.name !== "AbortError") {
-            setError(error.message);
-            if (error.status === 401) {
-              navigate("/logout");
-            }
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(
+        import.meta.env.VITE_APP_BACKEND_URL + url,
+        {
+          headers: {
+            "Authorization": `Bearer ${localStorage.getItem("token")}`,
+          },
+      });
+      const data = await response.json();
+      if (isMounted.current) {
+        setData(data);
+      }
+    } catch (error: Error | any) {
+      if (isMounted.current) {
+        if (error.name !== "AbortError") {
+          setError(error.message);
+          if (error.status === 401) {
+            navigate("/logout");
           }
         }
-      } finally {
-        if (isMounted.current) {
-          setLoading(false);
-        }
       }
-    };
+    } finally {
+      if (isMounted.current) {
+        setLoading(false);
+      }
+    }
+  };
 
+  useEffect(() => {
+    isMounted.current = true;
     fetchData();
 
     return () => {
@@ -47,7 +48,7 @@ const useGet = (url: string) => {
     };
   }, [navigate, url]);
 
-  return { data, error, loading };
+  return { data, error, loading, refetch: fetchData };
 }
 
 export default useGet;

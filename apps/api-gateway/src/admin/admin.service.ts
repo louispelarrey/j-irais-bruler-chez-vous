@@ -22,7 +22,6 @@ export class AdminService {
     }
 
     async updateUser(id: string, updateUserDto: UpdateUserDto) {
-        console.log('updateUserDtoService', updateUserDto);
         return this.userClient.send('updateUser', { id, updateUserDto });
     }
 
