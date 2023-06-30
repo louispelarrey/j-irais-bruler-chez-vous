@@ -1,7 +1,8 @@
 export class UpdateTrashDto {
   id?: string;
-  data: {
-    reference: string;
-    description: string;
-  };
+  reference: string;
+  description: string;
+  address: string;
+  posterId: string;
+  burners?: string[];
 }

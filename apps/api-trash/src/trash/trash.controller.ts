@@ -31,6 +31,7 @@ export class TrashController {
 
   @MessagePattern('update')
   async update(@Payload(){id, updateTrashDto}: {id: string, updateTrashDto: UpdateTrashDto}): Promise<Trash> {
+    console.log('trash controller', updateTrashDto);
     return this.trashService.update(id, updateTrashDto);
   }
 

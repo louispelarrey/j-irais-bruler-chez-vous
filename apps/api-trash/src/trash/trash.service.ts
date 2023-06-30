@@ -63,8 +63,8 @@ export class TrashService {
 
   async update(id: string, updateTrashDto: UpdateTrashDto): Promise<Trash> {
     const trash = await this.trashRepository.findOne({ where: { id } });
-    trash.reference = updateTrashDto.data.reference;
-    trash.description = updateTrashDto.data.description;
+    trash.reference = updateTrashDto.reference;
+    trash.description = updateTrashDto.description;
     return this.trashRepository.save(trash);
   }
 
