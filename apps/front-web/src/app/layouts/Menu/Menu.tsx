@@ -81,6 +81,7 @@ export const Menu = () => {
                     <MenuItem component={Link} to="/admin/user">Utilisateurs</MenuItem>
                     <MenuItem component={Link} to="/admin/trash">Annonces</MenuItem>
                     <MenuItem component={Link} to="/admin/manifestation">Manifestations</MenuItem>
+                    <MenuItem component={Link} to="/admin/message">Messages</MenuItem>
                     <MenuItem onClick={logout}>Déconnexion</MenuItem>
                   </MenuBar>
                 </>
