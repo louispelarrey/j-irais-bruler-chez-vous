@@ -56,7 +56,7 @@ export class MessageService {
   }
 
   async remove(id: string) {
-    const message = await this.findOne(id);
+    const message = await this.messageRepository.findOne({ where: { id } });
     return this.messageRepository.remove(message);
   }
 }

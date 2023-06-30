@@ -40,5 +40,9 @@ export class AdminService {
     async updateMessage(id: string, messageDto: MessageDto) {
         return this.messageClient.send('update', {id, messageDto});
     }
+
+    async removeMessage(id: string) {
+        return this.messageClient.send('remove', id);
+    }
 }
 
