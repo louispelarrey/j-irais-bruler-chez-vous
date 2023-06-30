@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { Roles } from '../user/role/decorators/role.decorator';
 import { Role } from '@j-irais-bruler-chez-vous/shared';
@@ -46,5 +46,11 @@ export class AdminController {
     @Roles(Role.Admin)
     updateMessage(@Param('id') id: string, @Body() messageDto: MessageDto) {
         return this.adminService.updateMessage(id, messageDto);
+    }
+
+    @Delete('messages/:id')
+    @Roles(Role.Admin)
+    removeMessage(@Param('id') id: string) {
+        return this.adminService.removeMessage(id);
     }
 }
