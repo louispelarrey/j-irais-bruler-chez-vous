@@ -42,4 +42,9 @@ export class UsersController {
   handleFindAllUsers(): Promise<Users[]> {
     return this.userService.findAll();
   }
+
+  @MessagePattern('forgotPassword')
+  handleForgotPassword(@Payload() email: string): Promise<void> {
+    return this.userService.forgotPassword(email);
+  }
 }
