@@ -1,23 +1,53 @@
 import TableComponent from '../../components/Admin/Table/TableComponent';
 import useGet from '../../hooks/useGet';
 import { SuspenseLoader } from '../../suspense/SuspenseLoader';
-import { IconButton } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
+
+interface Manifestation {
+    id: string;
+    title: string;
+    ville: string;
+    description: string;
+    isActive: boolean;
+    creatorId: string;
+    start_date: string;
+}
 
 export const Manifestations = () => {
-    const { data, error, loading } = useGet('/api/admin/manifestations');
+    const { data, error, loading, refetch }: { data: Manifestation[] | undefined, error: string | undefined, loading: boolean, refetch: Function } = useGet('/api/admin/manifestations');
 
-    const headers = [
-        'ID',
-        'Titre',
-        'Description',
-        'Ville',
-        'Statut',
-        'Date',
-        'Actions'
-    ];
+    const handleUpdateManifestation = async (manifestationData: any) => {
+        const response = await fetch(`
+        ${import.meta.env.VITE_APP_BACKEND_URL}/api/admin/manifestations/${manifestationData.id}`,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem('token')}`,
+                },
+                body: JSON.stringify(manifestationData),
+            });
+
+        if (response.ok) {
+            refetch();
+        }
+    };
+
+    const handleDeleteManifestation = async (id: string) => {
+        const response = await fetch(`
+        ${import.meta.env.VITE_APP_BACKEND_URL}/api/admin/manifestations/${id}`,
+            {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem('token')}`,
+                },
+            });
+
+        if (response.ok) {
+            refetch();
+        }
+    };
+
 
     if (loading) {
         return <SuspenseLoader children={<></>} />;
@@ -29,32 +59,11 @@ export const Manifestations = () => {
         return <div>Aucune donnée disponible</div>;
     }
 
-    const adaptedData = data.map((manifestation: any) => ({
-        ID: manifestation.id,
-        Titre: manifestation.title,
-        Description: manifestation.description,
-        Ville: manifestation.ville,
-        Statut: manifestation.isActive ?
-        <LocalFireDepartmentIcon color="error" />
-        :
-        <LocalFireDepartmentIcon />
-        ,
-        Date: manifestation.start_date,
-        Actions: <div>
-            <IconButton aria-label="edit" size="large" color="primary">
-                <EditIcon />
-            </IconButton>
-            <IconButton aria-label="delete" size="large" color="error">
-                <DeleteIcon />
-            </IconButton>
-        </div>
-    }));
-
     return (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
             <div>
                 <h1>Tableau des manifestations</h1>
-                <TableComponent headers={headers} data={adaptedData} />
+                <TableComponent data={data} edit={handleUpdateManifestation} del={handleDeleteManifestation}/>
             </div>
         </div>
     );
