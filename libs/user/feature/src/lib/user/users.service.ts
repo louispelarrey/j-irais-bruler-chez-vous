@@ -1,22 +1,24 @@
-import { Inject, Injectable, NotFoundException } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
-import { CreateUserDto } from "./dto/create-user.dto";
-import { UpdateUserDto } from "./dto/update-user.dto";
-import { ForgotPassword, Users } from '@j-irais-bruler-chez-vous/user/feature'
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { ForgotPassword, Users } from '@j-irais-bruler-chez-vous/user/feature';
 import * as bcrypt from 'bcryptjs';
-import { ClientProxy } from "@nestjs/microservices";
+import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
 export class UsersService {
-
   constructor(
     @InjectRepository(Users)
     private readonly userRepository: Repository<Users>,
 
+    @InjectRepository(ForgotPassword)
+    private readonly forgotPasswordRepository: Repository<ForgotPassword>,
+
     @Inject('MAILING_SERVICE')
     private readonly mailingClient: ClientProxy
-  ) { }
+  ) {}
 
   /**
    * Get Specific User based on his ID
@@ -38,8 +40,8 @@ export class UsersService {
   async findByEmail(email: string): Promise<Users | undefined> {
     const user = await this.userRepository.findOne({
       where: {
-        email: email
-      }
+        email: email,
+      },
     });
 
     return user;
@@ -52,7 +54,6 @@ export class UsersService {
    * @returns {Promise<User | undefined>} Found User, or undefined if user doesn't exists
    */
   async findByIdentifier(identifier: string): Promise<Users | undefined> {
-
     // this.mailingClient.emit('sendMail', {
     //   to: 'louispelarrey@gmail.com',
     //   subject: 'test',
@@ -62,16 +63,14 @@ export class UsersService {
     const user = await this.userRepository.findOne({
       //check if identifier is an email or a username
       where: [
-
         {
-          email: identifier
+          email: identifier,
         },
         {
-          username: identifier
-        }
-      ]
+          username: identifier,
+        },
+      ],
     });
-
 
     return user;
   }
@@ -99,8 +98,6 @@ export class UsersService {
     return this.userRepository.save(user);
   }
 
-
-
   /**
    * Update User
    *
@@ -124,11 +121,10 @@ export class UsersService {
    */
   async deleteUser(id: string): Promise<Users> {
     const user = await this.userRepository.findOneBy({ id });
-    if(!user) throw new NotFoundException('User not found');
+    if (!user) throw new NotFoundException('User not found');
 
     return this.userRepository.remove(user);
   }
-
 
   /**
    * Verify that user can make request because he is the owner of the entity
@@ -138,27 +134,61 @@ export class UsersService {
    *
    * @returns {Promise<boolean>}
    */
-  async checkOwner(currentUserNickname: string, requestedUserId: string): Promise<boolean> {
+  async checkOwner(
+    currentUserNickname: string,
+    requestedUserId: string
+  ): Promise<boolean> {
     const currentUser = await this.findByIdentifier(currentUserNickname);
     const requestedUser = await this.findOne(requestedUserId);
 
     return currentUser === requestedUser;
   }
 
-  async forgotPassword(email: string): Promise<void> {
-    const user = await this.findByEmail(email);
+  async forgotPassword(email: string): Promise<boolean> {
+    try {
+      const user = await this.findByEmail(email);
 
-    if(!user) throw new NotFoundException('User not found');
+      if (!user) throw new NotFoundException('User not found');
 
-    const forgotPassword = new ForgotPassword();
-    forgotPassword.user = user;
+      const forgotPassword = new ForgotPassword();
+      forgotPassword.user = user;
 
-    await this.userRepository.manager.save(forgotPassword);
+      await this.userRepository.manager.save(forgotPassword);
 
-    this.mailingClient.emit('sendMail', {
-      to: user.email,
-      subject: '[JBCV] Votre lien de réinitialisation de mot de passe',
-      text: `${process.env.FRONT_URL}/forgot-password/${forgotPassword.id}`
-    });
+      this.mailingClient.emit('sendMail', {
+        to: user.email,
+        subject: '[JBCV] Votre lien de réinitialisation de mot de passe',
+        text: `${process.env.FRONT_URL}/forgot-password/${forgotPassword.id}`,
+      });
+      return true;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
+
+  async forgotPasswordToken(id: string, password: string): Promise<boolean> {
+    try {
+      //find entity with the user relation
+      const forgotPassword = await this.forgotPasswordRepository.findOne({
+        where: {
+          id: id,
+        },
+        relations: ['user'],
+      });
+
+      if (!forgotPassword)
+        throw new NotFoundException('Forgot password not found');
+
+      const user = forgotPassword.user;
+      user.password = await bcrypt.hash(password, 10);
+
+      await this.userRepository.save(user);
+      await this.forgotPasswordRepository.remove(forgotPassword);
+      return true;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
   }
 }

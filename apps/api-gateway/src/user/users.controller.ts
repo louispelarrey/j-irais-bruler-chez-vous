@@ -39,6 +39,12 @@ export class UsersController {
     return this.userService.deleteUser(id);
   }
 
+  @Post('forgot-password/:id')
+  @Public()
+  forgotPasswordToken(@Param('id') id: string, @Body() { password }: { password: string }){
+    return this.userService.forgotPasswordToken(id, password);
+  }
+
   @Post('forgot-password')
   @Public()
   forgotPassword(@Body() { email }: { email: string }) {
