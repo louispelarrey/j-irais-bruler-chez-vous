@@ -4,6 +4,7 @@ import { TrashDto } from './dto/trash.dto';
 import { lastValueFrom } from 'rxjs';
 import { Express } from 'express';
 import { Multer } from 'multer';
+import { UpdateTrashDto } from './dto/updateTrash.dto';
 
 @Injectable()
 export class TrashService {
@@ -50,9 +51,15 @@ export class TrashService {
     );
   }
 
-  async update(id: string, updateTrashDto: TrashDto) {
+  async update(id: string, updateTrashDto: UpdateTrashDto) {
     return await lastValueFrom(
-      this.trashClient.send('update', { id, updateTrashDto })
+      this.trashClient.send('update', {
+        id,
+        data: {
+          reference: updateTrashDto.data.reference,
+          description: updateTrashDto.data.description,
+        },
+      })
     );
   }
 
