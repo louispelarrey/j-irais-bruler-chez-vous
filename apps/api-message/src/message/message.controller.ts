@@ -8,6 +8,11 @@ import { MessageDto } from './dto/message.dto';
 export class MessageController {
   constructor(private readonly messageService: MessageService) {}
 
+  @MessagePattern('findAll')
+  async findAll() {
+    return this.messageService.findAll();
+  }
+
   @MessagePattern('findAllByRoom')
   async findAllByRoom(@Payload() roomName: string): Promise<Message[]> {
     return this.messageService.findAllByRoom(roomName);

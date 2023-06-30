@@ -25,5 +25,9 @@ export class AdminService {
     async findAllManifestation() {
         return this.manifestationClient.send('findAll', {});
     }
+
+    async findAllMessage() {
+        return this.messageClient.send('findAll', {});
+    }
 }
 

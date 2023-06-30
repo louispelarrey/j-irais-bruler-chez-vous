@@ -23,6 +23,7 @@ const Dashboard = lazy(() => import('./containers/Admin/Dashboard').then(module 
 const User = lazy(() => import('./containers/Admin/User').then(module => ({ default: module.Users })));
 const Trash = lazy(() => import('./containers/Admin/Trash').then(module => ({ default: module.Trashs })));
 const Manifestation = lazy(() => import('./containers/Admin/Manifestation').then(module => ({ default: module.Manifestations })));
+const Message = lazy(() => import('./containers/Admin/Message').then(module => ({ default: module.Messages })));
 
 const StyledApp = styled.div`
   margin-top: constant(safe-area-inset-top); // for ios 11.1
@@ -96,6 +97,7 @@ export function App() {
             <Route path="/admin/user" element={<AdminProtected><User/></AdminProtected>} />
             <Route path="/admin/trash" element={<AdminProtected><Trash/></AdminProtected>} />
             <Route path="/admin/manifestation" element={<AdminProtected><Manifestation/></AdminProtected>} />
+            <Route path="/admin/message" element={<AdminProtected><Message/></AdminProtected>} />
 
             
           </Routes>

@@ -26,4 +26,10 @@ export class AdminController {
     findAllManifestation() {
         return this.adminService.findAllManifestation();
     }
+
+    @Get('messages')
+    @Roles(Role.Admin)
+    findAllMessage() {
+        return this.adminService.findAllMessage();
+    }
 }

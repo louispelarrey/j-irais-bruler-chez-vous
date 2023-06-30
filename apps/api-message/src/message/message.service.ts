@@ -30,6 +30,11 @@ export class MessageService {
     return this.messageRepository.save(message);
   }
 
+  findAll() {
+    const messages = this.messageRepository.find();
+    return messages;
+  }
+  
   async findAllByRoom(roomName: string) {
     //Find all messages by room name and order by createdAt and with sender
     const messages = this.messageRepository.find({
