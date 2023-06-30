@@ -1,15 +1,15 @@
 import { Avatar, Box, Button, Checkbox, FormControlLabel, Grid, Link, Paper, TextField, Typography } from "@mui/material";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { LoginData } from "../../containers/Login/Login";
 import { UseFormRegister } from "react-hook-form";
+import { ForgotPasswordData } from "../../containers/ForgotPassword/ForgotPassword";
 
-interface LoginProps {
-  register: UseFormRegister<LoginData>;
+interface ForgotPasswordProps {
+  register: UseFormRegister<ForgotPasswordData>;
   handleSubmit: any;
   error: string;
 }
 
-export const LoginComponent = ({handleSubmit, register, error}: LoginProps) => {
+export const ForgotPasswordComponent = ({handleSubmit, register, error}: ForgotPasswordProps) => {
   return (
     <Grid container component="main" sx={{ height: '100vh' }}>
       <Grid
@@ -40,7 +40,7 @@ export const LoginComponent = ({handleSubmit, register, error}: LoginProps) => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Se connecter
+            Mot de passe oublié
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
             {error && <Typography variant="body2" color="error">{error}</Typography>}
@@ -55,16 +55,6 @@ export const LoginComponent = ({handleSubmit, register, error}: LoginProps) => {
               {...register("email")}
               autoFocus
             />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              label="Mot de Passe"
-              type="password"
-              id="password"
-              {...register("password")}
-              autoComplete="current-password"
-            />
             <Button
               type="submit"
               fullWidth
@@ -75,13 +65,13 @@ export const LoginComponent = ({handleSubmit, register, error}: LoginProps) => {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="/forgot-password" variant="body2" >
-                  Mot de passe oublié
+                <Link href="/login" variant="body2" >
+                  Se connecter
                 </Link>
               </Grid>
               <Grid item>
                 <Link href="/register" variant="body2">
-                  {"Pas de compte ? S'inscrire"}
+                  Pas de compte ? S'inscrire
                 </Link>
               </Grid>
             </Grid>
@@ -90,4 +80,4 @@ export const LoginComponent = ({handleSubmit, register, error}: LoginProps) => {
       </Grid>
     </Grid>
   );
-};
+}
