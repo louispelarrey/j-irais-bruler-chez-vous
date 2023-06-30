@@ -27,4 +27,10 @@ export class MessageController {
   async remove(@Payload() id: string): Promise<Message> {
     return this.messageService.remove(id);
   }
+
+  @MessagePattern('update')
+  async update(@Payload() {id, messageDto}: { id: string, messageDto: MessageDto}): Promise<Message> {
+    console.log('message controller', messageDto);
+    return this.messageService.update(id, messageDto);
+  }
 }

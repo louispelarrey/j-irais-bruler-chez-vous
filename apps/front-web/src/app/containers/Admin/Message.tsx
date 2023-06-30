@@ -16,7 +16,7 @@ export const Messages = () => {
 
     const handleUpdateMessage = async (messageData: any) => {
         const response = await fetch(`
-        ${import.meta.env.VITE_APP_BACKEND_URL}/api/messages/${messageData.id}`,
+        ${import.meta.env.VITE_APP_BACKEND_URL}/api/admin/messages/${messageData.id}`,
             {
                 method: "PUT",
                 headers: {
@@ -33,7 +33,7 @@ export const Messages = () => {
 
     const handleDeleteMessage = async (id: string) => {
         const response = await fetch(`
-        ${import.meta.env.VITE_APP_BACKEND_URL}/api/messages/${id}`,
+        ${import.meta.env.VITE_APP_BACKEND_URL}/api/admin/messages/${id}`,
             {
                 method: "DELETE",
                 headers: {
