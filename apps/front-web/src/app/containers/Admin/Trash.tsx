@@ -19,8 +19,8 @@ export const Trashs = () => {
     const { data, error, loading, refetch }: { data: Trash[] | undefined, error: string | undefined, loading: boolean, refetch: Function } = useGet('/api/admin/trashs');
 
     const handleUpdateTrash = async (trashData: any) => {
-        const response = await fetch(`
-        ${import.meta.env.VITE_APP_BACKEND_URL}/api/trashs/${trashData.id}`,
+        const response = await fetch(
+            `${import.meta.env.VITE_APP_BACKEND_URL}/api/trash/${trashData.id}`,
         {
             method: "PUT",
             headers: {
@@ -37,7 +37,7 @@ export const Trashs = () => {
 
     const handleDeleteTrash = async (id: string) => {
         const response = await fetch(`
-        ${import.meta.env.VITE_APP_BACKEND_URL}/api/trashs/${id}`,
+        ${import.meta.env.VITE_APP_BACKEND_URL}/api/trash/${id}`,
         {
             method: "DELETE",
             headers: {

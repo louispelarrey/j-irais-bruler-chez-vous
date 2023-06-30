@@ -6,6 +6,7 @@ import { TrashDto } from './dto/trash.dto';
 import { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
 import { FileUploadService } from '../file-upload/file-upload.service';
+import { UpdateTrashDto } from './dto/updateTrash.dto';
 
 @Injectable()
 export class TrashService {
@@ -60,12 +61,10 @@ export class TrashService {
     return await this.trashRepository.save(trash);
   }
 
-  async update(id: string, updateTrashDto: TrashDto): Promise<Trash> {
+  async update(id: string, updateTrashDto: UpdateTrashDto): Promise<Trash> {
     const trash = await this.trashRepository.findOne({ where: { id } });
     trash.reference = updateTrashDto.data.reference;
     trash.description = updateTrashDto.data.description;
-    trash.address = updateTrashDto.data.address;
-    //todo: add google storage
     return this.trashRepository.save(trash);
   }
 

@@ -3,6 +3,7 @@ import { AdminService } from './admin.service';
 import { Roles } from '../user/role/decorators/role.decorator';
 import { Role } from '@j-irais-bruler-chez-vous/shared';
 import { UpdateUserDto } from '@j-irais-bruler-chez-vous/user/feature';
+import { TrashDto } from './dto/trash.dto';
 
 @Controller('admin')
 export class AdminController {
@@ -19,14 +20,7 @@ export class AdminController {
     findAllUser() {
         return this.adminService.findAllUser();
     }
-
-    @Put('users/:id')
-    @Roles(Role.Admin)
-    updateUser(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-        console.log('updateUserDtoControlleeeeer', updateUserDto);
-        return this.adminService.updateUser(id, updateUserDto);
-    }
-
+    
     @Get('manifestations')
     @Roles(Role.Admin)
     findAllManifestation() {

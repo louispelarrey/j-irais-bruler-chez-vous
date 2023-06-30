@@ -2,6 +2,7 @@ import { Controller, Param } from '@nestjs/common';
 import { TrashService } from './trash.service';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { TrashDto } from './dto/trash.dto';
+import { UpdateTrashDto } from './dto/updateTrash.dto';
 import { Trash } from './trash.entity';
 
 @Controller('trash')
@@ -29,8 +30,8 @@ export class TrashController {
   }
 
   @MessagePattern('update')
-  async update(@Payload() updateTrashDto: TrashDto ): Promise<Trash> {
-    return this.trashService.update(updateTrashDto.id, updateTrashDto);
+  async update(@Payload(){id, updateTrashDto}: {id: string, updateTrashDto: UpdateTrashDto}): Promise<Trash> {
+    return this.trashService.update(id, updateTrashDto);
   }
 
   @MessagePattern('takeContract')

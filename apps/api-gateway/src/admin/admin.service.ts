@@ -1,4 +1,5 @@
 import { UpdateUserDto } from '@j-irais-bruler-chez-vous/user/feature';
+import { TrashDto } from './dto/trash.dto';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
@@ -19,10 +20,6 @@ export class AdminService {
 
     async findAllUser() {
         return this.userClient.send('findAllUsers', {});
-    }
-
-    async updateUser(id: string, updateUserDto: UpdateUserDto) {
-        return this.userClient.send('updateUser', { id, updateUserDto });
     }
 
     async findAllManifestation() {
