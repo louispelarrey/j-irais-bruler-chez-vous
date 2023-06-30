@@ -36,4 +36,8 @@ export class UsersService {
   forgotPassword(email: string) {
     return this.userClient.send('forgotPassword', email);
   }
+
+  forgotPasswordToken(id: string, password: string) {
+    return this.userClient.send('forgotPasswordToken', {id, password});
+  }
 }
