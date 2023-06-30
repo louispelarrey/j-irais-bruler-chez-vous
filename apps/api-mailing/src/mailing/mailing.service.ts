@@ -11,7 +11,7 @@ export class MailingService {
 
     try {
       const data = await this.resend.emails.send({
-        from: 'onboarding@resend.dev',
+        from: 'noreply@j-irais-bruler-chez-vous.com',
         to: sendMailDto.to,
         subject: sendMailDto.subject,
         html: sendMailDto.text,
