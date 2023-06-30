@@ -15,7 +15,7 @@ export const ForgotPassword = () => {
 
   const onSubmit = async ({ email }: ForgotPasswordData) => {
     const response = await fetch(
-      import.meta.env.VITE_APP_BACKEND_URL + '/api/users/reset-password',
+      import.meta.env.VITE_APP_BACKEND_URL + '/api/users/forgot-password',
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

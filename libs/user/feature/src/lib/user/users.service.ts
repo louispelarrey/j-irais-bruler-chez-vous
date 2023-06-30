@@ -3,7 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
-import { Users } from '@j-irais-bruler-chez-vous/user/feature'
+import { ForgotPassword, Users } from '@j-irais-bruler-chez-vous/user/feature'
 import * as bcrypt from 'bcryptjs';
 import { ClientProxy } from "@nestjs/microservices";
 
@@ -143,5 +143,22 @@ export class UsersService {
     const requestedUser = await this.findOne(requestedUserId);
 
     return currentUser === requestedUser;
+  }
+
+  async forgotPassword(email: string): Promise<void> {
+    const user = await this.findByEmail(email);
+
+    if(!user) throw new NotFoundException('User not found');
+
+    const forgotPassword = new ForgotPassword();
+    forgotPassword.user = user;
+
+    await this.userRepository.manager.save(forgotPassword);
+
+    this.mailingClient.emit('sendMail', {
+      to: user.email,
+      subject: '[JBCV] Votre lien de réinitialisation de mot de passe',
+      text: `${process.env.FRONT_URL}/forgot-password/${forgotPassword.id}`
+    });
   }
 }

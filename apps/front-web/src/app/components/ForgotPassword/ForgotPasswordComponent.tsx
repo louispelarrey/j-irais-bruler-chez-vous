@@ -61,7 +61,7 @@ export const ForgotPasswordComponent = ({handleSubmit, register, error}: ForgotP
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Connexion
+              Envoyer la demande de réinitialisation
             </Button>
             <Grid container>
               <Grid item xs>

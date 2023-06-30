@@ -4,6 +4,7 @@ import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
 export class UsersService {
+
   constructor(
     @Inject('USER') private readonly userClient: ClientProxy,
   ){}
@@ -30,5 +31,9 @@ export class UsersService {
 
   deleteUser(id: string) {
     return this.userClient.send('deleteUser', id);
+  }
+
+  forgotPassword(email: string) {
+    return this.userClient.send('forgotPassword', email);
   }
 }
