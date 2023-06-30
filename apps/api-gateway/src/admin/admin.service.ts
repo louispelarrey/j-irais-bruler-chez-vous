@@ -3,6 +3,7 @@ import { TrashDto } from './dto/trash.dto';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
+import { MessageDto } from '@j-irais-bruler-chez-vous/message/feature';
 
 @Injectable()
 export class AdminService {
@@ -28,6 +29,11 @@ export class AdminService {
 
     async findAllMessage() {
         return this.messageClient.send('findAll', {});
+    }
+
+    async updateMessage(id: string, messageDto: MessageDto) {
+        console.log('gate service', messageDto);
+        return this.messageClient.send('update', {id, messageDto});
     }
 }
 

@@ -49,10 +49,9 @@ export class MessageService {
     return message;
   }
 
-  async update(id: string, messageDto: MessageDto) {
-    const message = await this.findOne(id);
+  async update(id: string, messageDto: MessageDto): Promise<Message> {
+    const message = await this.messageRepository.findOne({ where: { id } });
     message.message = messageDto.message;
-    message.senderId = messageDto.senderId;
     return this.messageRepository.save(message);
   }
 
