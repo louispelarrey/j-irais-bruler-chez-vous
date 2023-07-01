@@ -163,7 +163,7 @@ export const ContractView: React.FC<ContractViewProps> = ({
           padding: '1rem',
           borderRadius: '0',
           borderTop: '1px solid rgba(255, 255, 255, 0.8)',
-          zIndex: 5000,
+          zIndex: 2000,
         }}
       >
         {isCreator && (
