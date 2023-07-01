@@ -39,4 +39,9 @@ export class ManifestationController {
   async joinManifestation(@Payload() { id, participantId }: { id: string, participantId: string }): Promise<Manifestation> {
     return this.manifestationService.joinManifestation(id, participantId);
   }
+
+  @MessagePattern('leftManifestation')
+  async leftManifestation(@Payload() { id, participantId }: { id: string, participantId: string }): Promise<Manifestation> {
+    return this.manifestationService.leftManifestation(id, participantId);
+  }
 }
