@@ -15,7 +15,7 @@ export const ShowSpecific = () => {
 
   const onContractTaken = useCallback(
     () => async () => {
-      const response = await fetch(`/api/trash/${id}/contract`, {
+      const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_URL}/api/trash/${id}/contract`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -36,7 +36,7 @@ export const ShowSpecific = () => {
 
   const onContractCanceled = useCallback(
     () => async () => {
-      const response = await fetch(`/api/trash/${id}/contract`, {
+      const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_URL}/api/trash/${id}/contract`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -57,7 +57,7 @@ export const ShowSpecific = () => {
 
   const onContractDeleted = useCallback(
     () => async () => {
-      const response = await fetch(`/api/trash/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_URL}/api/trash/${id}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -70,7 +70,7 @@ export const ShowSpecific = () => {
       }
 
       if (data.statusCode === 200) {
-        navigate('/postings');
+        navigate('/posting');
       }
     },
     [id, navigate]
