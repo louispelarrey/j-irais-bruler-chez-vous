@@ -1,46 +1,87 @@
-import * as React from 'react';
-import { Box, Stack, Button, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
-
-const Section = styled('div')(({ theme }) => ({
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: theme.spacing(2),
-    [theme.breakpoints.up('md')]: {
-        padding: theme.spacing(4),
-    },
-}));
+import { MobileStepper, Button, Typography, Stack, Box, Paper } from '@mui/material';
+import { styled, useTheme } from '@mui/material/styles';
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import { useState } from 'react';
+import useGet from '../../../hooks/useGet';
+import { SuspenseLoader } from '../../../suspense/SuspenseLoader';
 
 export const ListFragment = () => {
-    return (
-        <Box
-            sx={{
-                position: 'relative',
-                width: '100%',
-                height: '100vh',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-            }}
+  const theme = useTheme();
+  const { data, error, loading } = useGet('/api/manifestation');
+  const [activeStep, setActiveStep] = useState(0);
+  const maxSteps = data ? data.length : 0;
+
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  if(loading) {
+    return <SuspenseLoader children={<></>} />;
+  }
+  if(error) {
+    return <div>error</div>;
+  }
+  if(!data || data.length === 0) {
+    return <div>no data</div>;
+  }
+
+  const step = data[activeStep];
+
+  return (
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
+        <Paper
+          square
+          elevation={0}
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            height: 50,
+            pl: 2,
+            bgcolor: 'background.primary',
+          }}
         >
-        <Stack
-            direction={{ xs: 'column', sm: 'row' }}
-            spacing={2}
-            alignItems="center"
-            justifyContent="center"
-        >
-            <Section>
-                <Typography variant="h6">Value 1</Typography>
-            </Section>
-            <Section>
-                <Typography variant="h6">Value 2</Typography>
-            </Section>
-            <Section>
-                <Typography variant="h6">Value 3</Typography>
-            </Section>
-        </Stack>
+          <Typography>{step.title}</Typography>
+        </Paper>
+        <Box sx={{ height: 255, maxWidth: 400, width: '100%', p: 2 }}>
+          {step.description}
         </Box>
-    );
+        <MobileStepper
+          variant="text"
+          steps={maxSteps}
+          position="static"
+          activeStep={activeStep}
+          nextButton={
+            <Button
+              size="small"
+              onClick={handleNext}
+              disabled={activeStep === maxSteps - 1}
+            >
+              Suivant
+              {theme.direction === 'rtl' ? (
+                <KeyboardArrowLeft />
+              ) : (
+                <KeyboardArrowRight />
+              )}
+            </Button>
+          }
+          backButton={
+            <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+              {theme.direction === 'rtl' ? (
+                <KeyboardArrowRight />
+              ) : (
+                <KeyboardArrowLeft />
+              )}
+              Précédent
+            </Button>
+          }
+        />
+      </Box>
+    </Box>
+  );
 };
