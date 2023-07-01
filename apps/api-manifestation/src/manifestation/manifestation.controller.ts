@@ -21,6 +21,7 @@ export class ManifestationController {
 
   @MessagePattern('findMyManifestations')
   async findMyManifestations(@Payload() sub: string): Promise<Manifestation[]> {
+    console.log("Manif controller");
     return this.manifestationService.findMyManifestations(sub);
   }
 

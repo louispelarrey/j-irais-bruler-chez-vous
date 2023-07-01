@@ -18,11 +18,13 @@ export class ManifestationController {
   @Get(':id')
   @Public()
   findOne(@Param('id') id: string) {
+    console.log('Api one controller');
     return this.manifestationService.findOne(id);
   }
 
   @Post('/me')
   findMyManifestations(@Request() req: any) {
+    console.log('Api controller');
     return this.manifestationService.findMyManifestations(req.user.sub);
   }
 

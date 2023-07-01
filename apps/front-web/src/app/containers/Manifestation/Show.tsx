@@ -57,42 +57,34 @@ const usePost = (url: string, body: any) => {
 };
 
 export const Manifestation = () => {
-  const [expanded, setExpanded] = useState(false);
-  const { id } = useParams();
   const navigate = useNavigate();
+  const { id } = useParams();
   const { data: currentManifestation, error, loading} = useGet(`/api/manifestation/${id}`);
   const { data: myManifestations } = usePost('/api/manifestation/me', {});
   const { messages, userId, scrollTarget, handleSubmit, register, sendMessage } = useChat({
     roomName: 'default',
   });
+  const [expanded, setExpanded] = useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
-  if (loading || !currentManifestation || !myManifestations) {
-      return <div>Chargement ...</div>;
-  }
-
-  if (error) {
-    return <div>{error}</div>;
-  }
-
   const currentIndex = myManifestations.findIndex((manifestation: any) => manifestation.id === id);
   const previousManifestation = currentIndex > 0 ? myManifestations[currentIndex - 1] : null;
   const nextManifestation = currentIndex < myManifestations.length - 1 ? myManifestations[currentIndex + 1] : null
 
-  const handlePreviousManifestation = () => {
+  const handlePreviousManifestation = useCallback(() => {
     if (previousManifestation) {
-      window.location.href = `/manifestation/${previousManifestation.id}`;
+      navigate(`/manifestation/${previousManifestation.id}`);
     }
-  };
+  }, [navigate, previousManifestation]);
 
-  const handleNextManifestation = () => {
+  const handleNextManifestation = useCallback(() => {
     if (nextManifestation) {
-      window.location.href = `/manifestation/${nextManifestation.id}`;
+      navigate(`/manifestation/${nextManifestation.id}`);
     }
-  };
+  }, [navigate, nextManifestation]);
 
   const onLeaveManifestation = useCallback(
     () => async () => {
@@ -114,6 +106,14 @@ export const Manifestation = () => {
     },
     [id, navigate]
   );
+
+  if (loading || !currentManifestation || !myManifestations) {
+      return <div>Chargement ...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <div>
