@@ -28,6 +28,7 @@ export const ViewImage: FC<ViewImageProps> = ({ src, alt }) => {
     <div
       style={{
         zIndex: 2000,
+        cursor: 'pointer',
       }}
     >
       {images.map((src, index) => (
