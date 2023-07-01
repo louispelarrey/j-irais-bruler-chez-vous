@@ -5,4 +5,5 @@ export const StyledImageDescription = styled.div`
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
+
 `;
