@@ -2,15 +2,17 @@ import { MobileStepper, Button, Typography, Stack, Box, Paper, CardContent, Card
 import { styled, useTheme } from '@mui/material/styles';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import useGet from '../../../hooks/useGet';
 import { SuspenseLoader } from '../../../suspense/SuspenseLoader';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export const ListFragment = () => {
   const theme = useTheme();
   const { data, error, loading } = useGet('/api/manifestation');
   const [activeStep, setActiveStep] = useState(0);
   const maxSteps = data ? data.length : 0;
+  const navigate = useNavigate();
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -19,6 +21,30 @@ export const ListFragment = () => {
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
+
+  const handleJoinManifestation = useCallback(
+    async (id) => {
+      try {
+        const response = await fetch(`/api/manifestation/${id}`, {
+          method: 'PATCH',
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+        const data = await response.json();
+
+        if (data.statusCode === 401) {
+          navigate('/');
+        }
+        if(data.statusCode === 200) {
+          navigate('/manifestation');
+        }
+      } catch (error) {
+
+      }
+    },
+    [navigate]
+  );
 
   if(loading) {
     return <SuspenseLoader children={<></>} />;
@@ -58,7 +84,7 @@ export const ListFragment = () => {
             </Typography>
           </CardContent>
           <CardActions sx={{ justifyContent: 'right' }}>
-            <Button variant="contained">Participer</Button>
+            <Button variant="contained" onClick={() => handleJoinManifestation(step.id)}>Participer</Button>
           </CardActions>
         </Card>
         <MobileStepper
