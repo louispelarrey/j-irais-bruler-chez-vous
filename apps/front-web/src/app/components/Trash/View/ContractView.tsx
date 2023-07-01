@@ -8,6 +8,7 @@ import {
   Card,
   CardActions,
   CardContent,
+  Container,
   Divider,
   IconButton,
   Paper,
@@ -16,6 +17,7 @@ import {
 import { ShowOnMap } from './Map/ShowOnMap';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Chat } from '../../../containers/Chat/Chat';
+import { ViewImage } from './Image/ViewImage';
 
 interface ContractData {
   id: string;
@@ -66,7 +68,7 @@ export const ContractView: React.FC<ContractViewProps> = ({
   children,
 }) => {
   return (
-    <>
+    <Container maxWidth="lg">
       <StyledImageDescription>
         <IconButton
           component={Link}
@@ -93,7 +95,10 @@ export const ContractView: React.FC<ContractViewProps> = ({
         >
           <ArrowBackIcon />
         </IconButton>
-        <StyledImageViewer src={fileImageUrl} alt={reference} />
+        <ViewImage
+          src={fileImageUrl}
+          alt={reference}
+        />
         <Card>
           <CardContent>
             <Typography variant="h4">{reference}</Typography>
@@ -158,7 +163,7 @@ export const ContractView: React.FC<ContractViewProps> = ({
           padding: '1rem',
           borderRadius: '0',
           borderTop: '1px solid rgba(255, 255, 255, 0.8)',
-          zIndex: 99999,
+          zIndex: 1000,
         }}
       >
         {isCreator && (
@@ -208,6 +213,6 @@ export const ContractView: React.FC<ContractViewProps> = ({
           </Button>
         )}
       </Paper>
-    </>
+    </Container>
   );
 };
