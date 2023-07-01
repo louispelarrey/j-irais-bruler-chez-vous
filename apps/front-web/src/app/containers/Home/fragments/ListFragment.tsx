@@ -1,4 +1,4 @@
-import { MobileStepper, Button, Typography, Stack, Box, Paper } from '@mui/material';
+import { MobileStepper, Button, Typography, Stack, Box, Paper, CardContent, CardActions, Card, CardMedia, CardHeader } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
@@ -34,23 +34,33 @@ export const ListFragment = () => {
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-      <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
-        <Paper
-          square
-          elevation={0}
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            height: 50,
-            pl: 2,
-            bgcolor: 'background.primary',
-          }}
-        >
-          <Typography>{step.title}</Typography>
-        </Paper>
-        <Box sx={{ height: 255, maxWidth: 400, width: '100%', p: 2 }}>
-          {step.description}
-        </Box>
+      <Box sx={{ maxWidth: 600, flexGrow: 1 }}>
+        <Card sx={{ maxWidth: 600 }}>
+          <CardHeader
+            title={step.title}
+            subheader={`Date: ${step.start_date}`}
+          >
+          </CardHeader>
+          <CardMedia
+            sx={{ height: 140 }}
+            image="https://images.unsplash.com/photo-1499856871958-5b9627545d1a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2920&q=80"
+            title="Live from space album cover"
+          />
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+              {step.ville}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              {step.description}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Créateur: {step.creatorId}
+            </Typography>
+          </CardContent>
+          <CardActions sx={{ justifyContent: 'right' }}>
+            <Button variant="contained">Participer</Button>
+          </CardActions>
+        </Card>
         <MobileStepper
           variant="text"
           steps={maxSteps}
