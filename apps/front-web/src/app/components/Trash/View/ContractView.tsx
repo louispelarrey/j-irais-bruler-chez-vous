@@ -163,7 +163,7 @@ export const ContractView: React.FC<ContractViewProps> = ({
           padding: '1rem',
           borderRadius: '0',
           borderTop: '1px solid rgba(255, 255, 255, 0.8)',
-          zIndex: 1000,
+          zIndex: 5000,
         }}
       >
         {isCreator && (
@@ -175,6 +175,7 @@ export const ContractView: React.FC<ContractViewProps> = ({
               width: '100%',
               padding: '0.6rem',
               borderRadius: '2rem',
+              zIndex: 1000,
             }}
             onClick={onContractDeleted(reference)}
           >
@@ -190,6 +191,7 @@ export const ContractView: React.FC<ContractViewProps> = ({
               width: '100%',
               padding: '0.6rem',
               borderRadius: '2rem',
+              zIndex: 1000,
             }}
             onClick={onContractCanceled(reference)}
           >
