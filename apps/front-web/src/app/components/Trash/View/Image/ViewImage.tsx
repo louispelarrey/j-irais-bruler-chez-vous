@@ -10,14 +10,15 @@ interface ViewImageProps {
 export const ViewImage: FC<ViewImageProps> = ({ src, alt }) => {
   const [currentImage, setCurrentImage] = useState(0);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
-  const images = [
-    src,
-  ];
+  const images = [src];
 
-  const openImageViewer = useCallback((index: number) => () => {
-    setCurrentImage(index);
-    setIsViewerOpen(true);
-  }, []);
+  const openImageViewer = useCallback(
+    (index: number) => () => {
+      setCurrentImage(index);
+      setIsViewerOpen(true);
+    },
+    []
+  );
 
   const closeImageViewer = () => {
     setCurrentImage(0);
@@ -27,7 +28,6 @@ export const ViewImage: FC<ViewImageProps> = ({ src, alt }) => {
   return (
     <div
       style={{
-        zIndex: 2000,
         cursor: 'pointer',
       }}
     >
@@ -41,13 +41,22 @@ export const ViewImage: FC<ViewImageProps> = ({ src, alt }) => {
       ))}
 
       {isViewerOpen && (
-        <ImageViewer
-          src={images}
-          currentIndex={currentImage}
-          disableScroll={false}
-          closeOnClickOutside={true}
-          onClose={closeImageViewer}
-        />
+        <div
+          style={{
+            zIndex: 4000,
+          }}
+        >
+          <ImageViewer
+            src={images}
+            currentIndex={currentImage}
+            disableScroll={false}
+            closeOnClickOutside={true}
+            onClose={closeImageViewer}
+            backgroundStyle={{
+              zIndex: 5000,
+            }}
+          />
+        </div>
       )}
     </div>
   );
