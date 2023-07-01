@@ -46,7 +46,7 @@ export const Trashs = () => {
       body: formData,
     });
     const data = await response.json();
-    //check if 401
+
     if (data.statusCode === 401) {
       navigate('/logout');
     }
@@ -66,7 +66,7 @@ export const Trashs = () => {
   return (
     <TrashImageContext.Provider value={{ trashImage, setTrashImage }}>
       <TrashListingComponent
-        data={data as List[]}
+        data={data as List[] | undefined}
         open={open}
         handleOpen={handleOpen}
         handleClose={handleClose}
