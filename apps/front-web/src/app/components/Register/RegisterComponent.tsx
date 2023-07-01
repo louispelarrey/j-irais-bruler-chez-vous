@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
 import { Avatar, Box, Button, Container, Grid, TextField, Typography, Link as LinkMUI } from "@mui/material";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Link } from "react-router-dom";
 import { useForm, UseFormRegister } from "react-hook-form";
 import { RegisterData } from "../../containers/Register/Register";
-import {sendEvent, initMouseTracking} from "raidalytics";
+import {eventCollect} from "raidalytics";
 
 interface RegisterProps {
   register: UseFormRegister<RegisterData>;
@@ -12,13 +11,9 @@ interface RegisterProps {
 }
 
 export const RegisterComponent = ({ register, handleSubmit }: RegisterProps) => {
-  useEffect(() => {
-    sendEvent('RegistrationPageVisited', { tag: 'Inscription' });
-    initMouseTracking();
-  }, []);
 
-  const handleFormSubmit = (data: RegisterData) => {
-    sendEvent('RegistrationButtonClicked', { tag: 'Inscription' });
+  const handleFormSubmit = async (data: RegisterData) => {
+  await eventCollect('RegistrationButtonClicked', { tag: 'Inscription' });
 
   };
 
