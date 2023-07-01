@@ -81,4 +81,34 @@ export class ManifestationService {
     manifestation.participants.push(newParticipant);
     return this.manifestationRepository.save(manifestation);
   }
+
+  async leftManifestation(id: string, participantId: string): Promise<Manifestation> {
+    const manifestation = await this.manifestationRepository.findOne({where: {id}, relations: ['participants']});
+
+    if(!manifestation) {
+      throw new HttpException(
+        'Manifestation non trouvée',
+        HttpStatus.NOT_FOUND
+      );
+    }
+
+    if (manifestation.creatorId === participantId) {
+      throw new HttpException(
+        'Vous ne pouvez pas quitter votre propre manifestation',
+        HttpStatus.BAD_REQUEST
+      );
+    }
+
+    const participant = manifestation.participants.find(participant => participant.participantId === participantId);
+    if (!participant) {
+      throw new HttpException(
+        'Vous ne participez pas à cette manifestation',
+        HttpStatus.BAD_REQUEST
+      );
+    }
+
+    await this.participantRepository.delete(participant.id);
+    manifestation.participants = manifestation.participants.filter(participant => participant.participantId !== participantId);
+    return this.manifestationRepository.save(manifestation);
+  }
 }

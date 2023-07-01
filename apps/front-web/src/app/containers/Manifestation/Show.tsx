@@ -87,24 +87,26 @@ export const Manifestation = () => {
   }, [navigate, nextManifestation]);
 
   const onLeaveManifestation = useCallback(
-    () => async () => {
-      const response = await fetch(`/api/manifestation/${id}/leave`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
-      const data = await response.json();
+    async () => {
+      try {
+        const response = await fetch(`/api/manifestation/${id}/left`, {
+          method: 'PATCH',
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+        const data = await response.json();
 
-      if (data.statusCode === 401) {
-        navigate('/');
-      }
-
-      if (data.id) {
-        navigate('/');
+        if (data.statusCode === 401) {
+          navigate('/');
+        }
+        if(data.statusCode === 200) {
+          navigate('/');
+        }
+      } catch (error) {
       }
     },
-    [id, navigate]
+    [navigate]
   );
 
   if (loading || !currentManifestation || !myManifestations) {
@@ -213,7 +215,7 @@ export const Manifestation = () => {
             padding: '0.6rem',
             borderRadius: '2rem',
           }}
-          onClick={onLeaveManifestation()}
+          onClick={() => onLeaveManifestation()}
         >
           <Typography variant="body1">Quitter</Typography>
         </Button>

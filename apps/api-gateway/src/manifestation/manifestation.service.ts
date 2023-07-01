@@ -50,4 +50,13 @@ export class ManifestationService {
       })
     );
   }
+
+  async leftManifestation(id: string, sub: string) {
+    return await lastValueFrom(
+      this.manifestationClient.send('leftManifestation', {
+        id,
+        participantId: sub,
+      })
+    );
+  }
 }

@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Param, Patch, Post, Put, Request} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Patch, Post, Put, Request} from '@nestjs/common';
 import {ManifestationService} from "./manifestation.service";
 import {CreateManifestationDto} from "./dto/create-manifestation.dto";
 import {UpdateManifestationDto} from "./dto/update-manifestation";
@@ -18,13 +18,11 @@ export class ManifestationController {
   @Get(':id')
   @Public()
   findOne(@Param('id') id: string) {
-    console.log('Api one controller');
     return this.manifestationService.findOne(id);
   }
 
   @Post('/me')
   findMyManifestations(@Request() req: any) {
-    console.log('Api controller');
     return this.manifestationService.findMyManifestations(req.user.sub);
   }
 
@@ -41,5 +39,10 @@ export class ManifestationController {
   @Patch(':id')
   joinManifestation(@Request() req: any, @Param('id') id: string) {
     return this.manifestationService.joinManifestation(id, req.user.sub);
+  }
+
+  @Patch(':id/left')
+  leftManifestation(@Request() req: any, @Param('id') id: string) {
+    return this.manifestationService.leftManifestation(id, req.user.sub);
   }
 }
