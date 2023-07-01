@@ -40,7 +40,7 @@ export const Login = () => {
     }
   };
 
-  if (token || !localStorage.getItem('token')) return <Navigate to="/postings" replace />;
+  if (token || localStorage.getItem('token')) return <Navigate to="/posting" replace />;
 
   return (
     <LoginComponent
