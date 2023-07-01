@@ -78,7 +78,7 @@ export const ContractView: React.FC<ContractViewProps> = ({
             position: 'absolute',
             marginTop: '2rem',
             marginLeft: '2rem',
-            zIndex: 2,
+            zIndex: 3000,
             borderRadius: '50%',
             border: '1px solid white',
             backgroundColor: '#121212',
