@@ -5,6 +5,11 @@ import { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
 import { Users } from '@j-irais-bruler-chez-vous/user/feature'
 
+interface LoginResponse {
+  access_token: string;
+  refresh_token: string;
+}
+
 @Injectable()
 export class AuthenticationService {
   constructor(
@@ -22,7 +27,7 @@ export class AuthenticationService {
     return null;
   }
 
-  async login(username: string): Promise<{access_token: string} | null> {
+  async login(username: string): Promise<LoginResponse | null> {
     if(username === "") return null;
 
     const user: Users = await lastValueFrom(this.userClient.send('findUserByIdentifier', username));
@@ -33,6 +38,7 @@ export class AuthenticationService {
     };
     return {
       access_token: this.jwtService.sign(payload),
+      refresh_token: this.jwtService.sign(payload, { expiresIn: '7d' }),
     };
   }
 }

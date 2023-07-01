@@ -14,7 +14,7 @@ export interface List {
 }
 
 interface ITrashListingComponent {
-  data: List[];
+  data: List[] | undefined;
   open: boolean;
   handleOpen: () => void;
   handleClose: () => void;
@@ -72,7 +72,7 @@ export const TrashListingComponent = ({
       </Grid>
 
       <StyledTrashListingComponent>
-        {data.map((item: List) => (
+        {data && data.map((item: List) => (
           <CardComponent
             key={item.id}
             title={item.reference}
