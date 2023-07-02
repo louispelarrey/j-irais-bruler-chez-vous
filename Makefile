@@ -5,3 +5,4 @@ serveAll:
   nx serve api-trash
   nx serve api-message
   nx serve api-gateway
+  nx serve api-mailing
