@@ -9,14 +9,22 @@ import { Role } from '@j-irais-bruler-chez-vous/shared';
 @Injectable()
 export class UserIsAllowedChange implements CanActivate {
 
+  /**
+   * Creates an instance of UserIsAllowedChange.
+   * @param {UsersService} usersService - The UsersService instance.
+   */
   constructor(
     private readonly usersService: UsersService,
   ) {}
 
+  /**
+   * Determines whether the user is allowed to change the user.
+   * @param {ExecutionContext} context - The execution context.
+   * @returns {Promise<boolean>} A boolean indicating whether the user is allowed to change the user.
+   */
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const { user, params } = context.switchToHttp().getRequest();
     const currentUser = await lastValueFrom(this.usersService.findOne(user.sub));
-    //Replac
 
     const isAdmin = currentUser.roles.includes(Role.Admin);
     const isOwner = currentUser.id == params.id;
