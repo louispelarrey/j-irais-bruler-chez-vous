@@ -45,7 +45,7 @@ spec:
           - name: RESEND_API_KEY
             value: "re_fmFXoY9y_Q494jmsbFPu7e7FD4g74TmG3"
           - name: RABBITMQ_URL
-            value : "amqp://api-mailing-rmq:5672"
+            value : "amqp://api-mailing-rmq-rabbitmq:5672"
         ports:
           - containerPort: 5672
 
