@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { MessageService } from './message.service';
 import { MessageGateway } from './message.gateway';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { UsersService } from '../../user/users.service';
+import { UsersService } from '../user/users.service';
 
 @Module({
   imports: [
