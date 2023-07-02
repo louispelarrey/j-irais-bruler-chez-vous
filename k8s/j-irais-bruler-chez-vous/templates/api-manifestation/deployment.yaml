@@ -2,21 +2,21 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: api-authentication
-  name: api-authentication
+    app: api-manifestation
+  name: api-manifestation
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: api-authentication
+      app: api-manifestation
   template:
     metadata:
       labels:
-        app: api-authentication
+        app: api-manifestation
     spec:
       containers:
-      - image: europe-west9-docker.pkg.dev/j-irais-bruler-chez-vous/api-authentication/production
-        name: api-authentication
+      - image: europe-west9-docker.pkg.dev/j-irais-bruler-chez-vous/api-manifestation/production
+        name: api-manifestation
         env:
           - name: DB_HOST
             value: "10.83.80.3"
@@ -27,7 +27,7 @@ spec:
           - name: DB_PASSWORD
             value: "postgres"
           - name: DB_NAME
-            value: "db_auth"
+            value: "db_manifestation"
           - name: TCP_AUTHENTICATION_HOST
             value: "api-authentication"
           - name: TCP_MESSAGE_HOST
@@ -41,21 +41,21 @@ spec:
           - name: JWT_SECRET
             value: "Hc5f4g@5h6j7k8lqs9a2s3de4f&&5g6hed7j8k9l"
         ports:
-          - containerPort: 3000
+          - containerPort: 3004
 
 ---
 apiVersion: "autoscaling/v2"
 kind: "HorizontalPodAutoscaler"
 metadata:
-  name: "api-authentication-hpa"
+  name: "api-manifestation-hpa"
   namespace: "default"
   labels:
-    app: "api-authentication"
+    app: "api-manifestation"
 spec:
   scaleTargetRef:
     kind: "Deployment"
-    name: "api-authentication"
-    apiVersion: "apps/v1beta1"
+    name: "api-manifestation"
+    apiVersion: "apps/v1"
   minReplicas: 1
   maxReplicas: 5
   metrics:
@@ -65,4 +65,3 @@ spec:
         target:
           type: "Utilization"
           averageUtilization: 80
-
