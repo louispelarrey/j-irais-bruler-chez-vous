@@ -12,7 +12,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
         name: 'MAILING_SERVICE',
         transport: Transport.RMQ,
         options: {
-          urls: ['amqp://localhost:5672'],
+          urls: ['amqp://api-mailing-rmq:5672'],
           queue: 'mailing_queue',
           queueOptions: {
             durable:  true
