@@ -6,10 +6,10 @@ metadata:
   name: api-manifestation
 spec:
   ports:
-  - name: "3003"
-    port: 3003
+  - name: "3004"
+    port: 3004
     protocol: TCP
-    targetPort: 3003
+    targetPort: 3004
   selector:
     app: api-manifestation
   type: ClusterIP

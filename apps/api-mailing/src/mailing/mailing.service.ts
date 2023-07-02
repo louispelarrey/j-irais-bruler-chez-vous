@@ -14,8 +14,6 @@ export class MailingService {
         subject: sendMailDto.subject,
         html: sendMailDto.text,
       });
-
-      console.log(data);
     } catch (e) {
       console.log(e);
     }
