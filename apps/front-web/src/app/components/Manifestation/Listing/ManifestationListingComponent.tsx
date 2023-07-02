@@ -8,7 +8,7 @@ interface List {
   id: string;
   title: string;
   description: string;
-  ville: string;
+  address: string;
   start_date: string;
 }
 
@@ -66,14 +66,14 @@ export const ManifestationListingComponent = ({
         }}
         >
           <Card sx={{ height: 'fit-content' }}>
-              <Button onClick={handleOpen}>Créer une manifestation</Button>
+            <Button onClick={handleOpen}>Créer une manifestation</Button>
           </Card>
           {data.map((item: List) => (
               <CardComponent
                   key={item.id}
                   title={item.title}
                   description={item.description}
-                  ville={item.ville}
+                  address={item.address}
                   start_date={item.start_date}
                   image="https://picsum.photos/200/300"
                   manifestationId={item.id}

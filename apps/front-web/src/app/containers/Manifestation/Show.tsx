@@ -97,13 +97,11 @@ export const Manifestation = () => {
         });
         const data = await response.json();
 
-        if (data.statusCode === 401) {
-          navigate('/');
-        }
         if(data.statusCode === 200) {
           navigate('/');
         }
       } catch (error) {
+        navigate('/');
       }
     },
     [navigate]

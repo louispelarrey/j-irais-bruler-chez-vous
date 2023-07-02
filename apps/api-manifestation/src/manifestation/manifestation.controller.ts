@@ -21,7 +21,6 @@ export class ManifestationController {
 
   @MessagePattern('findMyManifestations')
   async findMyManifestations(@Payload() sub: string): Promise<Manifestation[]> {
-    console.log("Manif controller");
     return this.manifestationService.findMyManifestations(sub);
   }
 
@@ -43,5 +42,5 @@ export class ManifestationController {
   @MessagePattern('leftManifestation')
   async leftManifestation(@Payload() { id, participantId }: { id: string, participantId: string }): Promise<Manifestation> {
     return this.manifestationService.leftManifestation(id, participantId);
-  }
+  }  
 }

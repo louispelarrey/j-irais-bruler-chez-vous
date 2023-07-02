@@ -3,5 +3,4 @@ export class UpdateManifestationDto {
   title: string;
   description: string;
   isActive: boolean;
-  // participants: Array;
 }

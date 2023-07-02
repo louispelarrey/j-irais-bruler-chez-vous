@@ -8,14 +8,14 @@ import { SuspenseLoader } from '../../suspense/SuspenseLoader';
 export interface ManifestationData {
   title: string;
   description: string;
-  ville: string;
+  address: string;
   start_date: string;
 }
 
 export interface IManifestationOnSubmit {
   title: string;
   description: string;
-  ville: string;
+  address: string;
   start_date: string;
 }
 
@@ -27,7 +27,7 @@ export const Manifestations = () => {
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm<ManifestationData>();
 
-  const onSubmit = async ({ title, description, ville, start_date }: IManifestationOnSubmit) => {
+  const onSubmit = async ({ title, description, address, start_date }: IManifestationOnSubmit) => {
     const response = await fetch('/api/manifestation', {
       method: 'POST',
       headers: {
@@ -37,13 +37,13 @@ export const Manifestations = () => {
       body: JSON.stringify({
         title,
         description,
-        ville,
+        address,
         start_date
       }),
     });
     const data = await response.json();
     if (data.id) {
-      navigate(`/manifestation/${data.id}`);
+      navigate(`/`);
     }
   };
 

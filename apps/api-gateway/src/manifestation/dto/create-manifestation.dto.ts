@@ -10,8 +10,8 @@ export class CreateManifestationDto {
   @IsDate()
   start_date: string;
 
-  @IsDate()
-  ville: string;
+  @IsString()
+  address: string;
 
   @IsString()
   creatorId?: string | undefined;

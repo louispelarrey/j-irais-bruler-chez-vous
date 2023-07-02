@@ -1,6 +1,4 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { Participant } from '../participant/participant.entity';
-import { Exclude } from 'class-transformer';
 
 @Entity()
 export class Manifestation {
@@ -11,7 +9,7 @@ export class Manifestation {
     title: string;
 
     @Column()
-    ville: string;
+    address: string;
 
     @Column()
     description: string;
@@ -25,6 +23,12 @@ export class Manifestation {
     @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
     start_date: Date;
 
-    @OneToMany(() => Participant, (participant) => participant.manifestation)
-    participants: Participant[];
+    @Column('jsonb', {default: []})
+    participants: string[];
+
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+    createdAt: Date;
+
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+    updatedAt: Date;
 }

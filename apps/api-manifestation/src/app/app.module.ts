@@ -2,11 +2,10 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import {ManifestationModule} from "../manifestation/manifestation.module";
-import { ParticipantModule } from '../participant/participant.module';
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
-      imports: [ConfigModule, ManifestationModule, ParticipantModule],
+      imports: [ConfigModule, ManifestationModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',

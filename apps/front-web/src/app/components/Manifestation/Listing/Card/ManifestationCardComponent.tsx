@@ -15,7 +15,7 @@ interface CardComponentProps {
     title: string;
     description: string;
     image: string;
-    ville: string;
+    address: string;
     start_date: string;
     manifestationId: string;
 }
@@ -24,7 +24,7 @@ export const CardComponent = ({
     title,
     description,
     image,
-    ville,
+    address,
     start_date,
     manifestationId,
 }: CardComponentProps) => {
@@ -40,7 +40,7 @@ export const CardComponent = ({
               {description}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              {ville}
+              {address}
             </Typography>
             <Typography variant="body2" color="text.secondary">
               {start_date}
@@ -50,9 +50,6 @@ export const CardComponent = ({
           <CardActions>
             <Button component={Link} to={`/manifestation/${manifestationId}`} size="small">
               Voir
-            </Button>
-            <Button component={Link} size="small">
-              Rejoindre
             </Button>
           </CardActions>
         </Card>
