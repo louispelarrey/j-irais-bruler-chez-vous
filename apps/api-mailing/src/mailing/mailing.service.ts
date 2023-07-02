@@ -6,9 +6,9 @@ import { Resend } from 'resend';
 export class MailingService {
   private readonly resend = new Resend(process.env.RESEND_API_KEY);
 
-  async sendMail(sendMailDto: SendMailDto) {
+  async sendMail(sendMailDto: SendMailDto): Promise<void> {
     try {
-      const data = await this.resend.emails.send({
+      await this.resend.emails.send({
         from: 'noreply@j-irais-bruler-chez-vous.com',
         to: sendMailDto.to,
         subject: sendMailDto.subject,
