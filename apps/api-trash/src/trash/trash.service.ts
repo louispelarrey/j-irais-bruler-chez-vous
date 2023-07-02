@@ -21,7 +21,10 @@ export class TrashService {
   ) {}
 
   findAll() {
-    const trashs = this.trashRepository.find();
+    //sort by date desc
+    const trashs = this.trashRepository.find({
+      order: { createdAt: 'DESC' },
+    });
     return trashs;
   }
 

@@ -13,7 +13,7 @@ export const TrashImageContext = createContext({
 })
 
 export const Trashs = () => {
-  const { data, error, loading } = useGet('/api/trash');
+  const { data, error, loading } = useGet(`/api/trash`);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -38,7 +38,7 @@ export const Trashs = () => {
       })
     );
 
-    const response = await fetch('/api/trash', {
+    const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_URL}/api/trash`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -46,7 +46,7 @@ export const Trashs = () => {
       body: formData,
     });
     const data = await response.json();
-    //check if 401
+
     if (data.statusCode === 401) {
       navigate('/logout');
     }
@@ -66,7 +66,7 @@ export const Trashs = () => {
   return (
     <TrashImageContext.Provider value={{ trashImage, setTrashImage }}>
       <TrashListingComponent
-        data={data as List[]}
+        data={data as List[] | undefined}
         open={open}
         handleOpen={handleOpen}
         handleClose={handleClose}

@@ -28,6 +28,8 @@ spec:
             value: "api-user"
           - name: TCP_TRASH_HOST
             value: "api-trash"
+          - name: TCP_MANIFESTATION_HOST
+            value: "api-manifestation"
           - name: FRONTEND_URL
             value: "https://j-irais-bruler-chez-vous.com"
         ports:
