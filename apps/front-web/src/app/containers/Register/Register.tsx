@@ -25,6 +25,9 @@ export const Register = () => {
   
 
   const onSubmit = async ({ email, password, username }: RegisterData) => {
+    console.log(`Sending registration data: email=${email}, password=${password}, username=${username}`);
+    console.log(`${import.meta.env.VITE_APP_BACKEND_URL}/api/users`);
+
     const response = await fetch(
       `${import.meta.env.VITE_APP_BACKEND_URL}/api/users`,
       {
@@ -48,5 +51,8 @@ export const Register = () => {
     }
   }
 
-  return <RegisterComponent handleSubmit={handleSubmit(onSubmit)} register={register} />;
+return <RegisterComponent handleSubmit={handleSubmit} register={register} onSubmit={onSubmit} />;
+
+
+
 }
