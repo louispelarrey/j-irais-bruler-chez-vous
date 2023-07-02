@@ -2,10 +2,11 @@ import { MobileStepper, Button, Typography, Stack, Box, Paper, CardContent, Card
 import { styled, useTheme } from '@mui/material/styles';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import useGet from '../../../hooks/useGet';
 import { SuspenseLoader } from '../../../suspense/SuspenseLoader';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import getUserIdFromToken from '../../../utils/user/getUserIdFromToken';
 
 export const ListFragment = () => {
   const theme = useTheme();
@@ -37,7 +38,7 @@ export const ListFragment = () => {
           navigate('/');
         }
         if(data.statusCode === 200) {
-          navigate('/manifestation');
+          navigate('/manifestation/${id}');
         }
       } catch (error) {
 
@@ -74,7 +75,7 @@ export const ListFragment = () => {
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
-              {step.ville}
+              {step.address}
             </Typography>
             <Typography variant="body2" color="text.secondary">
               {step.description}
@@ -84,7 +85,9 @@ export const ListFragment = () => {
             </Typography>
           </CardContent>
           <CardActions sx={{ justifyContent: 'right' }}>
-            <Button variant="contained" onClick={() => handleJoinManifestation(step.id)}>Participer</Button>
+              {localStorage.getItem('token') && !step.participants.includes(getUserIdFromToken(localStorage.getItem('token') ?? '')) && step.creatorId !== getUserIdFromToken(localStorage.getItem('token') ?? '') && (
+                <Button variant="contained" onClick={() => handleJoinManifestation(step.id)}>Participer</Button>
+              )}
           </CardActions>
         </Card>
         <MobileStepper

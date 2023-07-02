@@ -17,12 +17,10 @@ export class ManifestationService {
   }
 
   async findOne(id: string) {
-    console.log('Api one service');
     return this.manifestationClient.send('findOne', id);
   }
 
   async findMyManifestations(sub: string) {
-    console.log('Api service');
     return await lastValueFrom(
       this.manifestationClient.send('findMyManifestations', sub)
     );
@@ -32,7 +30,7 @@ export class ManifestationService {
     return this.manifestationClient.send('create', {
       description: createManifestationDto.description,
       title: createManifestationDto.title,
-      ville: createManifestationDto.ville,
+      address: createManifestationDto.address,
       start_date: createManifestationDto.start_date,
       creatorId: sub,
     });

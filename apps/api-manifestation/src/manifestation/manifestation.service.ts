@@ -1,11 +1,9 @@
 import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
-import {Repository} from "typeorm";
+import { Repository, In, Raw } from "typeorm";
 import {Manifestation} from "./manifestation.entity";
 import {CreateManifestationDto} from "./dto/create-manifestation.dto";
 import {UpdateManifestationDto} from "./dto/update-manifestation.dto";
-import { Participant } from '../participant/participant.entity';
-import { last } from 'rxjs';
 
 @Injectable()
 export class ManifestationService {
@@ -13,8 +11,6 @@ export class ManifestationService {
   constructor(
     @InjectRepository(Manifestation)
     private readonly manifestationRepository: Repository<Manifestation>,
-    @InjectRepository(Participant)
-    private readonly participantRepository: Repository<Participant>
   ) {}
 
   async findAll() {
@@ -27,8 +23,20 @@ export class ManifestationService {
   }
 
   async findMyManifestations(sub: string) {
-    console.log("Manif service");
-    const manifestations = await this.manifestationRepository.find({ where: { participants: { participantId: sub } } });
+    const allManifestations = await this.manifestationRepository.find();
+
+    const manifestations = allManifestations.filter((manifestation) => {
+      if(manifestation.creatorId === sub) {
+        return true;
+      }
+
+      if(manifestation.participants.includes(sub)) {
+        return true;
+      }
+
+      return false;
+    });
+
     return manifestations;
   }
 
@@ -37,7 +45,7 @@ export class ManifestationService {
     manifestation.title = createManifestationDto.title;
     manifestation.description = createManifestationDto.description;
     manifestation.creatorId = createManifestationDto.creatorId;
-    manifestation.ville = createManifestationDto.ville;
+    manifestation.address = createManifestationDto.address;
     return this.manifestationRepository.save(manifestation);
   }
 
@@ -49,66 +57,38 @@ export class ManifestationService {
   }
 
   async joinManifestation(id: string, participantId: string): Promise<Manifestation> {
-    const manifestation = await this.manifestationRepository.findOne({where: {id}, relations: ['participants']});
-
-    if(!manifestation) {
-      throw new HttpException(
-        'Manifestation non trouvée',
-        HttpStatus.NOT_FOUND
-      );
-    }
-    
-    if (manifestation.creatorId === participantId) {
+    const manifestation = await this.manifestationRepository.findOne({where: {id}});
+    if(manifestation.creatorId === participantId) {
       throw new HttpException(
         'Vous ne pouvez pas rejoindre votre propre manifestation',
         HttpStatus.BAD_REQUEST
       );
     }
-
-    const participantAlreadyInManifestation = manifestation.participants.find(participant => participant.participantId === participantId);
-    if (participantAlreadyInManifestation) {
+    if(manifestation.participants.includes(participantId)) {
       throw new HttpException(
-        'Vous participez déjà à cette manifestation',
+        'Vous avez déjà rejoint cette manifestation',
         HttpStatus.BAD_REQUEST
       );
     }
-
-    const participant = new Participant();
-    participant.participantId = participantId;
-    await this.participantRepository.save(participant);
-
-    const newParticipant = await this.participantRepository.findOne({where: {participantId}});
-    manifestation.participants.push(newParticipant);
+    manifestation.participants.push(participantId);
     return this.manifestationRepository.save(manifestation);
   }
 
   async leftManifestation(id: string, participantId: string): Promise<Manifestation> {
-    const manifestation = await this.manifestationRepository.findOne({where: {id}, relations: ['participants']});
-
-    if(!manifestation) {
-      throw new HttpException(
-        'Manifestation non trouvée',
-        HttpStatus.NOT_FOUND
-      );
-    }
-
-    if (manifestation.creatorId === participantId) {
+    const manifestation = await this.manifestationRepository.findOne({where: {id}});
+    if(manifestation.creatorId === participantId) {
       throw new HttpException(
         'Vous ne pouvez pas quitter votre propre manifestation',
         HttpStatus.BAD_REQUEST
       );
     }
-
-    const participant = manifestation.participants.find(participant => participant.participantId === participantId);
-    if (!participant) {
+    if(!manifestation.participants.includes(participantId)) {
       throw new HttpException(
-        'Vous ne participez pas à cette manifestation',
+        'Vous n\'avez pas rejoint cette manifestation',
         HttpStatus.BAD_REQUEST
       );
     }
-
-    await this.participantRepository.delete(participant.id);
-    manifestation.participants = manifestation.participants.filter(participant => participant.participantId !== participantId);
+    manifestation.participants = manifestation.participants.filter((participant) => participant !== participantId);
     return this.manifestationRepository.save(manifestation);
   }
 }

@@ -4,7 +4,7 @@ import { UseFormRegister } from 'react-hook-form';
 export interface ManifestationData {
   title: string;
   description: string;
-  ville: string;
+  address: string;
   start_date: string;
 }
 
@@ -62,12 +62,12 @@ export const ManifestationModalComponent = ({
             <TextField
               required
               fullWidth
-              label="Ville"
+              label="Addresse"
               size='small'
-              type="ville"
-              id="ville"
-              autoComplete="ville"
-              {...register('ville', { required: true })}
+              type="address"
+              id="address"
+              autoComplete="address"
+              {...register('address', { required: true })}
             />
             <TextField
               required
