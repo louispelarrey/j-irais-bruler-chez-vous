@@ -39,4 +39,14 @@ export class UsersController {
   handleFindAllUsers(): Promise<Users[]> {
     return this.userService.findAll();
   }
+
+  @MessagePattern('forgotPassword')
+  handleForgotPassword(@Payload() email: string): Promise<boolean> {
+    return this.userService.forgotPassword(email);
+  }
+
+  @MessagePattern('forgotPasswordToken')
+  handleForgotPasswordToken(@Payload() {id, password}: {id: string, password: string}): Promise<boolean> {
+    return this.userService.forgotPasswordToken(id, password);
+  }
 }

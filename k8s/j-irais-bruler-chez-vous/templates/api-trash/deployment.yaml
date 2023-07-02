@@ -38,6 +38,8 @@ spec:
             value: "api-trash"
           - name: JWT_SECRET
             value: "Hc5f4g@5h6j7k8lqs9a2s3de4f&&5g6hed7j8k9l"
+          - name: TCP_MANIFESTATION_HOST
+            value: "api-manifestation"
         ports:
           - containerPort: 3003
 

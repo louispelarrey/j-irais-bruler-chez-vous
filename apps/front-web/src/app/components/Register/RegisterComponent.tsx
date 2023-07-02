@@ -1,15 +1,23 @@
 import { Avatar, Box, Button, Container, Grid, TextField, Typography, Link as LinkMUI } from "@mui/material";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Link } from "react-router-dom";
-import { UseFormRegister } from "react-hook-form";
+import { useForm, UseFormRegister } from "react-hook-form";
 import { RegisterData } from "../../containers/Register/Register";
+import {eventCollect} from "raidalytics";
 
 interface RegisterProps {
   register: UseFormRegister<RegisterData>;
   handleSubmit: any;
+  onSubmit: any;
 }
 
-export const RegisterComponent = ({ handleSubmit, register }: RegisterProps) => {
+export const RegisterComponent = ({ register, handleSubmit, onSubmit }: RegisterProps) => {
+
+  const handleFormSubmit = async (data: RegisterData) => {
+    await eventCollect('RegistrationButtonClicked', { tag: 'Inscription' });
+    onSubmit(data);
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <Box
@@ -26,7 +34,7 @@ export const RegisterComponent = ({ handleSubmit, register }: RegisterProps) => 
         <Typography component="h1" variant="h5">
           Inscription
         </Typography>
-        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+        <Box component="form" noValidate onSubmit={handleSubmit(handleFormSubmit)} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -68,8 +76,16 @@ export const RegisterComponent = ({ handleSubmit, register }: RegisterProps) => 
           >
             S'inscrire
           </Button>
+          <Grid container justifyContent="flex-end">
+            <Grid item>
+              <LinkMUI component={Link} to="/login" variant="body2">
+                Vous avez déjà un compte ? Se connecter
+              </LinkMUI>
+            </Grid>
+          </Grid>
+
         </Box>
       </Box>
     </Container>
-  )
+  );
 }

@@ -65,10 +65,6 @@ export const LoginComponent = ({handleSubmit, register, error}: LoginProps) => {
               {...register("password")}
               autoComplete="current-password"
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Se souvenir de moi"
-            />
             <Button
               type="submit"
               fullWidth
@@ -79,7 +75,7 @@ export const LoginComponent = ({handleSubmit, register, error}: LoginProps) => {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2" >
+                <Link href="/forgot-password" variant="body2" >
                   Mot de passe oublié
                 </Link>
               </Grid>
