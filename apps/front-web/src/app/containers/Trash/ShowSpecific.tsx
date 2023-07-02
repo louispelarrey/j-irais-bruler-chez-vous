@@ -69,9 +69,26 @@ export const ShowSpecific = () => {
         navigate('/logout');
       }
 
-      if (data.statusCode === 200) {
-        navigate('/posting');
+      navigate('/posting');
+    },
+    [id, navigate]
+  );
+
+  const onContractEnded = useCallback(
+    () => async () => {
+      const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_URL}/api/trash/${id}/end`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      const data = await response.json();
+
+      if (data.statusCode === 401) {
+        navigate('/logout');
       }
+
+      navigate('/posting');
     },
     [id, navigate]
   );
@@ -111,6 +128,7 @@ export const ShowSpecific = () => {
       onContractTaken={onContractTaken}
       onContractCanceled={onContractCanceled}
       onContractDeleted={onContractDeleted}
+      onContractEnded={onContractEnded}
       isContractTaken={isContractTaken}
       isCreator={isCreator}
     >
