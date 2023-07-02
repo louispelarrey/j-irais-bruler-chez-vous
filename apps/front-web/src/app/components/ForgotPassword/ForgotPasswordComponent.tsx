@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Checkbox, FormControlLabel, Grid, Link, Paper, TextField, Typography } from "@mui/material";
+import { Avatar, Box, Button, Grid, Link, Paper, TextField, Typography } from "@mui/material";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { UseFormRegister } from "react-hook-form";
 import { ForgotPasswordData } from "../../containers/ForgotPassword/ForgotPassword";

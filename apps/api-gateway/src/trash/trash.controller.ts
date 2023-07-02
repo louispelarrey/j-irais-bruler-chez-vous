@@ -1,11 +1,9 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, ParseFilePipeBuilder, Patch, Post, Put, Request, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, ParseFilePipeBuilder, Post, Put, Request, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { TrashService } from './trash.service';
-import { Public } from '../authentication/decorators/public.decorator';
 import { TrashDto } from './dto/trash.dto';
 import { UpdateTrashDto } from './dto/updateTrash.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Express } from 'express';
-import { Multer } from 'multer';
 import { Role } from '@j-irais-bruler-chez-vous/shared';
 import { Roles } from '../user/role/decorators/role.decorator';
 
