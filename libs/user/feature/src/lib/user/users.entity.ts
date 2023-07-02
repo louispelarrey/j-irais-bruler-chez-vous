@@ -1,6 +1,7 @@
 import { Role } from "@j-irais-bruler-chez-vous/shared";
 import { Exclude } from "class-transformer";
 import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToMany } from "typeorm";
+import { ForgotPassword } from "../forgot-password/forgot-password.entity";
 
 @Entity()
 export class Users {
@@ -20,10 +21,6 @@ export class Users {
   @Exclude({ toPlainOnly: true })
   password: string;
 
-  // @OneToMany(() => Message, (message) => message.sender)
-  // messages: Message[];
-
-  // @OneToMany(() => Trashs, trash => trash.user)
-  // @JoinColumn()
-  // trashs: Trashs[];
+  @OneToMany(() => ForgotPassword, forgotPassword => forgotPassword.user)
+  forgotPassword: ForgotPassword[];
 }

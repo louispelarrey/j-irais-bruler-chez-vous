@@ -1,13 +1,13 @@
-import React, { ReactElement, ReactNode } from 'react';
+import React, { ReactElement } from 'react';
 
 import { Link } from 'react-router-dom';
-import { StyledImageViewer } from './Image/ImageViewer.style';
 import { StyledImageDescription } from './ContractView.style';
 import {
   Button,
+  ButtonGroup,
   Card,
-  CardActions,
   CardContent,
+  Container,
   Divider,
   IconButton,
   Paper,
@@ -16,6 +16,7 @@ import {
 import { ShowOnMap } from './Map/ShowOnMap';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Chat } from '../../../containers/Chat/Chat';
+import { ViewImage } from './Image/ViewImage';
 
 interface ContractData {
   id: string;
@@ -43,6 +44,7 @@ interface ContractViewProps {
   onContractTaken: (uuid: string) => () => void;
   onContractCanceled: (uuid: string) => () => void;
   onContractDeleted: (uuid: string) => () => void;
+  onContractEnded: (uuid: string) => () => void;
   children: ReactElement<typeof Chat>;
 }
 
@@ -61,13 +63,26 @@ export const ContractView: React.FC<ContractViewProps> = ({
   onContractTaken,
   onContractCanceled,
   onContractDeleted,
+  onContractEnded,
   isCreator,
   isContractTaken,
   children,
 }) => {
   return (
-    <>
-      <StyledImageDescription>
+    <Container
+      maxWidth="lg"
+      sx={{
+        padding: {
+          xs: '0' ,  // For 'xs' screen (0px or larger), max width will be 100%.
+          sm: '0',  // For 'sm' screen (600px or larger), max width will be 100%.
+          md: '0',  // For 'md' screen (900px or larger), max width will be 100%.
+          lg: 'lg',    // For 'lg' screen (1200px or larger), max width will be 'lg' (1280px).
+          xl: 'lg',    // For 'xl' screen (1536px or larger), max width will be 'lg' (1280px).
+        },
+      }}
+
+    >
+        <StyledImageDescription>
         <IconButton
           component={Link}
           to="/posting"
@@ -76,7 +91,7 @@ export const ContractView: React.FC<ContractViewProps> = ({
             position: 'absolute',
             marginTop: '2rem',
             marginLeft: '2rem',
-            zIndex: 2,
+            zIndex: 3000,
             borderRadius: '50%',
             border: '1px solid white',
             backgroundColor: '#121212',
@@ -93,7 +108,7 @@ export const ContractView: React.FC<ContractViewProps> = ({
         >
           <ArrowBackIcon />
         </IconButton>
-        <StyledImageViewer src={fileImageUrl} alt={reference} />
+        <ViewImage src={fileImageUrl} alt={reference} />
         <Card>
           <CardContent>
             <Typography variant="h4">{reference}</Typography>
@@ -158,7 +173,7 @@ export const ContractView: React.FC<ContractViewProps> = ({
           padding: '1rem',
           borderRadius: '0',
           borderTop: '1px solid rgba(255, 255, 255, 0.8)',
-          zIndex: 99999,
+          zIndex: 2000,
         }}
       >
         {isCreator && (
@@ -170,6 +185,7 @@ export const ContractView: React.FC<ContractViewProps> = ({
               width: '100%',
               padding: '0.6rem',
               borderRadius: '2rem',
+              zIndex: 1000,
             }}
             onClick={onContractDeleted(reference)}
           >
@@ -177,19 +193,47 @@ export const ContractView: React.FC<ContractViewProps> = ({
           </Button>
         )}
         {isContractTaken && (
-          <Button
-            size="small"
-            variant="contained"
-            color="error"
+          <ButtonGroup
             sx={{
               width: '100%',
               padding: '0.6rem',
               borderRadius: '2rem',
+              zIndex: 1000,
             }}
-            onClick={onContractCanceled(reference)}
           >
-            <Typography variant="body1">Annuler la prise en charge</Typography>
-          </Button>
+            <Button
+              size="small"
+              variant="contained"
+              color="error"
+              sx={{
+                width: '100%',
+                padding: '0.6rem',
+                borderRadius: '2rem',
+                zIndex: 1000,
+              }}
+              onClick={onContractCanceled(reference)}
+            >
+              <Typography variant="body1">
+                Annuler
+              </Typography>
+            </Button>
+            <Button
+              size="small"
+              variant="contained"
+              color="secondary"
+              sx={{
+                width: '100%',
+                padding: '0.6rem',
+                borderRadius: '2rem',
+                zIndex: 1000,
+              }}
+              onClick={onContractEnded(reference)}
+            >
+              <Typography variant="body1">
+                Contrat terminé
+              </Typography>
+            </Button>
+          </ButtonGroup>
         )}
         {!isCreator && !isContractTaken && (
           <Button
@@ -208,6 +252,6 @@ export const ContractView: React.FC<ContractViewProps> = ({
           </Button>
         )}
       </Paper>
-    </>
+    </Container>
   );
 };

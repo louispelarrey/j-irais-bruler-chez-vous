@@ -24,6 +24,10 @@ const useGet = (url: string) => {
         if (isMounted.current) {
           setData(data);
         }
+
+        if (response.status === 401) {
+          navigate("/logout");
+        }
       } catch (error: Error | any) {
         if (isMounted.current) {
           if (error.name !== "AbortError") {

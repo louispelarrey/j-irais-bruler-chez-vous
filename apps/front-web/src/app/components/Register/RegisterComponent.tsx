@@ -76,6 +76,14 @@ export const RegisterComponent = ({ register, handleSubmit, onSubmit }: Register
           >
             S'inscrire
           </Button>
+          <Grid container justifyContent="flex-end">
+            <Grid item>
+              <LinkMUI component={Link} to="/login" variant="body2">
+                Vous avez déjà un compte ? Se connecter
+              </LinkMUI>
+            </Grid>
+          </Grid>
+
         </Box>
       </Box>
     </Container>
