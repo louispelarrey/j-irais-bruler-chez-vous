@@ -8,6 +8,7 @@ import { MessageModule } from '../message/message/message.module';
 import { TrashModule } from '../trash/trash.module';
 import {ManifestationModule} from "../manifestation/manifestation.module";
 import { AdminModule } from '../admin/admin.module';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 
 @Module({
   imports: [
@@ -17,6 +18,10 @@ import { AdminModule } from '../admin/admin.module';
     TrashModule,
     ManifestationModule,
     AdminModule,
+    ThrottlerModule.forRoot({
+      ttl: 60,
+      limit: 20,
+    }),
     ClientsModule.register([
       {
         name: 'AUTHENTICATION',
@@ -81,6 +86,10 @@ import { AdminModule } from '../admin/admin.module';
       provide: 'APP_GUARD',
       useClass: RoleGuard,
     },
+    {
+      provide: 'APP_GUARD',
+      useClass: ThrottlerGuard
+    }
   ],
 })
 export class AppModule {}
