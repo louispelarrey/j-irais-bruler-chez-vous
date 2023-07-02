@@ -57,8 +57,16 @@ export class ManifestationService {
   }
 
   async joinManifestation(id: string, participantId: string): Promise<Manifestation> {
-    const manifestation = await this.manifestationRepository.findOne({where: {id}});
-    if(manifestation.creatorId === participantId) {
+    const manifestation = await this.manifestationRepository.findOne({where: {id}, relations: ['participants']});
+
+    if(!manifestation) {
+      throw new HttpException(
+        'Manifestation non trouvée',
+        HttpStatus.NOT_FOUND
+      );
+    }
+
+    if (manifestation.creatorId === participantId) {
       throw new HttpException(
         'Vous ne pouvez pas rejoindre votre propre manifestation',
         HttpStatus.BAD_REQUEST
