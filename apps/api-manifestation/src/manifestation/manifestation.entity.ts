@@ -32,3 +32,5 @@ export class Manifestation {
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     updatedAt: Date;
 }
+
+export default Manifestation;
