@@ -7,5 +7,5 @@ export class TrashDto {
         posterId: string;
         burners?: string[];
     }
-    file: any;
+    file: Express.Multer.File;
 }

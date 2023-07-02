@@ -9,6 +9,12 @@ import { Multer } from 'multer';
 import { Role } from '@j-irais-bruler-chez-vous/shared';
 import { Roles } from '../user/role/decorators/role.decorator';
 
+interface RequestWithUser extends Request {
+  user: {
+    sub: string;
+  };
+}
+
 @Controller('trash')
 export class TrashController {
   constructor(private readonly trashService: TrashService) {}
@@ -31,7 +37,7 @@ export class TrashController {
   @Post()
   @UseInterceptors(FileInterceptor('trashImage'))
   async create(
-    @Request() req: any,
+    @Request() req: RequestWithUser,
     @UploadedFile(
       new ParseFilePipeBuilder()
         .addFileTypeValidator({
@@ -64,18 +70,18 @@ export class TrashController {
   }
 
   @Post(':id/contract')
-  takeContract(@Param('id') id: string, @Request() req: any) {
+  takeContract(@Param('id') id: string, @Request() req: RequestWithUser) {
     return this.trashService.takeContract(id, req.user.sub);
   }
 
   @Delete(':id/contract')
-  removeBurner(@Param('id') id: string, @Request() req: any) {
+  removeBurner(@Param('id') id: string, @Request() req: RequestWithUser) {
     return this.trashService.removeBurner(id, req.user.sub);
   }
 
   @Delete(':id')
   @Roles(Role.Admin)
-  remove(@Param('id') id: string, @Request() req: any) {
+  remove(@Param('id') id: string, @Request() req: RequestWithUser) {
     return this.trashService.remove(id, req.user.sub);
   }
 }
