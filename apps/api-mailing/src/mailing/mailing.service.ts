@@ -13,7 +13,7 @@ export class MailingService {
    */
   async sendMail(sendMailDto: SendMailDto) {
     try {
-      const data = await this.resend.emails.send({
+      await this.resend.emails.send({
         from: 'noreply@j-irais-bruler-chez-vous.com',
         to: sendMailDto.to,
         subject: sendMailDto.subject,

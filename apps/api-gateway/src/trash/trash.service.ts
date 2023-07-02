@@ -63,7 +63,7 @@ export class TrashService {
     );
   }
 
-  async takeContract(id: string, sub: any) {
+  async takeContract(id: string, sub: string) {
     return await lastValueFrom(
       this.trashClient.send('takeContract', {
         id,
@@ -72,7 +72,7 @@ export class TrashService {
     );
   }
 
-  async remove(id: string, sub: any) {
+  async remove(id: string, sub: string) {
     return await lastValueFrom(
       this.trashClient.send('remove', {
         id,
@@ -81,7 +81,7 @@ export class TrashService {
     );
   }
 
-  async removeBurner(id: string, sub: any) {
+  async removeBurner(id: string, sub: string) {
     return await lastValueFrom(
       this.trashClient.send('removeBurner', {
         id,
