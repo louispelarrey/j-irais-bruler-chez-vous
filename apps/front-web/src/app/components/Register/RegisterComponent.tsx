@@ -8,13 +8,14 @@ import {eventCollect} from "raidalytics";
 interface RegisterProps {
   register: UseFormRegister<RegisterData>;
   handleSubmit: any;
+  onSubmit: any;
 }
 
-export const RegisterComponent = ({ register, handleSubmit }: RegisterProps) => {
+export const RegisterComponent = ({ register, handleSubmit, onSubmit }: RegisterProps) => {
 
   const handleFormSubmit = async (data: RegisterData) => {
-  await eventCollect('RegistrationButtonClicked', { tag: 'Inscription' });
-
+    await eventCollect('RegistrationButtonClicked', { tag: 'Inscription' });
+    onSubmit(data);
   };
 
   return (
