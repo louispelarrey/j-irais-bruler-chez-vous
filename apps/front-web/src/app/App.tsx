@@ -17,6 +17,8 @@ const ShowSpecific = lazy(() => import('./containers/Trash/ShowSpecific').then(m
 const ListTrash = lazy(() => import('./containers/Trash/List').then(module => ({ default: module.Trashs })));
 const ShowManifestation = lazy(() => import('./containers/Manifestation/Show').then(module => ({ default: module.Manifestation })));
 const ListManifestation = lazy(() => import('./containers/Manifestation/List').then(module => ({ default: module.Manifestations })));
+const ForgotPassword = lazy(() => import('./containers/ForgotPassword/ForgotPassword').then(module => ({ default: module.ForgotPassword })));
+const ForgotPasswordSpecific = lazy(() => import('./containers/ForgotPassword/ForgotPasswordSpecific').then(module => ({ default: module.ForgotPasswordSpecific })));
 
 const StyledApp = styled.div`
   margin-top: constant(safe-area-inset-top); // for ios 11.1
@@ -60,6 +62,8 @@ export function App() {
             <Route path="/logout" element={<Logout />} />
             <Route path="/register" element={<Register />} />
             <Route path="/profile" element={<Protected><Profile/></Protected>} />
+            <Route path="/forgot-password/:id" element={<ForgotPasswordSpecific />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/posting" element={<Protected><ListTrash/></Protected>} />
             <Route path="/posting/:id" element={<Protected><ShowSpecific/></Protected>} />
             <Route path="/trash" element={<Protected><ListTrash/></Protected>} />
