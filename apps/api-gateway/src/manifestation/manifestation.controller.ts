@@ -14,38 +14,76 @@ interface RequestWithUser extends Request {
 export class ManifestationController {
   constructor(private readonly manifestationService: ManifestationService) {}
 
+  /**
+   * Get all manifestations.
+   * @returns An array of manifestations.
+   */
   @Get()
   @Public()
   findAll() {
     return this.manifestationService.findAll();
   }
 
+  /**
+   * Get a specific manifestation by its ID.
+   * @param id - The ID of the manifestation.
+   * @returns The manifestation object.
+   */
   @Get(':id')
   @Public()
   findOne(@Param('id') id: string) {
     return this.manifestationService.findOne(id);
   }
 
+  /**
+   * Find manifestations created by the authenticated user.
+   * @param req - The request object containing the authenticated user information.
+   * @returns An array of manifestations created by the user.
+   */
   @Post('/me')
   findMyManifestations(@Request() req: RequestWithUser) {
     return this.manifestationService.findMyManifestations(req.user.sub);
   }
 
+  /**
+   * Create a new manifestation.
+   * @param req - The request object containing the authenticated user information.
+   * @param createManifestationDto - The data for creating the manifestation.
+   * @returns The created manifestation object.
+   */
   @Post()
   create(@Request() req, @Body() createManifestationDto: CreateManifestationDto) {
     return this.manifestationService.create(createManifestationDto, req.user.sub);
   }
 
+  /**
+   * Update a manifestation.
+   * @param id - The ID of the manifestation to update.
+   * @param updateManifestationDto - The updated data for the manifestation.
+   * @returns The updated manifestation object.
+   */
   @Put(':id')
   update(@Param() id: string, @Body() updateManifestationDto: UpdateManifestationDto) {
     return this.manifestationService.update(id, updateManifestationDto);
   }
 
+  /**
+   * Join a manifestation.
+   * @param req - The request object containing the authenticated user information.
+   * @param id - The ID of the manifestation to join.
+   * @returns The updated manifestation object with the user added to the participants.
+   */
   @Patch(':id')
   joinManifestation(@Request() req: RequestWithUser, @Param('id') id: string) {
     return this.manifestationService.joinManifestation(id, req.user.sub);
   }
 
+  /**
+   * Leave a manifestation.
+   * @param req - The request object containing the authenticated user information.
+   * @param id - The ID of the manifestation to leave.
+   * @returns The updated manifestation object with the user removed from the participants.
+   */
   @Patch(':id/left')
   leftManifestation(@Request() req: RequestWithUser, @Param('id') id: string) {
     return this.manifestationService.leftManifestation(id, req.user.sub);

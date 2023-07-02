@@ -14,10 +14,19 @@ export class TrashService {
     @Inject('USER') private readonly userClient: ClientProxy
   ) {}
 
+  /**
+   * Get all trash.
+   * @returns An array of trash.
+   */
   async findAll() {
     return this.trashClient.send('findAll', {});
   }
 
+  /**
+   * Get all trash posted by a user.
+   * @param posterId - The ID of the user who posted the trash.
+   * @returns An array of trash posted by the user.
+   */
   async findAllByUser(posterId: string) {
     const trashes = await lastValueFrom(
       this.trashClient.send('findAllByUser', posterId)
@@ -33,10 +42,22 @@ export class TrashService {
     return updatedTrashes;
   }
 
+  /**
+   * Get a specific trash by its ID.
+   * @param id - The ID of the trash.
+   * @returns The trash object.
+   */
   async findOne(id: string) {
     return this.trashClient.send('findOne', id);
   }
 
+  /**
+   * Create a new trash.
+   * @param sub - The ID of the user who is creating the trash.
+   * @param createTrashDto - The DTO containing the data for creating the trash.
+   * @param file - The uploaded file (trash image).
+   * @returns The created trash object.
+   */
   async create(sub: string, createTrashDto: TrashDto, file: Express.Multer.File) {
     return await lastValueFrom(
       this.trashClient.send('create', {
@@ -51,6 +72,13 @@ export class TrashService {
     );
   }
 
+
+  /**
+   * Update a trash.
+   * @param id - The ID of the trash to update.
+   * @param updateTrashDto - The DTO containing the updated data for the trash.
+   * @returns The updated trash object.
+   */
   async update(id: string, updateTrashDto: UpdateTrashDto) {
     return await lastValueFrom(
       this.trashClient.send('update', {
@@ -63,6 +91,12 @@ export class TrashService {
     );
   }
 
+  /**
+   * Take a contract for a trash item.
+   * @param id - The ID of the trash item to take the contract for.
+   * @param sub - The ID of the user taking the contract.
+   * @returns The updated trash item object with the contract taken.
+   */
   async takeContract(id: string, sub: string) {
     return await lastValueFrom(
       this.trashClient.send('takeContract', {
@@ -72,6 +106,12 @@ export class TrashService {
     );
   }
 
+  /**
+   * Remove a trash item.
+   * @param id - The ID of the trash item to remove.
+   * @param sub - The ID of the user removing the trash item.
+   * @returns The removed trash item object.
+   */
   async remove(id: string, sub: string) {
     return await lastValueFrom(
       this.trashClient.send('remove', {
@@ -81,6 +121,12 @@ export class TrashService {
     );
   }
 
+  /**
+   * Remove a burner from a trash item.
+   * @param id - The ID of the trash item to remove the burner from.
+   * @param sub - The ID of the user removing the burner from the trash item.
+   * @returns The updated trash item object with the burner removed.
+   */
   async removeBurner(id: string, sub: string) {
     return await lastValueFrom(
       this.trashClient.send('removeBurner', {
