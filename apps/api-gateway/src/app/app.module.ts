@@ -13,6 +13,7 @@ import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 @Module({
   imports: [
     AuthenticationModule,
+
     UsersModule,
     MessageModule,
     TrashModule,
