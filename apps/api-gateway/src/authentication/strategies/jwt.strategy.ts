@@ -5,6 +5,11 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
+
+  /**
+   * Creates an instance of JwtStrategy.
+   * @param configService - The ConfigService instance.
+   */
   constructor(private configService: ConfigService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -13,6 +18,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
+  /**
+   * Validates the JWT payload.
+   * @param payload - The JWT payload.
+   * @returns The validated user information.
+   */
   async validate(payload: { sub: string; username: string; roles: string[]}) {
     return { sub: payload.sub, username: payload.username, roles: payload.roles };
   }

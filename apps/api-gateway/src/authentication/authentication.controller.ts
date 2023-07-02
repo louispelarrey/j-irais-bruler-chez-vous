@@ -8,6 +8,11 @@ import { lastValueFrom } from 'rxjs';
 export class AuthenticationController {
   constructor(private readonly authenticationService: AuthenticationService) {}
 
+  /**
+   * Handles the login request.
+   * @param username - The username provided in the request body.
+   * @returns The user information if the login is successful.
+   */
   @UseGuards(LocalAuthGuard)
   @Public()
   @Post('/login')
