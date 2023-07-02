@@ -13,15 +13,29 @@ export class ManifestationService {
     private readonly manifestationRepository: Repository<Manifestation>,
   ) {}
 
+    /**
+   * Retrieve all manifestations.
+   * @returns {Promise<Manifestation[]>} A promise that resolves to an array of manifestations.
+   */
   async findAll() {
     return this.manifestationRepository.find();
   }
 
+    /**
+   * Find a manifestation by ID.
+   * @param {string} id - The ID of the manifestation to find.
+   * @returns {Promise<Manifestation>} A promise that resolves to the found manifestation, or undefined if not found.
+   */
   async findOne(id: string) {
     const manifestation = await this.manifestationRepository.findOne({ where: { id } });
     return manifestation;
   }
 
+    /**
+   * Find manifestations in which the specified user is a participant or creator.
+   * @param {string} sub - The ID of the user.
+   * @returns {Promise<Manifestation[]>} A promise that resolves to an array of manifestations.
+   */
   async findMyManifestations(sub: string) {
     const allManifestations = await this.manifestationRepository.find();
 
@@ -40,6 +54,11 @@ export class ManifestationService {
     return manifestations;
   }
 
+    /**
+   * Create a new manifestation.
+   * @param {CreateManifestationDto} createManifestationDto - The DTO containing manifestation data.
+   * @returns {Promise<Manifestation>} A promise that resolves to the created manifestation.
+   */
   async create( createManifestationDto: CreateManifestationDto ): Promise<Manifestation> {
     const manifestation = new Manifestation();
     manifestation.title = createManifestationDto.title;
@@ -49,6 +68,12 @@ export class ManifestationService {
     return this.manifestationRepository.save(manifestation);
   }
 
+    /**
+   * Update a manifestation by ID.
+   * @param {string} id - The ID of the manifestation to update.
+   * @param {UpdateManifestationDto} updateManifestationDto - The DTO containing updated manifestation data.
+   * @returns {Promise<Manifestation>} A promise that resolves to the updated manifestation.
+   */
   async update(id: string, updateManifestationDto: UpdateManifestationDto): Promise<Manifestation> {
     const manifestation = await this.manifestationRepository.findOne({where: {id}});
     manifestation.title = updateManifestationDto.title;
@@ -56,6 +81,13 @@ export class ManifestationService {
     return this.manifestationRepository.save(manifestation);
   }
 
+    /**
+   * Add a participant to a manifestation.
+   * @param {string} id - The ID of the manifestation.
+   * @param {string} participantId - The ID of the participant to add.
+   * @returns {Promise<Manifestation>} A promise that resolves to the updated manifestation.
+   * @throws {HttpException} If the participant is the creator or has already joined the manifestation.
+   */
   async joinManifestation(id: string, participantId: string): Promise<Manifestation> {
     const manifestation = await this.manifestationRepository.findOne({where: {id}});
     if(manifestation.creatorId === participantId) {
@@ -74,6 +106,13 @@ export class ManifestationService {
     return this.manifestationRepository.save(manifestation);
   }
 
+    /**
+   * Remove a participant from a manifestation.
+   * @param {string} id - The ID of the manifestation.
+   * @param {string} participantId - The ID of the participant to remove.
+   * @returns {Promise<Manifestation>} A promise that resolves to the updated manifestation.
+   * @throws {HttpException} If the participant is the creator or has not joined the manifestation.
+   */
   async leftManifestation(id: string, participantId: string): Promise<Manifestation> {
     const manifestation = await this.manifestationRepository.findOne({where: {id}});
     if(manifestation.creatorId === participantId) {
