@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: api-mailing
+  name: api-mailing
+spec:
+  ports:
+  - name: "5672"
+    port: 5672
+    targetPort: 5672
+  selector:
+    app: api-mailing
+  type: ClusterIP

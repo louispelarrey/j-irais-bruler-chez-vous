@@ -40,6 +40,8 @@ spec:
             value: "api-manifestation"
           - name: JWT_SECRET
             value: "Hc5f4g@5h6j7k8lqs9a2s3de4f&&5g6hed7j8k9l"
+          - name: OPENAI_API_KEY
+            value: "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"
         ports:
           - containerPort: 3002
 
