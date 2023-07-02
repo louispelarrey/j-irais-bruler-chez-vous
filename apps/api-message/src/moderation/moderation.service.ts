@@ -31,8 +31,12 @@ export class ModerationService {
     private readonly httpService: HttpService,
   ) {}
 
+  /**
+   * Checks if the text is appropriate using the ChatGPT model.
+   * @param {string} text - The text to check.
+   * @returns {Promise<boolean>} A promise that resolves to a boolean indicating if the text is appropriate.
+   */
   async checkAppropriate(text: string): Promise<boolean> {
-
     const chatGptResponse: AxiosResponse<ChatGptResponse> = await lastValueFrom(this.httpService.post(
       'https://api.openai.com/v1/chat/completions',
       {

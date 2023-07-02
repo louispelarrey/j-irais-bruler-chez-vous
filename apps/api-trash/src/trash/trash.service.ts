@@ -20,14 +20,22 @@ export class TrashService {
     private readonly fileUploadService: FileUploadService
   ) {}
 
+  /**
+   * Retrieves all trash sorted by date in descending order.
+   * @returns {Promise<Trash[]>} A promise that resolves to an array of all trash.
+   */
   findAll() {
-    //sort by date desc
     const trashs = this.trashRepository.find({
       order: { createdAt: 'DESC' },
     });
     return trashs;
   }
 
+  /**
+   * Retrieves all trash posted by a specific user, sorted by date in ascending order.
+   * @param {string} posterId - The ID of the user.
+   * @returns {Promise<Trash[]>} A promise that resolves to an array of trash posted by the user.
+   */
   findAllByUser(posterId: string) {
     const trashs = this.trashRepository.find({
       where: { posterId },
@@ -36,6 +44,11 @@ export class TrashService {
     return trashs;
   }
 
+  /**
+   * Retrieves a specific trash by its ID.
+   * @param {string} id - The ID of the trash.
+   * @returns {Promise<Trash>} A promise that resolves to the requested trash.
+   */
   async findOne(id: string) {
     const trash = await this.trashRepository.findOne({ where: { id } });
     trash.posterId = await lastValueFrom(
@@ -54,6 +67,11 @@ export class TrashService {
     return trash;
   }
 
+  /**
+   * Creates a new trash.
+   * @param {TrashDto} createTrashDto - The data for creating the trash.
+   * @returns {Promise<Trash>} A promise that resolves to the created trash.
+   */
   async create(createTrashDto: TrashDto): Promise<Trash> {
     const trash = new Trash();
     trash.reference = createTrashDto.data.reference;
@@ -64,6 +82,12 @@ export class TrashService {
     return await this.trashRepository.save(trash);
   }
 
+  /**
+   * Updates a specific trash.
+   * @param {string} id - The ID of the trash to update.
+   * @param {UpdateTrashDto} updateTrashDto - The updated data for the trash.
+   * @returns {Promise<Trash>} A promise that resolves to the updated trash.
+   */
   async update(id: string, updateTrashDto: UpdateTrashDto): Promise<Trash> {
     const trash = await this.trashRepository.findOne({ where: { id } });
     trash.reference = updateTrashDto.reference;
@@ -71,6 +95,13 @@ export class TrashService {
     return this.trashRepository.save(trash);
   }
 
+  /**
+   * Assigns a burner to a specific trash.
+   * @param {string} id - The ID of the trash.
+   * @param {string} burnerId - The ID of the burner to assign.
+   * @returns {Promise<Trash>} A promise that resolves to the updated trash with the assigned burner.
+   * @throws {HttpException} If the poster ID is the same as the burner ID.
+   */
   async takeContract(id: string, burnerId: string): Promise<Trash> {
     const trash = await this.trashRepository.findOne({ where: { id } });
     if (trash.posterId === burnerId) {
@@ -83,6 +114,13 @@ export class TrashService {
     return this.trashRepository.save(trash);
   }
 
+  /**
+   * Removes a specific trash.
+   * @param {string} id - The ID of the trash to remove.
+   * @param {string} burnerId - The ID of the burner attempting to remove the trash.
+   * @returns {Promise<Trash>} A promise that resolves to the removed trash.
+   * @throws {HttpException} If the burner ID does not match the poster ID.
+   */
   async remove(id: string, burnerId: string): Promise<Trash> {
     const trash = await this.trashRepository.findOne({ where: { id } });
     if (trash.posterId !== burnerId) {
@@ -94,6 +132,13 @@ export class TrashService {
     return this.trashRepository.remove(trash);
   }
 
+  /**
+   * Removes a burner from a specific trash.
+   * @param {string} id - The ID of the trash.
+   * @param {string} burnerId - The ID of the burner to remove.
+   * @returns {Promise<Trash>} A promise that resolves to the updated trash with the burner removed.
+   * @throws {HttpException} If the burner ID does not match the poster ID or the assigned burner ID.
+   */
   async removeBurner(id: string, burnerId: string): Promise<Trash> {
     const trash = await this.trashRepository.findOne({ where: { id } });
     if (trash.posterId !== burnerId && !trash.burners.includes(burnerId)) {
