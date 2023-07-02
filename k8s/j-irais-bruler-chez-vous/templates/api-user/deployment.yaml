@@ -44,6 +44,8 @@ spec:
             value: "https://j-irais-bruler-chez-vous.com"
           - name: TCP_MAILING_HOST
             value: "api-mailing"
+          - name: RABBITMQ_URL
+            value : "amqp://api-mailing:5672"
         ports:
           - containerPort: 3001
 
