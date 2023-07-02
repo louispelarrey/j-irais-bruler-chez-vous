@@ -13,7 +13,7 @@ export class MessageGateway implements OnGatewayConnection {
     private readonly messageService: MessageService,
   ) {}
 
-  async handleConnection(client: Socket, ..._args: any[]) {
+  async handleConnection(client: Socket) {
 
     const roomName = client.handshake.query.roomName;
     if(!Array.isArray(roomName)) {

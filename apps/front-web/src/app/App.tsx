@@ -55,7 +55,7 @@ const darkTheme = createTheme({
   },
 });
 
-const adminTheme = createTheme({
+createTheme({
   palette: {
     mode: 'light',
   },
@@ -103,7 +103,7 @@ export function App() {
             <Route path="/admin/manifestation" element={<AdminProtected><Manifestation/></AdminProtected>} />
             <Route path="/admin/message" element={<AdminProtected><Message/></AdminProtected>} />
 
-            
+
           </Routes>
         </ThemeProvider>
       </SuspenseLoader>

@@ -1,9 +1,14 @@
-import {Body, Controller, Delete, Get, Param, Patch, Post, Put, Request} from '@nestjs/common';
+import {Body, Controller, Get, Param, Patch, Post, Put, Request} from '@nestjs/common';
 import {ManifestationService} from "./manifestation.service";
 import {CreateManifestationDto} from "./dto/create-manifestation.dto";
 import {UpdateManifestationDto} from "./dto/update-manifestation";
 import { Public } from '../authentication/decorators/public.decorator';
 
+interface RequestWithUser extends Request {
+  user: {
+    sub: string;
+  };
+}
 
 @Controller('manifestation')
 export class ManifestationController {
@@ -22,7 +27,7 @@ export class ManifestationController {
   }
 
   @Post('/me')
-  findMyManifestations(@Request() req: any) {
+  findMyManifestations(@Request() req: RequestWithUser) {
     return this.manifestationService.findMyManifestations(req.user.sub);
   }
 
@@ -37,12 +42,12 @@ export class ManifestationController {
   }
 
   @Patch(':id')
-  joinManifestation(@Request() req: any, @Param('id') id: string) {
+  joinManifestation(@Request() req: RequestWithUser, @Param('id') id: string) {
     return this.manifestationService.joinManifestation(id, req.user.sub);
   }
 
   @Patch(':id/left')
-  leftManifestation(@Request() req: any, @Param('id') id: string) {
+  leftManifestation(@Request() req: RequestWithUser, @Param('id') id: string) {
     return this.manifestationService.leftManifestation(id, req.user.sub);
   }
 }
