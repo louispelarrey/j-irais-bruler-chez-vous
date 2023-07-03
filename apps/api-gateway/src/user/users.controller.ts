@@ -90,5 +90,4 @@ export class UsersController {
   forgotPassword(@Body() { email }: { email: string }) {
     return this.userService.forgotPassword(email);
   }
-
 }

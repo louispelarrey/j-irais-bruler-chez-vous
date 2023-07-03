@@ -31,4 +31,5 @@ export class Trash {
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
+
 }

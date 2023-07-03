@@ -10,6 +10,7 @@ import { UpdateTrashDto } from './dto/updateTrash.dto';
 
 @Injectable()
 export class TrashService {
+
   constructor(
     @InjectRepository(Trash)
     private readonly trashRepository: Repository<Trash>,
@@ -148,6 +149,20 @@ export class TrashService {
       );
     }
     trash.burners = trash.burners.filter((burner) => burner !== burnerId);
+    return this.trashRepository.save(trash);
+  }
+
+  async endContract(id: string, burnerId: string): Promise<Trash> {
+    const trash = await this.trashRepository.findOne({ where: { id } });
+    if (trash.posterId !== burnerId && !trash.burners.includes(burnerId)) {
+      throw new HttpException(
+        'Seuls le créateur ou le bruleur peuvent annuler le contrat',
+        HttpStatus.BAD_REQUEST
+      );
+    }
+
+    trash.isBurned = true;
+
     return this.trashRepository.save(trash);
   }
 }

@@ -92,4 +92,9 @@ export class TrashController {
   async removeBurner(@Payload() { id, burnerId }: { id: string, burnerId: string }): Promise<Trash> {
     return await this.trashService.removeBurner(id, burnerId);
   }
+
+  @MessagePattern('endContract')
+  async endContract(@Payload() { id, burnerId }: { id: string, burnerId: string }): Promise<Trash> {
+    return await this.trashService.endContract(id, burnerId);
+  }
 }

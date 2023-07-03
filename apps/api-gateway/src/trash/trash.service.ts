@@ -135,4 +135,13 @@ export class TrashService {
       })
     );
   }
+
+  async endContract(id: string, sub: string) {
+    return await lastValueFrom(
+      this.trashClient.send('endContract', {
+        id,
+        burnerId: sub,
+      })
+    );
+  }
 }
