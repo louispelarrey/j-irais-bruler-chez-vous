@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import {ManifestationModule} from "../manifestation/manifestation.module";
+import { ScheduleModule } from '@nestjs/schedule';
+
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
@@ -17,8 +19,9 @@ import {ManifestationModule} from "../manifestation/manifestation.module";
         autoLoadEntities: true,
         synchronize: true,
       }),
-    }),
+    },),
     ConfigModule.forRoot(),
+    ScheduleModule.forRoot(),
   ],
 })
 export class AppModule {}

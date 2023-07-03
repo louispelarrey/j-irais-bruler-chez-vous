@@ -4,6 +4,7 @@ import { Repository, In, Raw } from "typeorm";
 import {Manifestation} from "./manifestation.entity";
 import {CreateManifestationDto} from "./dto/create-manifestation.dto";
 import {UpdateManifestationDto} from "./dto/update-manifestation.dto";
+import { Cron, CronExpression } from '@nestjs/schedule';
 
 @Injectable()
 export class ManifestationService {
@@ -137,5 +138,18 @@ export class ManifestationService {
     }
     manifestation.participants = manifestation.participants.filter((participant) => participant !== participantId);
     return this.manifestationRepository.save(manifestation);
+  }
+
+  @Cron(CronExpression.EVERY_10_MINUTES)
+  async updateOldManifestations() {
+    const manifestations = await this.manifestationRepository.find({
+      where: {
+        start_date: Raw(alias => `${alias} < NOW()`)
+      }
+    });
+    manifestations.forEach((manifestation) => {
+      manifestation.isActive = false;
+    });
+    await this.manifestationRepository.save(manifestations);
   }
 }
