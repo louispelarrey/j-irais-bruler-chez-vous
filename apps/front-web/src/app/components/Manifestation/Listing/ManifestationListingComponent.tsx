@@ -87,7 +87,6 @@ export const ManifestationListingComponent = ({
                     description={item.description}
                     address={item.address}
                     start_date={item.start_date}
-                    image="https://picsum.photos/200/300"
                     manifestationId={item.id}
                 />
             </Grid>

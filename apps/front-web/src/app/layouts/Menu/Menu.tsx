@@ -48,7 +48,7 @@ export const Menu = () => {
                   </StyledLink>
 
                   <StyledLink to="/manifestation" className="menu-link">
-                    <Button>Manifestations</Button>
+                    <Button>Mes manifestations</Button>
                   </StyledLink>
                   
                   <StyledLink to="/profile" className="menu-link">

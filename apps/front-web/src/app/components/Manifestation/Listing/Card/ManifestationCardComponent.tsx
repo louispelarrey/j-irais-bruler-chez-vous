@@ -9,12 +9,12 @@ import {
     Divider,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { ShowOnMap } from '../../../Trash/View/Map/ShowOnMap';
 
 interface CardComponentProps {
     id: string;
     title: string;
     description: string;
-    image: string;
     address: string;
     start_date: string;
     manifestationId: string;
@@ -23,7 +23,6 @@ interface CardComponentProps {
 export const CardComponent = ({
     title,
     description,
-    image,
     address,
     start_date,
     manifestationId,
@@ -31,7 +30,9 @@ export const CardComponent = ({
     return (
       <Grid item xs={12} sm={6} md={4} sx={{ mb: 3 }}>
         <Card sx={{ maxWidth: 400, margin: 'auto' }}>
-          <CardMedia component="img" height="140" image={image} alt="image" />
+          <CardMedia>
+            <ShowOnMap address={address} title={title} />
+          </CardMedia>
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
               {title}
