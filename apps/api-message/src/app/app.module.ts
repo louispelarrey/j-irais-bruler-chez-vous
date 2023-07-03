@@ -20,6 +20,7 @@ import { ModerationModule } from '@api-message/moderation/moderation.module';
         synchronize: true,
       }),
     }),
+
     ConfigModule.forRoot(),
   ],
 })
