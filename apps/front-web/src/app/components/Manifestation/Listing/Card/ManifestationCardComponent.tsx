@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { ShowOnMap } from '../../../Trash/View/Map/ShowOnMap';
+import Diversity3Icon from '@mui/icons-material/Diversity3';
 
 interface CardComponentProps {
     id: string;
@@ -33,10 +34,13 @@ export const CardComponent = ({
           <CardMedia>
             <ShowOnMap address={address} title={title} />
           </CardMedia>
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              {title}
-            </Typography>
+          <CardContent sx={{ display: 'flex', flexDirection: 'column' }}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+                <Diversity3Icon />
+                <Typography gutterBottom variant="h5" component="div" sx={{ flexGrow: 1, textAlign: 'right' }}>
+                {title}
+              </Typography>
+            </div>
             <Typography variant="body2" color="text.secondary">
               {description}
             </Typography>

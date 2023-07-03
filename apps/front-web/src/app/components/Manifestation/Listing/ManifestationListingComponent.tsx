@@ -31,68 +31,66 @@ export const ManifestationListingComponent = ({
   handleSubmit,
   onSubmit,
 }: IManifestationListingComponent) => {
-    return (
-        <>
-            <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-            sx={{
-                px: 2,
-                my: 2,
-                display: 'flex',
-                alignItems: 'center',
-                flexDirection: 'column',
-                overflowY: 'scroll',
-            }}
-        >
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                <ManifestationModalComponent
-                    handleSubmit={handleSubmit(onSubmit)}
-                    register={register}
-                />
-            </Typography>
-        </Modal>
-        <Box
+  return (
+    <>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        sx={{
+          px: 2,
+          my: 2,
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: 'column',
+          overflowY: 'scroll',
+        }}
+      >
+        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          <ManifestationModalComponent
+            handleSubmit={handleSubmit(onSubmit)}
+            register={register}
+          />
+        </Typography>
+      </Modal>
+      <Button onClick={handleOpen}>Créer une manifestation</Button>
+      <Box
+        sx={{
+          position: 'relative',
+          width: '100%',
+          height: '100vh',
+          justifyContent: 'center',
+          flexDirection: 'row',
+        }}
+      >
+        <Grid
+          container
+          spacing={2}
           sx={{
-            position: 'relative',
-            width: '100%',
-            height: '100vh',
+            px: 2,
+            my: 2,
             display: 'flex',
-            justifyContent: 'center',
             alignItems: 'center',
-            flexDirection: 'column',
+            flexDirection: 'row',
+            textAlign: 'center',
+            justifyContent: 'center',
           }}
         >
-          <Button onClick={handleOpen}>Créer une manifestation</Button>
-          <Grid
-            container
-            spacing={2}
-            sx={{
-              px: 2,
-              my: 2,
-              display: 'flex',
-              alignItems: 'center',
-              flexDirection: 'row',
-              textAlign: 'center',
-              justifyContent: 'center',
-            }}
-          >
           {data.map((item: List) => (
-            <Grid item xs={6} sm={6} md={3} lg={3} key={item.id}>
-                <CardComponent
-                    key={item.id}
-                    title={item.title}
-                    description={item.description}
-                    address={item.address}
-                    start_date={item.start_date}
-                    manifestationId={item.id}
-                />
+            <Grid item xs={12} sm={12} md={12} lg={12} key={item.id}>
+              <CardComponent
+                key={item.id}
+                title={item.title}
+                description={item.description}
+                address={item.address}
+                start_date={item.start_date}
+                manifestationId={item.id}
+              />
             </Grid>
           ))}
-          </Grid>
-        </Box>
+        </Grid>
+      </Box>
     </>
-    );
+  );
 };
