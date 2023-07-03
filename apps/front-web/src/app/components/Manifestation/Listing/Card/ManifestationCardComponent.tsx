@@ -9,12 +9,13 @@ import {
     Divider,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { ShowOnMap } from '../../../Trash/View/Map/ShowOnMap';
+import Diversity3Icon from '@mui/icons-material/Diversity3';
 
 interface CardComponentProps {
     id: string;
     title: string;
     description: string;
-    image: string;
     address: string;
     start_date: string;
     manifestationId: string;
@@ -23,19 +24,23 @@ interface CardComponentProps {
 export const CardComponent = ({
     title,
     description,
-    image,
     address,
     start_date,
     manifestationId,
 }: CardComponentProps) => {
     return (
       <Grid item xs={12} sm={6} md={4} sx={{ mb: 3 }}>
-        <Card sx={{ height: '100%' }}>
-          <CardMedia component="img" height="140" image={image} alt="image" />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              {title}
-            </Typography>
+        <Card sx={{ maxWidth: 400, margin: 'auto' }}>
+          <CardMedia>
+            <ShowOnMap address={address} title={title} />
+          </CardMedia>
+          <CardContent sx={{ display: 'flex', flexDirection: 'column' }}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+                <Diversity3Icon />
+                <Typography gutterBottom variant="h5" component="div" sx={{ flexGrow: 1, textAlign: 'right' }}>
+                {title}
+              </Typography>
+            </div>
             <Typography variant="body2" color="text.secondary">
               {description}
             </Typography>

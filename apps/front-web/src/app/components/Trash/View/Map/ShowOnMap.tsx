@@ -4,7 +4,7 @@ import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import ReactLeafletGoogleLayer from 'react-leaflet-google-layer';
 import { StyledMapComponent } from '../../../Map/StyledMapComponent';
 
-export const ShowOnMap = ({ address }: { address: string }) => {
+export const ShowOnMap = ({ address, title  }: { address: string, title?: string }) => {
   const [position, setPosition] = useState<[number, number] | undefined>();
 
   useEffect(() => {
@@ -34,7 +34,7 @@ export const ShowOnMap = ({ address }: { address: string }) => {
         <ReactLeafletGoogleLayer apiKey="AIzaSyDbOPJzULaNcIuBSEhnNV1TDSmIATqEtGI" />
         <Marker position={position}>
           <Popup>
-            La poubelle est située ici
+            {title ? title : 'La poubelle est située ici'}
           </Popup>
         </Marker>
       </StyledMapComponent>
