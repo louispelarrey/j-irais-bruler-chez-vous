@@ -30,7 +30,7 @@ export const CardComponent = ({
 }: CardComponentProps) => {
     return (
       <Grid item xs={12} sm={6} md={4} sx={{ mb: 3 }}>
-        <Card sx={{ height: '100%' }}>
+        <Card sx={{ maxWidth: 400, margin: 'auto' }}>
           <CardMedia component="img" height="140" image={image} alt="image" />
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">

@@ -10,6 +10,7 @@ import { Chat } from '../Chat/Chat';
 import { useChat } from '../../hooks/useChat';
 import { useNavigate } from 'react-router-dom';
 import { useCallback, useEffect, useState, Fragment } from 'react';
+import { MapComponent } from '../../components/Map/MapComponent';
 
 
 interface ExpandMoreProps extends IconButtonProps {
@@ -118,12 +119,9 @@ export const Manifestation = () => {
   return (
     <div>
       <Card sx={{ width: '100%' }}>
-        <CardMedia
-          component="img"
-          height="194"
-          image="https://picsum.photos/200/300"
-          alt="Paella dish"
-        />
+        <CardContent>
+          {/* Map with address */}
+        </CardContent>
         <CardHeader
           title = {currentManifestation.title}
           subheader = {

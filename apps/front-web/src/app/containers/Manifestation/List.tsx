@@ -1,5 +1,5 @@
 import useGet from '../../hooks/useGet';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { ManifestationListingComponent } from '../../components/Manifestation/Listing/ManifestationListingComponent';
@@ -19,8 +19,37 @@ export interface IManifestationOnSubmit {
   start_date: string;
 }
 
+const usePost = (url: string, body: any) => {
+  const [data, setData] = useState<any[]>([]);
+  const [error, setError] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          body: JSON.stringify(body),
+        });
+        const data = await response.json();
+        setData(data);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+  return { data, error, loading };
+};
+
 export const Manifestations = () => {
-  const { data, error, loading } = useGet('/api/manifestation');
+  const { data, error, loading } = usePost(`${import.meta.env.VITE_APP_BACKEND_URL}/api/manifestation/me`, {});
   const [ open, setOpen ] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -28,7 +57,7 @@ export const Manifestations = () => {
   const { register, handleSubmit } = useForm<ManifestationData>();
 
   const onSubmit = async ({ title, description, address, start_date }: IManifestationOnSubmit) => {
-    const response = await fetch('/api/manifestation', {
+    const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_URL}/api/manifestation`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

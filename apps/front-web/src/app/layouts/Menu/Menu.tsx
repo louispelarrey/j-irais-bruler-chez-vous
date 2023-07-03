@@ -47,7 +47,7 @@ export const Menu = () => {
                     <Button>Annonces</Button>
                   </StyledLink>
 
-                  <StyledLink to="/manifestation/1" className="menu-link">
+                  <StyledLink to="/manifestation" className="menu-link">
                     <Button>Manifestations</Button>
                   </StyledLink>
                   
