@@ -7,7 +7,6 @@ import { lazy } from 'react';
 import { SuspenseLoader } from './suspense/SuspenseLoader';
 import FontMedium from './fonts/font-medium.woff2';
 import { Page404 } from "./layouts/Page404";
-import SnackbarProvider  from "react-mui-snackbar" ;
 
 const Home = lazy(() => import('./containers/Home/Home').then(module => ({ default: module.Home })));
 const Login = lazy(() => import('./containers/Login/Login').then(module => ({ default: module.Login })));
@@ -82,7 +81,6 @@ export function App() {
     <StyledApp>
       <SuspenseLoader>
         <ThemeProvider theme={darkTheme}>
-          <SnackbarProvider>
           <CssBaseline />
           <Menu />
           <Routes>
@@ -108,7 +106,6 @@ export function App() {
 
 
           </Routes>
-          </SnackbarProvider>
         </ThemeProvider>
       </SuspenseLoader>
     </StyledApp>
