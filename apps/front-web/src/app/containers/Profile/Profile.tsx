@@ -1,4 +1,3 @@
-import { useCallback, useState } from "react";
 import { ProfileComponent } from "../../components/Profile/ProfileComponent";
 import getUserIdFromToken from '../../utils/user/getUserIdFromToken';
 import useGet from '../../hooks/useGet';
