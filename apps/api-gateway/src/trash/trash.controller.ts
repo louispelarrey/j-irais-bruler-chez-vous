@@ -126,4 +126,9 @@ export class TrashController {
   remove(@Param('id') id: string, @Request() req: RequestWithUser) {
     return this.trashService.remove(id, req.user.sub);
   }
+
+  @Post(':id/end')
+  endContract(@Param('id') id: string, @Request() req: RequestWithUser) {
+    return this.trashService.endContract(id, req.user.sub);
+  }
 }
