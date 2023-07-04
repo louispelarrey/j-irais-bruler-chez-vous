@@ -67,6 +67,7 @@ export class ManifestationService {
     manifestation.description = createManifestationDto.description;
     manifestation.creatorId = createManifestationDto.creatorId;
     manifestation.address = createManifestationDto.address;
+    manifestation.start_date = new Date(createManifestationDto.start_date);
     return this.manifestationRepository.save(manifestation);
   }
 
