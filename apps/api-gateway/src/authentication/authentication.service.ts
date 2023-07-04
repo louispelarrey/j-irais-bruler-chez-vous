@@ -17,7 +17,7 @@ export class AuthenticationService {
    * @returns A promise that resolves to the user information if the login is successful.
    */
   getLogin(username: string, password: string) {
-    return this.authenticationClient.send('login', {username, password})
+    return this.authenticationClient.send('login', { username, password })
   }
 
   /**
