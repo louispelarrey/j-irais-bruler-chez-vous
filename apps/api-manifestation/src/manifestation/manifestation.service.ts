@@ -108,7 +108,7 @@ export class ManifestationService {
    * @throws {HttpException} If the participant is the creator or has already joined the manifestation.
    */
   async joinManifestation(id: string, participantId: string): Promise<Manifestation> {
-    const manifestation = await this.manifestationRepository.findOne({where: {id}, relations: ['participants']});
+    const manifestation = await this.manifestationRepository.findOne({where: {id}});
 
     if(!manifestation) {
       throw new HttpException(
