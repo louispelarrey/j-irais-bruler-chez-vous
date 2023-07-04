@@ -1,5 +1,5 @@
 import { ForgotPasswordSpecificComponent } from '../../components/ForgotPassword/ForgotPasswordSpecificComponent';
-import { useParams } from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -11,6 +11,7 @@ export const ForgotPasswordSpecific = () => {
   const { id } = useParams();
   const { register, handleSubmit } = useForm<ForgotPasswordSpecificData>();
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const onSubmit = async ({ password }: ForgotPasswordSpecificData) => {
     const response = await fetch(
@@ -28,6 +29,8 @@ export const ForgotPasswordSpecific = () => {
     if (response.status !== 201 || !data) {
       setError('Email incorrect');
       return;
+    }else {
+      navigate('/login');
     }
   };
 

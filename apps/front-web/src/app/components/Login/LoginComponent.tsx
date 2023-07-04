@@ -1,7 +1,10 @@
-import { Avatar, Box, Button, Checkbox, FormControlLabel, Grid, Link, Paper, TextField, Typography } from "@mui/material";
+import {Avatar, Box, Button, Grid, Link, Paper, Snackbar, TextField, Typography} from "@mui/material";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { LoginData } from "../../containers/Login/Login";
-import { UseFormRegister } from "react-hook-form";
+import {LoginData} from "../../containers/Login/Login";
+import {UseFormRegister} from "react-hook-form";
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
+import {useEffect, useState} from "react";
 
 interface LoginProps {
   register: UseFormRegister<LoginData>;
@@ -10,8 +13,27 @@ interface LoginProps {
 }
 
 export const LoginComponent = ({handleSubmit, register, error}: LoginProps) => {
+
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    error !== '' ? setOpen(true) : setOpen(false)
+  }, [error]);
+  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
+
   return (
     <Grid container component="main" sx={{ height: '100vh' }}>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert severity="error">
+          <AlertTitle>Error</AlertTitle>
+          {error}
+        </Alert>
+      </Snackbar>
       <Grid
         item
         xs={false}
@@ -43,7 +65,6 @@ export const LoginComponent = ({handleSubmit, register, error}: LoginProps) => {
             Se connecter
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-            {error && <Typography variant="body2" color="error">{error}</Typography>}
             <TextField
               margin="normal"
               required
