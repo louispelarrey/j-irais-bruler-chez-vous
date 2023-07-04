@@ -32,4 +32,9 @@ export class Trash {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
 
+  @Column({type: 'float', default: 0.0})
+  longitude: number;
+
+  @Column({type: 'float', default: 0.0})
+  latitude: number;
 }
