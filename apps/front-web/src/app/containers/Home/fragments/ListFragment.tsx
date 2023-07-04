@@ -83,6 +83,9 @@ export const ListFragment = () => {
               {step.description}
             </Typography>
             <Typography variant="body2" color="text.secondary">
+              Nombre de participants: {step.participantCount}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
               Créateur: {step.creatorId}
             </Typography>
           </CardContent>

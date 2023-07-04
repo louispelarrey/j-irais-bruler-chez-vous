@@ -20,7 +20,13 @@ export class ManifestationService {
    */
   async findAll() {
     const manifestations = await this.manifestationRepository.find({where: {isActive: true}});
-    return manifestations;
+    const manifestationsWithParticipantCount = [];
+    for (const manifestation of manifestations) {
+      const participantCount = manifestation.participants.length;
+      const manifestationWithCount = { ...manifestation, participantCount };
+      manifestationsWithParticipantCount.push(manifestationWithCount);
+    }
+    return manifestationsWithParticipantCount;
   }
 
     /**

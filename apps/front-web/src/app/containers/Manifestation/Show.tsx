@@ -106,7 +106,7 @@ export const Manifestation = () => {
         navigate('/');
       }
     },
-    [navigate]
+    [navigate, id]
   );
 
   if (loading || !currentManifestation || !myManifestations) {
