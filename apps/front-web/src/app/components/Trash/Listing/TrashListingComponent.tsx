@@ -8,10 +8,12 @@ export interface List {
   id: string;
   reference: string;
   description: string;
-  address: string;
   updatedAt: string;
   fileImageUrl: string;
   isBurned: boolean;
+  latitude: number;
+  longitude: number;
+  address: string;
 }
 
 interface ITrashListingComponent {
@@ -22,6 +24,8 @@ interface ITrashListingComponent {
   register: UseFormRegister<TrashData>;
   handleSubmit: any;
   onSubmit: any;
+  setLatitude: (latitude: number) => void;
+  setLongitude: (longitude: number) => void;
 }
 
 export const TrashListingComponent = ({
@@ -32,6 +36,8 @@ export const TrashListingComponent = ({
   register,
   handleSubmit,
   onSubmit,
+  setLatitude,
+  setLongitude,
 }: ITrashListingComponent) => {
   return (
     <>
@@ -53,6 +59,8 @@ export const TrashListingComponent = ({
           <TrashModalComponent
             handleSubmit={handleSubmit(onSubmit)}
             register={register}
+            setLatitude={setLatitude}
+            setLongitude={setLongitude}
           />
         </Typography>
       </Modal>
@@ -78,8 +86,8 @@ export const TrashListingComponent = ({
             key={item.id}
             title={item.reference}
             description={item.description}
-            address={item.address}
             updatedAt={item.updatedAt}
+            address={item.address}
             image={item.fileImageUrl}
             trashId={item.id}
             isBurned={item.isBurned}

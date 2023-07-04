@@ -3,9 +3,11 @@ export class TrashDto {
   data : {
     reference: string;
     description: string;
-    address: string;
     posterId: string;
     burners?: string[];
+    latitude: number;
+    longitude: number;
+    address: string;
   }
   file: Express.Multer.File;
 }

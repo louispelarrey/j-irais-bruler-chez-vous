@@ -65,6 +65,8 @@ export class TrashService {
         data: {
           reference: createTrashDto.data.reference,
           description: createTrashDto.data.description,
+          latitude: createTrashDto.data.latitude,
+          longitude: createTrashDto.data.longitude,
           address: createTrashDto.data.address,
           posterId: sub,
         },

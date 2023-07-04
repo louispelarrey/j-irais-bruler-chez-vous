@@ -22,16 +22,17 @@ export async function seed() {
 
   const trashRepository = AppDataSource.getRepository(Trash);
 
-  const trashData: Partial<Trash>[] = Array.from({length: 100}, () => ({
+  const trashData: Partial<Trash>[] = Array.from({length: 500}, () => ({
     reference: faker.string.uuid(),
     description: faker.lorem.sentence(),
-    address: faker.location.streetAddress(),
     posterId: faker.string.uuid(),
     burners: [faker.internet.userName(), faker.internet.userName()],
     isBurned: faker.datatype.boolean(),
     fileImageUrl: faker.image.url(),
-    longitude: faker.location.longitude(),
-    latitude: faker.location.latitude(),
+    //set the max latitude to paris, and the min latitude to paris too
+    longitude: faker.location.longitude({max: 48.9, min: 48.8162}),
+    latitude: faker.location.latitude({max: 2.4136, min: 2.26}),
+    address: faker.location.streetAddress(),
   }));
 
   for (const trash of trashData) {

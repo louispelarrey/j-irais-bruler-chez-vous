@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useEffect } from 'react';
 
 import { Link } from 'react-router-dom';
 import { StyledImageDescription } from './ContractView.style';
@@ -17,12 +17,12 @@ import { ShowOnMap } from './Map/ShowOnMap';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Chat } from '../../../containers/Chat/Chat';
 import { ViewImage } from './Image/ViewImage';
+import getAdressBasedOnLatLong from '../../../utils/map/getAdressBasedOnLatLong';
 
 interface ContractData {
   id: string;
   reference: string;
   description: string;
-  address: string;
   posterId: {
     id: string;
     username: string;
@@ -35,6 +35,8 @@ interface ContractData {
   fileImageUrl: string;
   createdAt: string;
   updatedAt: string;
+  latitude: number;
+  longitude: number;
 }
 
 interface ContractViewProps {
@@ -52,13 +54,14 @@ export const ContractView: React.FC<ContractViewProps> = ({
   data: {
     reference,
     description,
-    address,
     posterId,
     fileImageUrl,
     createdAt,
     updatedAt,
     burners,
     isBurned,
+    latitude,
+    longitude,
   },
   onContractTaken,
   onContractCanceled,
@@ -68,6 +71,16 @@ export const ContractView: React.FC<ContractViewProps> = ({
   isContractTaken,
   children,
 }) => {
+  const [address, setAddress] = React.useState<string>('');
+
+  useEffect(() => {
+    const getAddress = async () => {
+      const address = await getAdressBasedOnLatLong(latitude, longitude);
+      setAddress(address);
+    };
+    getAddress();
+  }, [latitude, longitude]);
+
   return (
     <Container
       maxWidth="lg"
@@ -128,7 +141,10 @@ export const ContractView: React.FC<ContractViewProps> = ({
               marginTop: '-20px',
             }}
           >
-            <ShowOnMap address={address} />
+            <ShowOnMap
+              latitude={latitude}
+              longitude={longitude}
+            />
             <Typography
               variant="body1"
               color="text.secondary"

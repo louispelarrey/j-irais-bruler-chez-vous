@@ -5,9 +5,16 @@ import getAdressBasedOnLatLong from '../../../utils/map/getAdressBasedOnLatLong'
 
 interface ILocationMarkerProps extends IMapProps {
   setLocationLoading: (loading: boolean) => void;
+  setLatitude: (latitude: number) => void;
+  setLongitude: (longitude: number) => void;
 }
 
-export const LocationMarker = ({setLocationLoading, setAddress}: ILocationMarkerProps) => {
+export const LocationMarker = ({
+  setLocationLoading,
+  setAddress,
+  setLatitude,
+  setLongitude
+}: ILocationMarkerProps) => {
   const [position, setPosition] = useState<[number, number] | null>(null);
 
   const map = useMapEvents({
@@ -17,6 +24,8 @@ export const LocationMarker = ({setLocationLoading, setAddress}: ILocationMarker
     },
     async locationfound(e: any) {
       setAddress(await getAdressBasedOnLatLong(e.latlng.lat, e.latlng.lng));
+      setLatitude(e.latlng.lat);
+      setLongitude(e.latlng.lng);
       setPosition(e.latlng);
       map.flyTo(e.latlng, 16);
       setLocationLoading(false);

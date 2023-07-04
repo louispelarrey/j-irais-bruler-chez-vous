@@ -79,6 +79,8 @@ export class TrashService {
     trash.description = createTrashDto.data.description;
     trash.posterId = createTrashDto.data.posterId;
     trash.address = createTrashDto.data.address;
+    trash.latitude = createTrashDto.data.latitude;
+    trash.longitude = createTrashDto.data.longitude;
     trash.fileImageUrl = await this.fileUploadService.uploadFile(createTrashDto.file);
     return await this.trashRepository.save(trash);
   }
