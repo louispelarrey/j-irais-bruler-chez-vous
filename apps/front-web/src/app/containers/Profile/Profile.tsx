@@ -1,7 +1,7 @@
 import { ProfileComponent } from "../../components/Profile/ProfileComponent";
 import getUserIdFromToken from '../../utils/user/getUserIdFromToken';
 import useGet from '../../hooks/useGet';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { SuspenseLoader } from '../../suspense/SuspenseLoader';
 import { useForm } from 'react-hook-form';
 
@@ -12,7 +12,8 @@ interface UserData {
 
 export const Profile = () => {
   const userId = getUserIdFromToken(localStorage.getItem('token') ?? '');
-  const { data, error, loading } = useGet(`/api/users/${userId}`);
+  const { id } = useParams();
+  const { data, error, loading } = useGet(`/api/users/${id}`);
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm<UserData>();
 

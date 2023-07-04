@@ -89,7 +89,7 @@ export function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/logout" element={<Logout />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/profile" element={<Protected><Profile/></Protected>} />
+            <Route path="/profile/:id" element={<Protected><Profile/></Protected>} />
             <Route path="/forgot-password/:id" element={<ForgotPasswordSpecific />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/posting" element={<Protected><ListTrash/></Protected>} />

@@ -6,11 +6,13 @@ import { StyledLink } from "../../containers/Login/Link/Link.style";
 import { UserContext } from "../../contexts/UserContext";
 import getUserRoleFromToken from '../../utils/user/getUserRoleFromToken';
 import { Link } from 'react-router-dom';
+import getUserIdFromToken from "../../utils/user/getUserIdFromToken";
 
 export const Menu = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const { token, logout } = useContext(UserContext);
+  const userId = getUserIdFromToken(localStorage.getItem('token') ?? '');
   const role = getUserRoleFromToken(localStorage.getItem('token') ?? '');
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -51,7 +53,7 @@ export const Menu = () => {
                     <Button>Mes manifestations</Button>
                   </StyledLink>
                   
-                  <StyledLink to="/profile" className="menu-link">
+                  <StyledLink to={`/profile/${userId}`} className="menu-link">
                     <Button>Profil</Button>
                   </StyledLink>
 
