@@ -19,7 +19,8 @@ export class ManifestationService {
    * @returns {Promise<Manifestation[]>} A promise that resolves to an array of manifestations.
    */
   async findAll() {
-    return this.manifestationRepository.find();
+    const manifestations = await this.manifestationRepository.find({where: {isActive: true}});
+    return manifestations;
   }
 
     /**
@@ -38,7 +39,7 @@ export class ManifestationService {
    * @returns {Promise<Manifestation[]>} A promise that resolves to an array of manifestations.
    */
   async findMyManifestations(sub: string) {
-    const allManifestations = await this.manifestationRepository.find();
+    const allManifestations = await this.manifestationRepository.find({where: {isActive: true}});
 
     const manifestations = allManifestations.filter((manifestation) => {
       if(manifestation.creatorId === sub) {
