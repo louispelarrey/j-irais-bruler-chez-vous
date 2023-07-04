@@ -11,6 +11,7 @@ export interface List {
   address: string;
   updatedAt: string;
   fileImageUrl: string;
+  isBurned: boolean;
 }
 
 interface ITrashListingComponent {
@@ -81,6 +82,7 @@ export const TrashListingComponent = ({
             updatedAt={item.updatedAt}
             image={item.fileImageUrl}
             trashId={item.id}
+            isBurned={item.isBurned}
           />
         ))}
       </StyledTrashListingComponent>

@@ -6,6 +6,7 @@ import { Route, Routes } from 'react-router-dom';
 import { lazy } from 'react';
 import { SuspenseLoader } from './suspense/SuspenseLoader';
 import FontMedium from './fonts/font-medium.woff2';
+import { Page404 } from "./layouts/Page404";
 
 const Home = lazy(() => import('./containers/Home/Home').then(module => ({ default: module.Home })));
 const Login = lazy(() => import('./containers/Login/Login').then(module => ({ default: module.Login })));
