@@ -1,10 +1,10 @@
-import { useCallback, useState } from "react";
 import { ProfileComponent } from "../../components/Profile/ProfileComponent";
 import getUserIdFromToken from '../../utils/user/getUserIdFromToken';
 import useGet from '../../hooks/useGet';
 import { useNavigate } from 'react-router-dom';
 import { SuspenseLoader } from '../../suspense/SuspenseLoader';
 import { useForm } from 'react-hook-form';
+import { useSnackbarContext } from "react-mui-snackbar";
 
 interface UserData {
   email: string;
@@ -16,6 +16,8 @@ export const Profile = () => {
   const { data, error, loading } = useGet(`/api/users/${userId}`);
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm<UserData>();
+
+  const {openSnackbar} = useSnackbarContext() ;
 
   const onSubmit = async ({
     username
@@ -40,6 +42,10 @@ export const Profile = () => {
     if (data.id) {
       navigate('/logout');
     }
+    openSnackbar({
+      message: "Votre profil a bien été modifié",
+      type: "success",
+    });
   };
 
   if (loading) {
