@@ -77,8 +77,7 @@ export class ManifestationService {
    * @returns {Promise<Manifestation>} A promise that resolves to the updated manifestation.
    */
   async update(id: string, updateManifestationDto: UpdateManifestationDto, sub:string): Promise<Manifestation> {
-    const manifestation = await this.manifestationRepository.findOne({ where: { id: id } });
-    console.log(manifestation);
+    const manifestation = await this.manifestationRepository.findOne({ where: { id } });
     if(!manifestation) {
       throw new HttpException(
         'Manifestation non trouvée',
