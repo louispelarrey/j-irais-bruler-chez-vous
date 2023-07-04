@@ -18,6 +18,11 @@ export class TrashController {
     return this.trashService.findAll();
   }
 
+  @MessagePattern('getHeatmapData')
+  async getHeatmapData(@Payload() {startDate}: {startDate: string}) {
+    return this.trashService.getHeatmapData(startDate);
+  }
+
   /**
    * Retrieves all trash posted by a specific user.
    * @param {string} posterId - The ID of the user.

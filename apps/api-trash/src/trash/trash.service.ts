@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { MoreThanOrEqual, Repository } from 'typeorm';
 import { Trash } from './trash.entity';
 import { TrashDto } from './dto/trash.dto';
 import { ClientProxy } from '@nestjs/microservices';
@@ -41,6 +41,17 @@ export class TrashService {
     const trashs = this.trashRepository.find({
       where: { posterId },
       order: { createdAt: 'ASC' },
+    });
+    return trashs;
+  }
+
+  async getHeatmapData(startDate: string) {
+    //select createdAt >= startDate
+    const trashs = await this.trashRepository.find({
+      select: ['latitude', 'longitude'],
+      where: {
+        createdAt: MoreThanOrEqual(new Date(startDate))
+      }
     });
     return trashs;
   }

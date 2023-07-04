@@ -18,10 +18,10 @@ import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
     TrashModule,
     ManifestationModule,
     AdminModule,
-    ThrottlerModule.forRoot({
-      ttl: 60,
-      limit: 20,
-    }),
+    // ThrottlerModule.forRoot({
+    //   ttl: 60,
+    //   limit: 20,
+    // }),
     ClientsModule.register([
       {
         name: 'AUTHENTICATION',
@@ -86,10 +86,10 @@ import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
       provide: 'APP_GUARD',
       useClass: RoleGuard,
     },
-    {
-      provide: 'APP_GUARD',
-      useClass: ThrottlerGuard
-    }
+    // {
+    //   provide: 'APP_GUARD',
+    //   useClass: ThrottlerGuard
+    // }
   ],
 })
 export class AppModule {}
