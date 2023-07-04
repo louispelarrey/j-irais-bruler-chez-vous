@@ -1,7 +1,7 @@
-import {Box, Typography, Stack, Button, Modal, TextField, Card, CardHeader, CardContent, Grid} from '@mui/material';
-import {useState} from 'react';
-import {UseFormRegister} from 'react-hook-form';
-import {imgProfile} from "../../../../public/user_profile_default.png"
+import { Box, Typography, Stack, Button, Modal, TextField, Card, CardHeader, CardContent, Grid } from '@mui/material';
+import { useState } from 'react';
+import { UseFormRegister } from 'react-hook-form';
+import { imgProfile } from "../../../../public/user_profile_default.png"
 
 interface UserData {
   email: string;
@@ -15,10 +15,10 @@ interface IProfileComponent {
 }
 
 export const ProfileComponent = ({
-                                   data,
-                                   onSubmit,
-                                   register
-                                 }: IProfileComponent) => {
+  data,
+  onSubmit,
+  register
+}: IProfileComponent) => {
   const statistics = {
     trash: 30,
     manifestation: 10,
@@ -30,7 +30,7 @@ export const ProfileComponent = ({
   const handleClose = () => setOpen(false);
 
   return (
-    <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', p: 2}}>
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', p: 2 }}>
       <Typography variant="h4" component="h1" mb={2}>
         Votre Profil
       </Typography>
@@ -50,8 +50,8 @@ export const ProfileComponent = ({
           }}>
             <Grid container>
               <Grid item xs={4}>
-                <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
-                  <img src="/user_profile_default.png" width={"200"} alt="profile" style={{borderRadius: '5%'}}/>
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
+                  <img src="/user_profile_default.png" width={"200"} alt="profile" style={{ borderRadius: '5%' }} />
                 </Box>
               </Grid>
               <Grid item xs={8}>
@@ -63,8 +63,8 @@ export const ProfileComponent = ({
                     {data.username}
                   </Typography>
                 </Box>
-                <Box sx={{width: '100%', mt: 3, mb: 1, padding: '8px 0'}}>
-                  <Stack direction="row" spacing={2} sx={{textAlign: 'center'}}>
+                <Box sx={{ width: '100%', mt: 3, mb: 1, padding: '8px 0' }}>
+                  <Stack direction="row" spacing={2} sx={{ textAlign: 'center' }}>
                     <Box sx={{
                       backgroundColor: '#ff6464',
                       color: '#ffffff',
@@ -112,7 +112,7 @@ export const ProfileComponent = ({
         </Card>
 
       )}
-      <Button variant="outlined" onClick={handleOpen} sx={{mt: 2}} color={"primary"}>
+      <Button variant="outlined" onClick={handleOpen} sx={{ mt: 2 }} color={"primary"}>
         Modifier
       </Button>
       <Modal open={open} onClose={handleClose} aria-labelledby="modal-title">
@@ -131,8 +131,8 @@ export const ProfileComponent = ({
           </Typography>
           <form onSubmit={onSubmit}>
             <TextField label="Pseudo" defaultValue={data?.username} fullWidth margin="normal"
-                       required {...register('username')} />
-            <Button type="submit" variant="contained" sx={{mt: 2}}>
+              required {...register('username')} />
+            <Button type="submit" variant="contained" sx={{ mt: 2 }}>
               Enregistrer
             </Button>
           </form>

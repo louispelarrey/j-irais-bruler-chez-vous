@@ -67,6 +67,7 @@ export class ManifestationService {
     manifestation.description = createManifestationDto.description;
     manifestation.creatorId = createManifestationDto.creatorId;
     manifestation.address = createManifestationDto.address;
+    manifestation.start_date = new Date(createManifestationDto.start_date);
     return this.manifestationRepository.save(manifestation);
   }
 
@@ -77,8 +78,7 @@ export class ManifestationService {
    * @returns {Promise<Manifestation>} A promise that resolves to the updated manifestation.
    */
   async update(id: string, updateManifestationDto: UpdateManifestationDto, sub:string): Promise<Manifestation> {
-    const manifestation = await this.manifestationRepository.findOne({ where: { id: id } });
-    console.log(manifestation);
+    const manifestation = await this.manifestationRepository.findOne({ where: { id } });
     if(!manifestation) {
       throw new HttpException(
         'Manifestation non trouvée',
@@ -108,7 +108,7 @@ export class ManifestationService {
    * @throws {HttpException} If the participant is the creator or has already joined the manifestation.
    */
   async joinManifestation(id: string, participantId: string): Promise<Manifestation> {
-    const manifestation = await this.manifestationRepository.findOne({where: {id}, relations: ['participants']});
+    const manifestation = await this.manifestationRepository.findOne({where: {id}});
 
     if(!manifestation) {
       throw new HttpException(

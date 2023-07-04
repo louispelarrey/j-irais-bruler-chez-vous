@@ -98,7 +98,7 @@ export function App() {
             <Route path="/manifestation" element={<Protected><ListManifestation/></Protected>} />
             <Route path="/manifestation/:id" element={<Protected><ShowManifestation/></Protected>} />
             <Route path="/manifestation/:id/edit" element={<Protected><EditManifestation/></Protected>} />
-            <Route path="*" element={<div>404</div>} />
+            <Route path="*" element={<Page404/>} />
 
             <Route path="/dashboard" element={<AdminProtected><Dashboard/></AdminProtected>} />
             <Route path="/admin/user" element={<AdminProtected><User/></AdminProtected>} />

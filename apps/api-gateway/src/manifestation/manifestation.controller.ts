@@ -63,8 +63,7 @@ export class ManifestationController {
    * @returns The updated manifestation object.
    */
   @Put(':id')
-  update(@Request() req, @Param() id: string, @Body() updateManifestationDto: UpdateManifestationDto) {
-    console.log('gateway controller', updateManifestationDto);
+  update(@Request() req, @Param('id') id: string, @Body() updateManifestationDto: UpdateManifestationDto) {
     return this.manifestationService.update(id, updateManifestationDto, req.user.sub);
   }
 
