@@ -45,7 +45,7 @@ spec:
           - name: TCP_MAILING_HOST
             value: "api-mailing"
           - name: RABBITMQ_URL
-            value : "amqp://api-mailing:5672"
+            value : "amqp://default_user_-dJ2qIsoBl-7n4EbQgs:j8m0p5SBoKX2Ua0HDqNVB2SBQeaSjuIh@hello-world:5672"
         ports:
           - containerPort: 3001
 

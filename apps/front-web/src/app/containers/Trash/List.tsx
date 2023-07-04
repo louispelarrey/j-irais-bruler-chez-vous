@@ -21,6 +21,8 @@ export const Trashs = () => {
   const { register, handleSubmit } = useForm<TrashData>();
   const [trashImage, setTrashImage] = useState<File | null>(null);
 
+  console.log(data);
+
   const onSubmit = async ({
     reference,
     description,
@@ -62,6 +64,7 @@ export const Trashs = () => {
   if (error) {
     return <div>Erreur : {error}</div>;
   }
+
 
   return (
     <TrashImageContext.Provider value={{ trashImage, setTrashImage }}>
