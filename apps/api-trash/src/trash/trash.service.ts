@@ -142,7 +142,7 @@ export class TrashService {
    */
   async removeBurner(id: string, burnerId: string): Promise<Trash> {
     const trash = await this.trashRepository.findOne({ where: { id } });
-    if (trash.posterId !== burnerId && !trash.burners.includes(burnerId)) {
+    if (trash.posterId !== burnerId && !trash.burners.includes(burnerId) && !trash.isBurned) {
       throw new HttpException(
         'Seuls le créateur ou le bruleur peuvent annuler le contrat',
         HttpStatus.BAD_REQUEST
@@ -154,9 +154,9 @@ export class TrashService {
 
   async endContract(id: string, burnerId: string): Promise<Trash> {
     const trash = await this.trashRepository.findOne({ where: { id } });
-    if (trash.posterId !== burnerId && !trash.burners.includes(burnerId)) {
+    if (trash.posterId !== burnerId && !trash.burners.includes(burnerId) && !trash.isBurned) {
       throw new HttpException(
-        'Seuls le créateur ou le bruleur peuvent annuler le contrat',
+        'Seuls le créateur ou le bruleur peuvent annuler le contrat si il est n\'est pas brulé',
         HttpStatus.BAD_REQUEST
       );
     }
