@@ -1,7 +1,8 @@
 import { Box, Typography, Stack, Button, Modal, TextField, Card, CardHeader, CardContent, Grid } from '@mui/material';
 import { useState } from 'react';
 import { UseFormRegister } from 'react-hook-form';
-import { imgProfile } from "../../../../public/user_profile_default.png"
+import { imgProfile } from "../../../../public/user_profile_default.png";
+import getUserIdFromToken from "../../utils/user/getUserIdFromToken";
 
 interface UserData {
   email: string;
@@ -19,10 +20,10 @@ export const ProfileComponent = ({
   onSubmit,
   register
 }: IProfileComponent) => {
+  const userId = getUserIdFromToken(localStorage.getItem('token') ?? '');
   const statistics = {
-    trash: 30,
-    manifestation: 10,
-    notation: 3
+    trash: 51,
+    manifestation: 8
   };
 
   const [open, setOpen] = useState(false);
@@ -91,19 +92,6 @@ export const ProfileComponent = ({
                       </Typography>
                       <Typography variant="h4">{statistics.manifestation}</Typography>
                     </Box>
-                    <Box sx={{
-                      backgroundColor: '#ff6464',
-                      color: '#ffffff',
-                      border: '2px solid',
-                      borderRadius: '10px',
-                      p: 2,
-                      flexGrow: 1
-                    }}>
-                      <Typography variant="subtitle1" component="h2">
-                        Avis
-                      </Typography>
-                      <Typography variant="h4">{statistics.notation}</Typography>
-                    </Box>
                   </Stack>
                 </Box>
               </Grid>
@@ -112,9 +100,11 @@ export const ProfileComponent = ({
         </Card>
 
       )}
-      <Button variant="outlined" onClick={handleOpen} sx={{ mt: 2 }} color={"primary"}>
-        Modifier
-      </Button>
+      { userId === data.id && (
+        <Button variant="outlined" onClick={handleOpen} sx={{ mt: 2 }} color={"primary"}>
+          Modifier
+        </Button>
+      )}
       <Modal open={open} onClose={handleClose} aria-labelledby="modal-title">
         <Box sx={{
           position: 'absolute',
