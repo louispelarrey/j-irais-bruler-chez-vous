@@ -11,6 +11,7 @@ export interface ForgotPasswordData {
 export const ForgotPassword = () => {
   const { register, handleSubmit } = useForm<ForgotPasswordData>();
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
   const { token, setToken } = useContext(UserContext);
 
   const onSubmit = async ({ email }: ForgotPasswordData) => {
@@ -29,6 +30,8 @@ export const ForgotPassword = () => {
     if (response.status !== 201 || !data) {
       setError('Email incorrect');
       return;
+    }else {
+      setSuccess(true)
     }
   };
 
@@ -38,5 +41,6 @@ export const ForgotPassword = () => {
     handleSubmit={handleSubmit(onSubmit)}
     register={register}
     error={error}
+    success={success}
   />
 };

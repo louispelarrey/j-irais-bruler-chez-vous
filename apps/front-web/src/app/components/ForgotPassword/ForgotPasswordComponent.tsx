@@ -1,17 +1,42 @@
-import { Avatar, Box, Button, Grid, Link, Paper, TextField, Typography } from "@mui/material";
+import {Alert, Avatar, Box, Button, Grid, Link, Paper, Snackbar, TextField, Typography} from "@mui/material";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { UseFormRegister } from "react-hook-form";
-import { ForgotPasswordData } from "../../containers/ForgotPassword/ForgotPassword";
+import {UseFormRegister} from "react-hook-form";
+import {ForgotPasswordData} from "../../containers/ForgotPassword/ForgotPassword";
+import {useEffect, useState} from "react";
 
 interface ForgotPasswordProps {
   register: UseFormRegister<ForgotPasswordData>;
   handleSubmit: any;
   error: string;
+  success: boolean;
 }
 
-export const ForgotPasswordComponent = ({handleSubmit, register, error}: ForgotPasswordProps) => {
+export const ForgotPasswordComponent = ({handleSubmit, register, error, success}: ForgotPasswordProps) => {
+
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (error || success){
+      console.log("error", error)
+      console.log("success", success)
+      setOpen(true)
+    }
+  }, [success, error]);
+
+  const handleClose = () => {
+    setOpen(false);
+  }
   return (
-    <Grid container component="main" sx={{ height: '100vh' }}>
+    <Grid container component="main" sx={{height: '100vh'}}>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        {
+          <Alert onClose={handleClose} severity={success ? "success" : "error"} sx={{width: '100%'}}>
+            {
+              success ? "Un email de réinitialisation de mot de passe vous a été envoyé" : error
+            }
+          </Alert>
+        }
+      </Snackbar>
       <Grid
         item
         xs={false}
@@ -36,14 +61,13 @@ export const ForgotPasswordComponent = ({handleSubmit, register, error}: ForgotP
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
+          <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
+            <LockOutlinedIcon/>
           </Avatar>
           <Typography component="h1" variant="h5">
             Mot de passe oublié
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-            {error && <Typography variant="body2" color="error">{error}</Typography>}
+          <Box component="form" noValidate onSubmit={handleSubmit} sx={{mt: 1}}>
             <TextField
               margin="normal"
               required
@@ -59,13 +83,13 @@ export const ForgotPasswordComponent = ({handleSubmit, register, error}: ForgotP
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{mt: 3, mb: 2}}
             >
               Envoyer la demande de réinitialisation
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="/login" variant="body2" >
+                <Link href="/login" variant="body2">
                   Se connecter
                 </Link>
               </Grid>
