@@ -1,4 +1,4 @@
-import {IsString} from 'class-validator';
+import {IsDate, IsString} from 'class-validator';
 
 export class UpdateManifestationDto {
 
@@ -8,5 +8,9 @@ export class UpdateManifestationDto {
   @IsString()
   description: string;
 
-  is_active: boolean;
+  @IsString()
+  address: string;
+
+  @IsDate()
+  start_date: string;
 }

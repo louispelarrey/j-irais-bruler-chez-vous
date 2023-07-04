@@ -11,6 +11,7 @@ import {
 import { Link } from 'react-router-dom';
 import { ShowOnMap } from '../../../Trash/View/Map/ShowOnMap';
 import Diversity3Icon from '@mui/icons-material/Diversity3';
+import getUserIdFromToken from 'apps/front-web/src/app/utils/user/getUserIdFromToken';
 
 interface CardComponentProps {
     id: string;
@@ -19,6 +20,7 @@ interface CardComponentProps {
     address: string;
     start_date: string;
     manifestationId: string;
+    creatorId: string;
 }
 
 export const CardComponent = ({
@@ -27,6 +29,7 @@ export const CardComponent = ({
     address,
     start_date,
     manifestationId,
+    creatorId,
 }: CardComponentProps) => {
     return (
       <Grid item xs={12} sm={6} md={4} sx={{ mb: 3 }}>
@@ -56,6 +59,11 @@ export const CardComponent = ({
             <Button component={Link} to={`/manifestation/${manifestationId}`} size="small">
               Voir
             </Button>
+            { creatorId === getUserIdFromToken(localStorage.getItem('token') ?? '') && (
+            <Button component={Link} to={`/manifestation/${manifestationId}/edit`} size="small">
+              Modifier
+            </Button>
+            )}
           </CardActions>
         </Card>
       </Grid>

@@ -76,10 +76,27 @@ export class ManifestationService {
    * @param {UpdateManifestationDto} updateManifestationDto - The DTO containing updated manifestation data.
    * @returns {Promise<Manifestation>} A promise that resolves to the updated manifestation.
    */
-  async update(id: string, updateManifestationDto: UpdateManifestationDto): Promise<Manifestation> {
-    const manifestation = await this.manifestationRepository.findOne({where: {id}});
+  async update(id: string, updateManifestationDto: UpdateManifestationDto, sub:string): Promise<Manifestation> {
+    const manifestation = await this.manifestationRepository.findOne({ where: { id: id } });
+    console.log(manifestation);
+    if(!manifestation) {
+      throw new HttpException(
+        'Manifestation non trouvée',
+        HttpStatus.NOT_FOUND
+      );
+    }
+
+    if(manifestation.creatorId !== sub) {
+      throw new HttpException(
+        'Vous n\'êtes pas le créateur de cette manifestation',
+        HttpStatus.FORBIDDEN
+      );
+    }
+
     manifestation.title = updateManifestationDto.title;
     manifestation.description = updateManifestationDto.description;
+    manifestation.address = updateManifestationDto.address;
+    manifestation.start_date = new Date(updateManifestationDto.start_date);
     return this.manifestationRepository.save(manifestation);
   }
 

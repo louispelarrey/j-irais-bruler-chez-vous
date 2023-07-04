@@ -18,6 +18,7 @@ const ShowSpecific = lazy(() => import('./containers/Trash/ShowSpecific').then(m
 const ListTrash = lazy(() => import('./containers/Trash/List').then(module => ({ default: module.Trashs })));
 const ShowManifestation = lazy(() => import('./containers/Manifestation/Show').then(module => ({ default: module.Manifestation })));
 const ListManifestation = lazy(() => import('./containers/Manifestation/List').then(module => ({ default: module.Manifestations })));
+const EditManifestation = lazy(() => import('./containers/Manifestation/Edit').then(module => ({ default: module.EditManifestation })));
 const ForgotPassword = lazy(() => import('./containers/ForgotPassword/ForgotPassword').then(module => ({ default: module.ForgotPassword })));
 const ForgotPasswordSpecific = lazy(() => import('./containers/ForgotPassword/ForgotPasswordSpecific').then(module => ({ default: module.ForgotPasswordSpecific })));
 
@@ -95,6 +96,7 @@ export function App() {
             <Route path="/trash" element={<Protected><ListTrash/></Protected>} />
             <Route path="/manifestation" element={<Protected><ListManifestation/></Protected>} />
             <Route path="/manifestation/:id" element={<Protected><ShowManifestation/></Protected>} />
+            <Route path="/manifestation/:id/edit" element={<Protected><EditManifestation/></Protected>} />
             <Route path="*" element={<div>404</div>} />
 
             <Route path="/dashboard" element={<AdminProtected><Dashboard/></AdminProtected>} />

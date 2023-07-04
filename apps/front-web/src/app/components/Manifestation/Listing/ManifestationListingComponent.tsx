@@ -10,6 +10,7 @@ interface List {
   description: string;
   address: string;
   start_date: string;
+  creatorId: string;
 }
 
 interface IManifestationListingComponent {
@@ -86,6 +87,7 @@ export const ManifestationListingComponent = ({
                 address={item.address}
                 start_date={item.start_date}
                 manifestationId={item.id}
+                creatorId={item.creatorId}
               />
             </Grid>
           ))}
