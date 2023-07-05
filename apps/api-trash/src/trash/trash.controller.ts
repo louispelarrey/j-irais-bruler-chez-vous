@@ -19,8 +19,9 @@ export class TrashController {
   }
 
   @MessagePattern('getHeatmapData')
-  async getHeatmapData(@Payload() {startDate}: {startDate: string}) {
-    return this.trashService.getHeatmapData(startDate);
+  async getHeatmapData(@Payload() {startDate, endDate}: {startDate: string, endDate: string}) {
+    console.log('getHeatmapData', startDate, endDate);
+    return this.trashService.getHeatmapData(startDate, endDate);
   }
 
   /**

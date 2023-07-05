@@ -22,8 +22,8 @@ export class TrashService {
     return this.trashClient.send('findAll', {});
   }
 
-  async getHeatmapData(startDate: string) {
-    return this.trashClient.send('getHeatmapData', { startDate });
+  async getHeatmapData(startDate: string, endDate: string) {
+    return this.trashClient.send('getHeatmapData', { startDate, endDate });
   }
 
   /**

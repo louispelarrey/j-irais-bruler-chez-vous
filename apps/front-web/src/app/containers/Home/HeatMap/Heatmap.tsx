@@ -3,6 +3,21 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { HeatMapComponent } from '../../../components/Heatmap/HeatmapComponent';
 import { formatSliderValue } from '../../../utils/heatmap/formatSliderValue';
 
+const currentDate = new Date();
+const sixMonthsAgoDate = new Date();
+sixMonthsAgoDate.setMonth(sixMonthsAgoDate.getMonth() - 6);
+
+interface HeatmapData {
+  trashs: Trash[];
+  minDate: string;
+  maxDate: string;
+}
+
+interface Trash {
+  latitude: number;
+  longitude: number;
+}
+
 export const Heatmap = () => {
   const [heatmapStartMonth, setHeatmapStartMonth] = useState(6);
   const [heatmapStartDate, setHeatmapStartDate] = useState(
@@ -12,30 +27,45 @@ export const Heatmap = () => {
 
   useEffect(() => {
     const abortController = new AbortController();
-
+  
     const fetchedData = async () => {
+      const startDate = formatSliderValue(6).toISOString(); // Utilise la date d'il y a 6 mois
+      const endDate = currentDate.toISOString(); // Utilise la date du jour
+  
+      console.log('startDate', startDate);
+      console.log('endDate', endDate);
+
       const response = await fetch(
-        import.meta.env.VITE_APP_BACKEND_URL + `/api/trash/heatmap?startDate=${heatmapStartDate.toISOString()}`,
+        import.meta.env.VITE_APP_BACKEND_URL +
+          `/api/trash/heatmap?startDate=${startDate}&endDate=${endDate}`,
         {
           headers: {
-            "Authorization": `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
         }
       );
-      const data = await response.json();
-      setData(data);
-
-      if(response.status === 401) {
+      console.log('Response:', response);
+        
+      const data: HeatmapData = await response.json();
+      const { trashs, minDate, maxDate } = data;
+  
+      console.log('Trashs:', trashs);
+      console.log('Min Date:', minDate);
+      console.log('Max Date:', maxDate);
+  
+      setData(trashs);
+  
+      if (response.status === 401) {
         window.location.href = '/logout';
       }
     };
+  
     fetchedData();
-
-
+  
     return () => {
       abortController.abort();
-    }
-  }, [heatmapStartDate]);
+    };
+  }, []);
 
 
   const handleChange = useCallback((event: Event, newValue: number | number[]) => {
