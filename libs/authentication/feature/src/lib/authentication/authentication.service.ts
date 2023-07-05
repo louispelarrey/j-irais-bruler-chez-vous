@@ -27,18 +27,21 @@ export class AuthenticationService {
     return null;
   }
 
-  async login(username: string): Promise<LoginResponse | null> {
-    if(username === "") return null;
+  async login(username: string, password: string): Promise<LoginResponse | null> {
+    const user: Users = await this.validateUser(username, password);
+    
+    if(user) {
+      const payload = {
+        sub: user.id,
+        username: user.username,
+        roles: user.roles
+      };
+      return {
+        access_token: this.jwtService.sign(payload),
+        refresh_token: this.jwtService.sign(payload, { expiresIn: '7d' }),
+      };
+    }
 
-    const user: Users = await lastValueFrom(this.userClient.send('findUserByIdentifier', username));
-    const payload = {
-      sub: user.id,
-      username: user.username,
-      roles: user.roles
-    };
-    return {
-      access_token: this.jwtService.sign(payload),
-      refresh_token: this.jwtService.sign(payload, { expiresIn: '7d' }),
-    };
+    return null;
   }
 }
