@@ -45,19 +45,29 @@ export const Menu = () => {
             <>
               {!role?.includes('ADMIN') && (
                 <>
-                  <StyledLink to="/posting" className="menu-link">
-                    <Button>Annonces</Button>
-                  </StyledLink>
-
-                  <StyledLink to="/manifestation" className="menu-link">
-                    <Button>Mes manifestations</Button>
-                  </StyledLink>
-                  
-                  <StyledLink to={`/profile/${userId}`} className="menu-link">
-                    <Button>Profil</Button>
-                  </StyledLink>
-
-                  <Button onClick={logout}>Déconnexion</Button>
+                  <Button
+                    id="button-menu"
+                    aria-controls={open ? 'basic-menu' : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? 'true' : undefined}
+                    onClick={handleClick}
+                  >
+                    Menu
+                  </Button>
+                  <MenuBar
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                      'aria-labelledby': 'button-menu',
+                    }}
+                  >
+                    <MenuItem component={Link} to="/posting">Annonces</MenuItem>
+                    <MenuItem component={Link} to="/manifestation">Mes manifestations</MenuItem>
+                    <MenuItem component={Link} to={`/profile/${userId}`}>Profil</MenuItem>
+                    <MenuItem onClick={logout}>Déconnexion</MenuItem>
+                  </MenuBar>
                 </>
               )}
               {role?.includes('ADMIN') && (
