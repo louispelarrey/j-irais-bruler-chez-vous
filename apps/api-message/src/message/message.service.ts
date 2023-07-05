@@ -88,4 +88,15 @@ export class MessageService {
     const message = await this.messageRepository.findOne({ where: { id } });
     return this.messageRepository.remove(message);
   }
+
+  /**
+   * Reports a specific message.
+   * @param {string} id - The ID of the message to report.
+   * @returns {Promise<Message>} A promise that resolves to the reported message.
+   */
+  async report(id: string) {
+    const message = await this.messageRepository.findOne({ where: { id } });
+    message.isReported = true;
+    return await this.messageRepository.save(message);
+  }
 }

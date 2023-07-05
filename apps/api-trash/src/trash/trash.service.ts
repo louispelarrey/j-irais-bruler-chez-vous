@@ -63,6 +63,12 @@ export class TrashService {
    */
   async findOne(id: string) {
     const trash = await this.trashRepository.findOne({ where: { id } });
+    if (!trash) {
+      throw new HttpException(
+        'Poubelle non trouvée',
+        HttpStatus.NOT_FOUND
+      );
+    }
     trash.posterId = await lastValueFrom(
       this.userClient.send('findUserById', trash.posterId)
     );
@@ -118,6 +124,18 @@ export class TrashService {
    */
   async takeContract(id: string, burnerId: string): Promise<Trash> {
     const trash = await this.trashRepository.findOne({ where: { id } });
+    if(!trash) {
+      throw new HttpException(
+        'Poubelle non trouvée',
+        HttpStatus.NOT_FOUND
+      );
+    }
+    if (trash.isBurned) {
+      throw new HttpException(
+        'Le contrat est déjà brulé',
+        HttpStatus.BAD_REQUEST
+      );
+    }
     if (trash.posterId === burnerId) {
       throw new HttpException(
         'Le créateur ne peut pas être le bruleur',
@@ -137,6 +155,12 @@ export class TrashService {
    */
   async remove(id: string, burnerId: string): Promise<Trash> {
     const trash = await this.trashRepository.findOne({ where: { id } });
+    if(!trash) {
+      throw new HttpException(
+        'Poubelle non trouvée',
+        HttpStatus.NOT_FOUND
+      );
+    }
     if (trash.posterId !== burnerId) {
       throw new HttpException(
         'Seul le créateur peut supprimer la poubelle',
@@ -155,6 +179,12 @@ export class TrashService {
    */
   async removeBurner(id: string, burnerId: string): Promise<Trash> {
     const trash = await this.trashRepository.findOne({ where: { id } });
+    if(!trash) {
+      throw new HttpException(
+        'Poubelle non trouvée',
+        HttpStatus.NOT_FOUND
+      );
+    }
     if (trash.posterId !== burnerId && !trash.burners.includes(burnerId) && !trash.isBurned) {
       throw new HttpException(
         'Seuls le créateur ou le bruleur peuvent annuler le contrat',
@@ -167,6 +197,12 @@ export class TrashService {
 
   async endContract(id: string, burnerId: string): Promise<Trash> {
     const trash = await this.trashRepository.findOne({ where: { id } });
+    if(!trash) {
+      throw new HttpException(
+        'Poubelle non trouvée',
+        HttpStatus.NOT_FOUND
+      );
+    }
     if (trash.posterId !== burnerId && !trash.burners.includes(burnerId) && !trash.isBurned) {
       throw new HttpException(
         'Seuls le créateur ou le bruleur peuvent annuler le contrat si il est n\'est pas brulé',

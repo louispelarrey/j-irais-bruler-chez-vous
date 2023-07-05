@@ -8,7 +8,7 @@ interface ChatProps {
 }
 
 export const Chat = ({roomName, widthPercentage, heightVh}: ChatProps) => {
-  const { messages, userId, scrollTarget, handleSubmit, register, sendMessage } = useChat({
+  const { messages, userId, scrollTarget, handleSubmit, register, sendMessage, handleReport } = useChat({
     roomName: roomName ?? 'default',
   });
 
@@ -21,6 +21,7 @@ export const Chat = ({roomName, widthPercentage, heightVh}: ChatProps) => {
       scrollTarget={scrollTarget}
       heightVh={heightVh ?? 100}
       widthPercentage={widthPercentage ?? 100}
+      handleReport={handleReport}
     />
   );
 };

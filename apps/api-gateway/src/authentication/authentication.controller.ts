@@ -16,8 +16,8 @@ export class AuthenticationController {
   @UseGuards(LocalAuthGuard)
   @Public()
   @Post('/login')
-  async getLogin(@Body() { username }: {username: string}) {
-    const user = await lastValueFrom(this.authenticationService.getLogin(username));
+  async getLogin(@Body() { username, password }: {username: string, password: string}) {
+    const user = await lastValueFrom(this.authenticationService.getLogin(username, password));
 
     return user;
   }

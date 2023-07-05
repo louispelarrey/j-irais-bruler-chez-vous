@@ -20,7 +20,14 @@ export class ManifestationService {
    */
   async findAll() {
     const manifestations = await this.manifestationRepository.find({where: {isActive: true}});
-    return manifestations;
+    const manifestationsWithParticipantCount = [];
+    for (const manifestation of manifestations) {
+      const participantCount = manifestation.participants.length;
+      const manifestationWithCount = { ...manifestation, participantCount };
+      manifestationsWithParticipantCount.push(manifestationWithCount);
+    }
+
+    return manifestationsWithParticipantCount;
   }
 
     /**
@@ -30,6 +37,18 @@ export class ManifestationService {
    */
   async findOne(id: string) {
     const manifestation = await this.manifestationRepository.findOne({ where: { id } });
+    if(!manifestation) {
+      throw new HttpException(
+        'Manifestation non trouvée',
+        HttpStatus.NOT_FOUND
+      );
+    }
+    if(!manifestation.isActive) {
+      throw new HttpException(
+        'Manifestation terminée',
+        HttpStatus.NOT_FOUND
+      );
+    }
     return manifestation;
   }
 
@@ -52,7 +71,6 @@ export class ManifestationService {
 
       return false;
     });
-
     return manifestations;
   }
 
@@ -62,11 +80,18 @@ export class ManifestationService {
    * @returns {Promise<Manifestation>} A promise that resolves to the created manifestation.
    */
   async create( createManifestationDto: CreateManifestationDto ): Promise<Manifestation> {
+    if(new Date(createManifestationDto.start_date) <= new Date()) {
+      throw new HttpException(
+        'La date de début doit être supérieure ou égale à la date actuelle',
+        HttpStatus.BAD_REQUEST
+      );
+    }
     const manifestation = new Manifestation();
     manifestation.title = createManifestationDto.title;
     manifestation.description = createManifestationDto.description;
     manifestation.creatorId = createManifestationDto.creatorId;
     manifestation.address = createManifestationDto.address;
+    manifestation.start_date = new Date(createManifestationDto.start_date);
     return this.manifestationRepository.save(manifestation);
   }
 
@@ -77,8 +102,7 @@ export class ManifestationService {
    * @returns {Promise<Manifestation>} A promise that resolves to the updated manifestation.
    */
   async update(id: string, updateManifestationDto: UpdateManifestationDto, sub:string): Promise<Manifestation> {
-    const manifestation = await this.manifestationRepository.findOne({ where: { id: id } });
-    console.log(manifestation);
+    const manifestation = await this.manifestationRepository.findOne({ where: { id } });
     if(!manifestation) {
       throw new HttpException(
         'Manifestation non trouvée',
@@ -90,6 +114,13 @@ export class ManifestationService {
       throw new HttpException(
         'Vous n\'êtes pas le créateur de cette manifestation',
         HttpStatus.FORBIDDEN
+      );
+    }
+
+    if(new Date(updateManifestationDto.start_date) <= new Date()) {
+      throw new HttpException(
+        'La date de début doit être supérieure ou égale à la date actuelle',
+        HttpStatus.BAD_REQUEST
       );
     }
 
@@ -108,7 +139,7 @@ export class ManifestationService {
    * @throws {HttpException} If the participant is the creator or has already joined the manifestation.
    */
   async joinManifestation(id: string, participantId: string): Promise<Manifestation> {
-    const manifestation = await this.manifestationRepository.findOne({where: {id}, relations: ['participants']});
+    const manifestation = await this.manifestationRepository.findOne({where: {id}});
 
     if(!manifestation) {
       throw new HttpException(
@@ -129,6 +160,7 @@ export class ManifestationService {
         HttpStatus.BAD_REQUEST
       );
     }
+
     manifestation.participants.push(participantId);
     return this.manifestationRepository.save(manifestation);
   }
@@ -142,6 +174,12 @@ export class ManifestationService {
    */
   async leftManifestation(id: string, participantId: string): Promise<Manifestation> {
     const manifestation = await this.manifestationRepository.findOne({where: {id}});
+    if(!manifestation) {
+      throw new HttpException(
+        'Manifestation non trouvée',
+        HttpStatus.NOT_FOUND
+      );
+    }
     if(manifestation.creatorId === participantId) {
       throw new HttpException(
         'Vous ne pouvez pas quitter votre propre manifestation',
@@ -155,6 +193,28 @@ export class ManifestationService {
       );
     }
     manifestation.participants = manifestation.participants.filter((participant) => participant !== participantId);
+    return this.manifestationRepository.save(manifestation);
+  }
+
+  /**
+   * Delete a manifestation by ID.
+   * @param {string} id - The ID of the manifestation to delete.
+   */
+  async deleteManifestation(id: string, sub: string) {
+    const manifestation = await this.manifestationRepository.findOne({ where: { id } });
+    if(!manifestation) {
+      throw new HttpException(
+        'Manifestation non trouvée',
+        HttpStatus.NOT_FOUND
+      );
+    }
+    if (manifestation.creatorId !== sub) {
+      throw new HttpException(
+        'Vous n\'êtes pas le créateur de cette manifestation',
+        HttpStatus.FORBIDDEN
+      );
+    }
+    manifestation.isActive = false;
     return this.manifestationRepository.save(manifestation);
   }
 

@@ -7,10 +7,11 @@ import useGet from '../../../hooks/useGet';
 import { SuspenseLoader } from '../../../suspense/SuspenseLoader';
 import { useNavigate } from 'react-router-dom';
 import getUserIdFromToken from '../../../utils/user/getUserIdFromToken';
+import { ShowOnMap } from '../../../components/Trash/View/Map/ShowOnMap';
 
 export const ListFragment = () => {
   const theme = useTheme();
-  const { data, error, loading } = useGet('/api/manifestation');
+  const { data, error, loading, refetch } = useGet('/api/manifestation');
   const [activeStep, setActiveStep] = useState(0);
   const maxSteps = data ? data.length : 0;
   const navigate = useNavigate();
@@ -26,7 +27,9 @@ export const ListFragment = () => {
   const handleJoinManifestation = useCallback(
     async (id) => {
       try {
-        const response = await fetch(`/api/manifestation/${id}`, {
+        const response = await fetch(
+          `${import.meta.env.VITE_APP_BACKEND_URL}/api/manifestation/${id}`,
+        {
           method: 'PATCH',
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -36,9 +39,11 @@ export const ListFragment = () => {
 
         if (data.statusCode === 401) {
           navigate('/');
+          return;
         }
-        if(data.statusCode === 200) {
-          navigate('/manifestation/${id}');
+        console.log(response)
+        if (response.status === 200){
+          refetch();
         }
       } catch (error) {
 
@@ -58,27 +63,32 @@ export const ListFragment = () => {
   }
 
   const step = data[activeStep];
+  const mapKey = step ? step.id : null;
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
       <Box sx={{ maxWidth: 600, flexGrow: 1 }}>
         <Card sx={{ maxWidth: 600 }}>
-          <CardHeader
-            title={step.title}
-            subheader={`Date: ${step.start_date}`}
-          >
-          </CardHeader>
-          <CardMedia
-            sx={{ height: 140 }}
-            image="https://images.unsplash.com/photo-1499856871958-5b9627545d1a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2920&q=80"
-            title="Live from space album cover"
-          />
           <CardContent>
+            <ShowOnMap
+              key={mapKey}
+              title={step.title}
+              address={step.address}
+            />
+            <Typography gutterBottom variant="h5" component="div">
+              {step.title}
+            </Typography>
+            <Typography gutterBottom variant="h5" component="div">
+              {`Date: ${new Date(step.start_date).toLocaleString("fr-FR")}`}
+            </Typography>
             <Typography gutterBottom variant="h5" component="div">
               {step.address}
             </Typography>
             <Typography variant="body2" color="text.secondary">
               {step.description}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Nombre de participants: {step.participantCount}
             </Typography>
             <Typography variant="body2" color="text.secondary">
               Créateur: {step.creatorId}

@@ -8,10 +8,13 @@ const useGet = (url: string) => {
   const navigate = useNavigate();
 
   const isMounted = useRef(false);
+  const fetchData = useRef<() => void>(() => null);
 
   useEffect(() => {
     isMounted.current = true;
-    const fetchData = async () => {
+
+    fetchData.current = async () => {
+      setLoading(true);
       try {
         const response = await fetch(
           import.meta.env.VITE_APP_BACKEND_URL + url,
@@ -44,14 +47,14 @@ const useGet = (url: string) => {
       }
     };
 
-    fetchData();
+    fetchData.current();
 
     return () => {
       isMounted.current = false;
     };
   }, [navigate, url]);
 
-  return { data, error, loading };
+  return { data, error, loading, refetch: fetchData.current };
 }
 
 export default useGet;

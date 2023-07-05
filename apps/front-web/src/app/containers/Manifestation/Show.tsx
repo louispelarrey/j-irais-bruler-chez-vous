@@ -1,38 +1,38 @@
-import { useParams } from 'react-router-dom';
-import { Card, CardHeader, Typography, CardMedia, CardContent, CardActions, Collapse, Button, Grid, Paper } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import IconButton, { IconButtonProps } from '@mui/material/IconButton';
+import {Link, useNavigate, useParams} from 'react-router-dom';
+import {Box, Button, Grid, Paper, Typography} from '@mui/material';
+import IconButton from '@mui/material/IconButton';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import useGet from '../../hooks/useGet';
-import { Chat } from '../Chat/Chat';
-import { useChat } from '../../hooks/useChat';
-import { useNavigate } from 'react-router-dom';
-import { useCallback, useEffect, useState, Fragment } from 'react';
-import { MapComponent } from '../../components/Map/MapComponent';
-import { ShowOnMap } from '../../components/Trash/View/Map/ShowOnMap';
+import {Chat} from '../Chat/Chat';
+import {useChat} from '../../hooks/useChat';
+import React, {Fragment, useCallback, useContext, useEffect, useState} from 'react';
+import {ShowOnMap} from '../../components/Trash/View/Map/ShowOnMap';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import {UserContext} from "../../contexts/UserContext";
+import getUserIdFromToken from "../../utils/user/getUserIdFromToken";
 
-
-interface ExpandMoreProps extends IconButtonProps {
-  expand: boolean;
+export interface ManifestationData {
+  title: string;
+  description: string;
+  address: string;
+  start_date: string;
+  end_date: string;
+  latitude: number;
+  longitude: number;
+  creatorId: string;
+  participants: any[];
+  id: string;
 }
 
-const ExpandMore = styled((props: ExpandMoreProps) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-  })(({ theme, expand }) => ({
-    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-}));
 
 const usePost = (url: string, body: any) => {
   const [data, setData] = useState<any[]>([]);
   const [error, setError] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+
+  const {token} = useContext(UserContext);
+  const userId = getUserIdFromToken(token);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,22 +55,18 @@ const usePost = (url: string, body: any) => {
     };
     fetchData();
   }, []);
-  return { data, error, loading };
+  return {data, error, loading};
 };
 
 export const Manifestation = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
-  const { data: currentManifestation, error, loading} = useGet(`/api/manifestation/${id}`);
-  const { data: myManifestations } = usePost('/api/manifestation/me', {});
-  const { messages, userId, scrollTarget, handleSubmit, register, sendMessage } = useChat({
+  const {id} = useParams();
+  const {data: currentManifestation, error, loading} = useGet(`/api/manifestation/${id}`);
+  const {data: myManifestations} = usePost('/api/manifestation/me', {});
+  const {messages, userId, scrollTarget, handleSubmit, register, sendMessage} = useChat({
     roomName: 'default',
   });
-  const [expanded, setExpanded] = useState(false);
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
 
   const currentIndex = myManifestations.findIndex((manifestation: any) => manifestation.id === id);
   const previousManifestation = currentIndex > 0 ? myManifestations[currentIndex - 1] : null;
@@ -91,7 +87,7 @@ export const Manifestation = () => {
   const onLeaveManifestation = useCallback(
     async () => {
       try {
-        const response = await fetch(`/api/manifestation/${id}/left`, {
+        const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_URL}/api/manifestation/${id}/left`, {
           method: 'PATCH',
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -99,18 +95,18 @@ export const Manifestation = () => {
         });
         const data = await response.json();
 
-        if(data.statusCode === 200) {
-          navigate('/');
+        if (response.status === 200) {
+          navigate('/manifestation');
         }
       } catch (error) {
         navigate('/');
       }
     },
-    [navigate]
+    [navigate, id]
   );
 
   if (loading || !currentManifestation || !myManifestations) {
-      return <div>Chargement ...</div>;
+    return <div>Chargement ...</div>;
   }
 
   if (error) {
@@ -119,96 +115,53 @@ export const Manifestation = () => {
 
   const mapKey = currentManifestation ? currentManifestation.id : null;
 
-  return (
-    <div>
-      <Card sx={{ width: '100%' }}>
-        <CardContent>
-          <ShowOnMap
-            key={mapKey}
-            title={currentManifestation.title}
-            address={currentManifestation.address}
-          />
-        </CardContent>
-        <CardHeader
-          title = {currentManifestation.title}
-          subheader = {
-            new Date(currentManifestation.start_date).toLocaleDateString('fr-FR', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-              hour: 'numeric',
-            })}
-        />
-        <CardContent>
-          <Typography variant="body2" color="text.secondary">
-            {currentManifestation.description}
-          </Typography>
-        </CardContent>
-        <CardActions disableSpacing>
-          <Grid container spacing={2} justifyContent="center">
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Grid container spacing={2} justifyContent="center">
-                  <Grid item xs={6}>
-                    {previousManifestation && (
-                      <Fragment>
-                        <IconButton aria-label="before" onClick={handlePreviousManifestation}>
-                          <KeyboardDoubleArrowLeftIcon />
-                        </IconButton>
-                        <Button variant="text" color="primary" onClick={handlePreviousManifestation}>
-                          Précédent
-                        </Button>
-                      </Fragment>
-                    )}
-                  </Grid>
-                  <Grid item xs={6}>
-                    {nextManifestation && (
-                      <Fragment>
-                        <Button variant="text" color="primary" onClick={handleNextManifestation}>
-                          Suivant
-                        </Button>
-                        <IconButton aria-label="next" onClick={handleNextManifestation}>
-                          <KeyboardDoubleArrowRightIcon />
-                        </IconButton>
-                      </Fragment>
-                    )}
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Grid>
+  const scrollToChat = () => {
+    const chat = document.getElementById('chat_section_manifestation');
+    if (chat) {
+      chat.scrollIntoView({behavior: 'smooth'})
+    }
+  }
 
-            <Grid item xs={12}>
-              <Grid container justifyContent="center">
-                <ExpandMore
-                  expand={expanded}
-                  onClick={handleExpandClick}
-                  aria-expanded={expanded}
-                  aria-label="show chat"
-                >
-                  <Typography>Discuter</Typography>
-                  <ExpandMoreIcon/>
-                </ExpandMore>
-              </Grid>
-            </Grid>
-          </Grid>
-        </CardActions>
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <CardContent>
-            <Chat roomName={currentManifestation.id} heightVh={50}/>
-            </CardContent>
-        </Collapse>
-      </Card>
-      <Paper
-        style={{
-          position: 'sticky',
-          bottom: '0',
-          width: '100%',
-          padding: '1rem',
-          borderRadius: '0',
-          borderTop: '1px solid rgba(255, 255, 255, 0.8)',
-          zIndex: 99999,
-        }}
-      >
+  const onDeleteManifestation = async (manifestationId: string) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_APP_BACKEND_URL}/api/manifestation/${manifestationId}`, {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+      const data = await response.json();
+
+      if (response.status === 200) {
+        navigate('/manifestation');
+      }
+    } catch (error) {
+      navigate('/');
+    }
+  };
+
+  const getManifestationAction = (manifestation: ManifestationData) => {
+    if (manifestation.creatorId === userId) {
+      return (
+        <Button
+          size="small"
+          variant="contained"
+          color="error"
+          sx={{
+            width: '100%',
+            padding: '0.6rem',
+            borderRadius: '2rem',
+          }}
+          onClick={() => onDeleteManifestation(manifestation.id)}
+        >
+          <Typography variant="body1">
+            Supprimer
+          </Typography>
+        </Button>
+      )
+    } else if (manifestation.participants.find((participant: any) => participant === userId) === userId) {
+      return (
         <Button
           size="small"
           variant="contained"
@@ -220,8 +173,148 @@ export const Manifestation = () => {
           }}
           onClick={() => onLeaveManifestation()}
         >
-          <Typography variant="body1">Quitter</Typography>
+          <Typography variant="body1">
+            Quitter
+          </Typography>
         </Button>
+      )
+    }
+  }
+
+  return (
+    <div style={{
+      backgroundColor: "#121212",
+    }}>
+      <IconButton
+        component={Link}
+        to="/manifestation"
+        color="primary"
+        sx={{
+          position: 'absolute',
+          marginTop: '2rem',
+          marginLeft: '2rem',
+          zIndex: 3000,
+          borderRadius: '50%',
+          border: '1px solid white',
+          backgroundColor: '#121212',
+          opacity: '0.92',
+          color: 'white',
+          scale: '1.33',
+          ':hover': {
+            opacity: '1',
+            backgroundColor: '#121212',
+            transform: 'scale(1.2)',
+            transition: 'all 0.2s ease-in-out',
+          },
+        }}
+      >
+        <ArrowBackIcon/>
+      </IconButton>
+      <Grid container justifyContent={"space-around"} >
+        <Grid xs={12} sx={{
+          marginY: '2rem',
+        }}>
+          <Box>
+            <Typography variant={"h5"} color={"white"} textAlign={'center'} >
+              Venez participer à la manifestation
+            </Typography>
+          </Box>
+        </Grid>
+        <Grid item xs={12} md={6} lg={6} sx={{
+          borderRight: '1px solid white',
+          paddingX: '2rem',
+          height: '80%',
+        }}>
+          <Paper sx={{
+            backgroundColor: '#121212',
+            padding: '1rem',
+            minHeight: '63vh',
+            marginBottom: '1rem',
+          }}>
+            <ShowOnMap
+              key={mapKey}
+              title={currentManifestation.title}
+              address={currentManifestation.address}
+              disableMarginTop={true}
+            />
+            <Grid container sx={{
+              marginTop: '1rem',
+            }}>
+              <Grid item xs={5}>
+                <Typography variant={"h5"} color={"white"}>
+                  {currentManifestation.title}
+                </Typography>
+              </Grid>
+              <Grid item xs={7}>
+                <Typography variant={"h5"} color={"white"} textAlign={'right'}>
+                  {
+                    new Date(currentManifestation.start_date).toLocaleDateString('fr-FR', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                      hour: 'numeric',
+                    })
+                  }
+                </Typography>
+              </Grid>
+            </Grid>
+            <Typography variant="body2" color="text.secondary">
+              {currentManifestation.description}
+            </Typography>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} md={5} lg={5} sx={{
+          minHeight: '75vh',
+          maxWidth: '85%',
+        }}>
+          <Chat roomName={currentManifestation.id} heightVh={50}/>
+        </Grid>
+        <Grid item xs={12} spacing={2} justifyContent="center">
+          <Grid item xs={12}>
+            <Grid container spacing={2} justifyContent="center">
+              <Grid item xs={6}>
+                {previousManifestation && (
+                  <Fragment>
+                    <IconButton aria-label="before" onClick={handlePreviousManifestation}>
+                      <KeyboardDoubleArrowLeftIcon/>
+                    </IconButton>
+                    <Button variant="text" color="primary" onClick={handlePreviousManifestation}>
+                      Précédent
+                    </Button>
+                  </Fragment>
+                )}
+              </Grid>
+              <Grid item xs={6}>
+                {nextManifestation && (
+                  <Fragment>
+                    <Button variant="text" color="primary" onClick={handleNextManifestation}>
+                      Suivant
+                    </Button>
+                    <IconButton aria-label="next" onClick={handleNextManifestation}>
+                      <KeyboardDoubleArrowRightIcon/>
+                    </IconButton>
+                  </Fragment>
+                )}
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+      <Paper
+        style={{
+          position: 'fixed',
+          bottom: '0',
+          left: '0',
+          width: '100%',
+          padding: '1rem',
+          borderRadius: '0',
+          borderTop: '1px solid rgba(255, 255, 255, 0.8)',
+          zIndex: 99999,
+        }}
+      >
+        {
+          getManifestationAction(currentManifestation)
+        }
       </Paper>
     </div>
   );

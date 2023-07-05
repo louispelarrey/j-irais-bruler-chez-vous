@@ -14,6 +14,8 @@ export const Register = () => {
   const { register, handleSubmit } = useForm<RegisterData>();
   const navigate = useNavigate();
 
+  const [openError, setOpenError] = React.useState(false);
+
   useEffect(() => {
     initMouseTracking();
     const trackRegistrationPage = async () => {
@@ -45,11 +47,12 @@ export const Register = () => {
       navigate("/login");
     } else {
       // Optionnelle: envoyer un event si l'inscription a échouée
+      setOpenError(true);
       sendEvent('RegistrationFailed', { tag: 'Inscription', message: 'Échec de l\'inscription.' });
     }
   }
 
-  return <RegisterComponent handleSubmit={handleSubmit} register={register} onSubmit={onSubmit} />;
+  return <RegisterComponent handleSubmit={handleSubmit} register={register} onSubmit={onSubmit} openError={openError} />;
 
 
 

@@ -59,6 +59,12 @@ export const ManifestationModalComponent = ({
               autoComplete="description"
               {...register('description', { required: true })}
             />
+            <input 
+              required
+              type="date"
+              id="start_date"
+              {...register('start_date', { required: true })}
+            />
             <TextField
               required
               fullWidth
