@@ -9,6 +9,9 @@ export class Message {
   @Column()
   message: string;
 
+  @Column({ default: false })
+  isReported: boolean;
+
   @Column()
   senderId: string;
 

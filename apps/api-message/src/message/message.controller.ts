@@ -55,7 +55,16 @@ export class MessageController {
    */
   @MessagePattern('update')
   async update(@Payload() {id, messageDto}: { id: string, messageDto: MessageDto}): Promise<Message> {
-    console.log('message controller', messageDto);
     return this.messageService.update(id, messageDto);
+  }
+
+  /**
+   * Report a specific message.
+   * @param {string} id - The ID of the message to report.
+   * @returns {Promise<void>} A promise that resolves to nothing.
+   */
+  @MessagePattern('report')
+  async report(@Payload() id: string): Promise<Message> {
+    return this.messageService.report(id);
   }
 }

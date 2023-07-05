@@ -46,7 +46,7 @@ export const ChatComponent = ({
                         <>
                           <span>{message.username + " | "}</span>
                           <span>{format(new Date(message.createdAt), 'dd/MM HH:mm')}</span>
-                          {message.userId !== userId && !isReported && (
+                          {message.userId !== userId && !isReported && (message.isReported === false) && (
                             <Button color="warning" onClick={() => handleReport(message.id)}><FlagCircleRounded /></Button>
                           )}
                         </>
