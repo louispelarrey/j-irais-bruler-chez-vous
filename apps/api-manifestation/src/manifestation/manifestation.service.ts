@@ -26,6 +26,7 @@ export class ManifestationService {
       const manifestationWithCount = { ...manifestation, participantCount };
       manifestationsWithParticipantCount.push(manifestationWithCount);
     }
+
     return manifestationsWithParticipantCount;
   }
 
@@ -36,6 +37,18 @@ export class ManifestationService {
    */
   async findOne(id: string) {
     const manifestation = await this.manifestationRepository.findOne({ where: { id } });
+    if(!manifestation) {
+      throw new HttpException(
+        'Manifestation non trouvée',
+        HttpStatus.NOT_FOUND
+      );
+    }
+    if(!manifestation.isActive) {
+      throw new HttpException(
+        'Manifestation terminée',
+        HttpStatus.NOT_FOUND
+      );
+    }
     return manifestation;
   }
 
@@ -58,7 +71,6 @@ export class ManifestationService {
 
       return false;
     });
-
     return manifestations;
   }
 
@@ -68,6 +80,12 @@ export class ManifestationService {
    * @returns {Promise<Manifestation>} A promise that resolves to the created manifestation.
    */
   async create( createManifestationDto: CreateManifestationDto ): Promise<Manifestation> {
+    if(new Date(createManifestationDto.start_date) <= new Date()) {
+      throw new HttpException(
+        'La date de début doit être supérieure ou égale à la date actuelle',
+        HttpStatus.BAD_REQUEST
+      );
+    }
     const manifestation = new Manifestation();
     manifestation.title = createManifestationDto.title;
     manifestation.description = createManifestationDto.description;
@@ -96,6 +114,13 @@ export class ManifestationService {
       throw new HttpException(
         'Vous n\'êtes pas le créateur de cette manifestation',
         HttpStatus.FORBIDDEN
+      );
+    }
+
+    if(new Date(updateManifestationDto.start_date) <= new Date()) {
+      throw new HttpException(
+        'La date de début doit être supérieure ou égale à la date actuelle',
+        HttpStatus.BAD_REQUEST
       );
     }
 
@@ -135,6 +160,7 @@ export class ManifestationService {
         HttpStatus.BAD_REQUEST
       );
     }
+
     manifestation.participants.push(participantId);
     return this.manifestationRepository.save(manifestation);
   }
@@ -148,6 +174,12 @@ export class ManifestationService {
    */
   async leftManifestation(id: string, participantId: string): Promise<Manifestation> {
     const manifestation = await this.manifestationRepository.findOne({where: {id}});
+    if(!manifestation) {
+      throw new HttpException(
+        'Manifestation non trouvée',
+        HttpStatus.NOT_FOUND
+      );
+    }
     if(manifestation.creatorId === participantId) {
       throw new HttpException(
         'Vous ne pouvez pas quitter votre propre manifestation',
