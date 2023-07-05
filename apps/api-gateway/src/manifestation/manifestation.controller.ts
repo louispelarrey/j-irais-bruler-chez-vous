@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Param, Patch, Post, Put, Request} from '@nestjs/common';
+import {Body, Controller, Get, Param, Patch, Post, Put, Request, UsePipes, ValidationPipe} from '@nestjs/common';
 import {ManifestationService} from "./manifestation.service";
 import {CreateManifestationDto} from "./dto/create-manifestation.dto";
 import {UpdateManifestationDto} from "./dto/update-manifestation";
@@ -41,6 +41,7 @@ export class ManifestationController {
    * @returns An array of manifestations created by the user.
    */
   @Post('/me')
+  @UsePipes(new ValidationPipe())
   findMyManifestations(@Request() req: RequestWithUser) {
     return this.manifestationService.findMyManifestations(req.user.sub);
   }
@@ -52,6 +53,7 @@ export class ManifestationController {
    * @returns The created manifestation object.
    */
   @Post()
+  @UsePipes(new ValidationPipe())
   create(@Request() req, @Body() createManifestationDto: CreateManifestationDto) {
     return this.manifestationService.create(createManifestationDto, req.user.sub);
   }
@@ -63,6 +65,7 @@ export class ManifestationController {
    * @returns The updated manifestation object.
    */
   @Put(':id')
+  @UsePipes(new ValidationPipe())
   update(@Request() req, @Param('id') id: string, @Body() updateManifestationDto: UpdateManifestationDto) {
     return this.manifestationService.update(id, updateManifestationDto, req.user.sub);
   }
@@ -74,6 +77,7 @@ export class ManifestationController {
    * @returns The updated manifestation object with the user added to the participants.
    */
   @Patch(':id')
+  @UsePipes(new ValidationPipe())
   joinManifestation(@Request() req: RequestWithUser, @Param('id') id: string) {
     return this.manifestationService.joinManifestation(id, req.user.sub);
   }
@@ -85,6 +89,7 @@ export class ManifestationController {
    * @returns The updated manifestation object with the user removed from the participants.
    */
   @Patch(':id/left')
+  @UsePipes(new ValidationPipe())
   leftManifestation(@Request() req: RequestWithUser, @Param('id') id: string) {
     return this.manifestationService.leftManifestation(id, req.user.sub);
   }

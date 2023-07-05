@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, ParseFilePipeBuilder, Post, Put, Request, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, ParseFilePipeBuilder, Post, Put, Request, UploadedFile, UseInterceptors, UsePipes, ValidationPipe } from '@nestjs/common';
 import { TrashService } from './trash.service';
 import { TrashDto } from './dto/trash.dto';
 import { UpdateTrashDto } from './dto/updateTrash.dto';
@@ -54,6 +54,7 @@ export class TrashController {
    * @returns The created trash  object.
    */
   @Post()
+  @UsePipes(new ValidationPipe())
   @UseInterceptors(FileInterceptor('trashImage'))
   async create(
     @Request() req: RequestWithUser,
@@ -84,6 +85,7 @@ export class TrashController {
    * @returns The updated trash  object.
    */
   @Put(':id')
+  @UsePipes(new ValidationPipe())
   update(
     @Param('id') id: string,
     @Body('data') data: string
@@ -100,6 +102,7 @@ export class TrashController {
    * @returns The updated trash  object with the contract taken.
    */
   @Post(':id/contract')
+  @UsePipes(new ValidationPipe())
   takeContract(@Param('id') id: string, @Request() req: RequestWithUser) {
     return this.trashService.takeContract(id, req.user.sub);
   }
@@ -128,6 +131,7 @@ export class TrashController {
   }
 
   @Post(':id/end')
+  @UsePipes(new ValidationPipe())
   endContract(@Param('id') id: string, @Request() req: RequestWithUser) {
     return this.trashService.endContract(id, req.user.sub);
   }

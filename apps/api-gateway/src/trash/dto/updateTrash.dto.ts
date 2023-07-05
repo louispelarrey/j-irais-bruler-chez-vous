@@ -1,7 +1,17 @@
+import { IsString, IsNotEmpty, ValidateNested } from 'class-validator';
+
+class Data {
+  @IsString()
+  reference: string;
+
+  @IsString()
+  description: string;
+}
+
 export class UpdateTrashDto {
-    id?: string;
-    data : {
-      reference: string;
-      description: string;
-    }
-  }
+  @IsString()
+  id?: string;
+
+  @ValidateNested()
+  data: Data;
+}

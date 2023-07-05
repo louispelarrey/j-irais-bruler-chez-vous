@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards, Request } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards, Request, UsePipes, ValidationPipe} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { Roles } from './role/decorators/role.decorator';
 import { Public } from '../authentication/decorators/public.decorator';
@@ -38,6 +38,7 @@ export class UsersController {
    * @returns {Promise<User>} A promise that resolves to the created user.
    */
   @Post()
+  @UsePipes(new ValidationPipe())
   @Public()
   createUser(@Body() createUserDto: CreateUserDto) {
     return this.userService.createUser(createUserDto);
@@ -50,6 +51,7 @@ export class UsersController {
    * @returns {Promise<User>} A promise that resolves to the updated user.
    */
   @Put(':id')
+  @UsePipes(new ValidationPipe())
   @UseGuards(UserIsAllowedChange)
   updateUser(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.updateUser(id, updateUserDto);
@@ -74,6 +76,7 @@ export class UsersController {
    * @returns {Promise<User>} A promise that resolves to the updated user with the new password token.
    */
   @Post('forgot-password/:id')
+  @UsePipes(new ValidationPipe())
   @Public()
   forgotPasswordToken(@Param('id') id: string, @Body() { password }: { password: string }){
     return this.userService.forgotPasswordToken(id, password);
@@ -86,6 +89,7 @@ export class UsersController {
    * @returns {Promise<void>} A promise that resolves when the email is sent.
    */
   @Post('forgot-password')
+  @UsePipes(new ValidationPipe())
   @Public()
   forgotPassword(@Body() { email }: { email: string }) {
     return this.userService.forgotPassword(email);
