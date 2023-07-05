@@ -43,4 +43,9 @@ export class MessageService {
   checkAppropriate(text: string): Promise<boolean> {
     return lastValueFrom(this.messageClient.send('check-moderation', text));
   }
+
+  report(id: string): Promise<void> {
+    console.log('gateway service', id);
+    return lastValueFrom(this.messageClient.send('report', id));
+  }
 }

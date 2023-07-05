@@ -12,6 +12,10 @@ export const Chat = ({roomName, widthPercentage, heightVh}: ChatProps) => {
     roomName: roomName ?? 'default',
   });
 
+  const handleReport = (messageId: string) => {
+    console.log('report', messageId);
+  };
+
   return (
     <ChatComponent
       messages={messages}
@@ -21,6 +25,7 @@ export const Chat = ({roomName, widthPercentage, heightVh}: ChatProps) => {
       scrollTarget={scrollTarget}
       heightVh={heightVh ?? 100}
       widthPercentage={widthPercentage ?? 100}
+      handleReport={handleReport}
     />
   );
 };
