@@ -1,16 +1,32 @@
-import { IsString } from 'class-validator';
+import { IsString, IsNotEmpty, ValidateNested } from 'class-validator';
 
+class Data {
+  @IsString()
+  @IsNotEmpty()
+  reference: string;
+
+  @IsString()
+  @IsNotEmpty()
+  description: string;
+
+  @IsString()
+  @IsNotEmpty()
+  address: string;
+
+  @IsString()
+  @IsNotEmpty()
+  posterId: string;
+
+  burners?: string[];
+}
 
 export class TrashDto {
   @IsString()
+  @IsNotEmpty()
   id?: string;
-  data : {
-    reference: string;
-    description: string;
-    address: string;
-    posterId: string;
-    burners?: string[];
-  }
-  //Faire un une fonction de validation custom pour fichier
+
+  @ValidateNested()
+  data: Data;
+
   file: Express.Multer.File;
 }
