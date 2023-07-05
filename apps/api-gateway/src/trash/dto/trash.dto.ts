@@ -1,7 +1,6 @@
 import { IsString } from 'class-validator';
 
 
-//mettre les bonnes validations sur chaque champs
 export class TrashDto {
   @IsString()
   id?: string;
@@ -12,6 +11,6 @@ export class TrashDto {
     posterId: string;
     burners?: string[];
   }
-
+  //Faire un une fonction de validation custom pour fichier
   file: Express.Multer.File;
 }
