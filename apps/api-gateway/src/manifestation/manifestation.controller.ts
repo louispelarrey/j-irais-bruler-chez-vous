@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Param, Patch, Post, Put, Request, UsePipes, ValidationPipe} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Patch, Post, Put, Request, UsePipes, ValidationPipe} from '@nestjs/common';
 import {ManifestationService} from "./manifestation.service";
 import {CreateManifestationDto} from "./dto/create-manifestation.dto";
 import {UpdateManifestationDto} from "./dto/update-manifestation";
