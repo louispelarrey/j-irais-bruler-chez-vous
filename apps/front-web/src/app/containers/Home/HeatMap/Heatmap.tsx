@@ -24,8 +24,13 @@ export const Heatmap = () => {
       );
       const data = await response.json();
       setData(data);
+
+      if(response.status === 401) {
+        window.location.href = '/logout';
+      }
     };
     fetchedData();
+
 
     return () => {
       abortController.abort();

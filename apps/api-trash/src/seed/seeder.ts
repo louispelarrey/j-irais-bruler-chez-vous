@@ -22,9 +22,6 @@ export async function seed() {
 
   const trashRepository = AppDataSource.getRepository(Trash);
 
-  const nowDate = new Date();
-  const inOneMonth = new Date(nowDate.setMonth(nowDate.getMonth() + 1));
-
   const trashData: Partial<Trash>[] = Array.from({length: 1000}, () => ({
     reference: faker.lorem.sentence(),
     description: faker.lorem.sentence(),
@@ -37,7 +34,7 @@ export async function seed() {
     latitude: faker.location.latitude({max: 48.9, min: 48.8162}),
     address: faker.location.streetAddress(),
     //set max date to 13 months ago
-    createdAt: faker.date.past({ years: 2, refDate: inOneMonth }),
+    createdAt: faker.date.past({ years: 1 }),
   }));
 
   for (const trash of trashData) {
