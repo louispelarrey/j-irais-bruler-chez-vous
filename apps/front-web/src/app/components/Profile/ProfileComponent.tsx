@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { UseFormRegister } from 'react-hook-form';
 import { imgProfile } from "../../../../public/user_profile_default.png";
 import getUserIdFromToken from "../../utils/user/getUserIdFromToken";
+import BadgeComponent from './BadgeComponent';
 
 interface UserData {
   email: string;
@@ -22,8 +23,8 @@ export const ProfileComponent = ({
 }: IProfileComponent) => {
   const userId = getUserIdFromToken(localStorage.getItem('token') ?? '');
   const statistics = {
-    trash: 51,
-    manifestation: 8
+    trash: Math.floor(Math.random() * (120 - 5 + 1)) + 5,
+    manifestation: Math.floor(Math.random() * (10 - 5 + 1)) + 5,
   };
 
   const [open, setOpen] = useState(false);
@@ -77,7 +78,12 @@ export const ProfileComponent = ({
                       <Typography variant="subtitle1" component="h2">
                         Poubelles
                       </Typography>
-                      <Typography variant="h4">{statistics.trash}</Typography>
+                      <Typography variant="h4">
+                        {statistics.trash}
+                        <BadgeComponent
+                          count={statistics.trash}
+                        />
+                      </Typography>
                     </Box>
                     <Box sx={{
                       backgroundColor: '#ff6464',
