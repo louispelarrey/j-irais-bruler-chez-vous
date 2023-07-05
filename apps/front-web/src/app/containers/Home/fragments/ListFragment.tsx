@@ -11,7 +11,7 @@ import { ShowOnMap } from '../../../components/Trash/View/Map/ShowOnMap';
 
 export const ListFragment = () => {
   const theme = useTheme();
-  const { data, error, loading } = useGet('/api/manifestation');
+  const { data, error, loading, refetch } = useGet('/api/manifestation');
   const [activeStep, setActiveStep] = useState(0);
   const maxSteps = data ? data.length : 0;
   const navigate = useNavigate();
@@ -37,9 +37,11 @@ export const ListFragment = () => {
 
         if (data.statusCode === 401) {
           navigate('/');
+          return;
         }
-        if(data.statusCode === 200) {
-          navigate('/manifestation/${id}');
+        console.log(response)
+        if (response.status === 200){
+          refetch();
         }
       } catch (error) {
 
@@ -65,17 +67,18 @@ export const ListFragment = () => {
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
       <Box sx={{ maxWidth: 600, flexGrow: 1 }}>
         <Card sx={{ maxWidth: 600 }}>
-          <CardHeader
-            title={step.title}
-            subheader={`Date: ${step.start_date}`}
-          >
-          </CardHeader>
+          <CardContent>
             <ShowOnMap
               key={mapKey}
               title={step.title}
               address={step.address}
-              />
-          <CardContent>
+            />
+            <Typography gutterBottom variant="h5" component="div">
+              {step.title}
+            </Typography>
+            <Typography gutterBottom variant="h5" component="div">
+              {`Date: ${new Date(step.start_date).toLocaleString("fr-FR")}`}
+            </Typography>
             <Typography gutterBottom variant="h5" component="div">
               {step.address}
             </Typography>

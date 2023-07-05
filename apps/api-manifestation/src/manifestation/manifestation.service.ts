@@ -164,6 +164,28 @@ export class ManifestationService {
     return this.manifestationRepository.save(manifestation);
   }
 
+  /**
+   * Delete a manifestation by ID.
+   * @param {string} id - The ID of the manifestation to delete.
+   */
+  async deleteManifestation(id: string, sub: string) {
+    const manifestation = await this.manifestationRepository.findOne({ where: { id } });
+    if(!manifestation) {
+      throw new HttpException(
+        'Manifestation non trouvée',
+        HttpStatus.NOT_FOUND
+      );
+    }
+    if (manifestation.creatorId !== sub) {
+      throw new HttpException(
+        'Vous n\'êtes pas le créateur de cette manifestation',
+        HttpStatus.FORBIDDEN
+      );
+    }
+    manifestation.isActive = false;
+    return this.manifestationRepository.save(manifestation);
+  }
+
   @Cron(CronExpression.EVERY_10_MINUTES)
   async updateOldManifestations() {
     const manifestations = await this.manifestationRepository.find({
