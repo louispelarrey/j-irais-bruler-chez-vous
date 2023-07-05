@@ -46,7 +46,7 @@ export const Heatmap = () => {
   const heatmapData = useMemo(() => data ? data.map((item: any) => [
     item.latitude,
     item.longitude,
-    2,
+    1.2,
   ]) : [], [data]);
 
   if (!data) return null;
