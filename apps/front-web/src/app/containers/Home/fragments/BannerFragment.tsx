@@ -26,12 +26,18 @@ export const BannerFragment = () => {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: '60%',
+        width: '80%',
         textAlign: 'center',
         padding: '20px',
       }}>
-        <Typography variant="h1" style={{color: 'white'}}>Bienvenue manifestant !</Typography>
-        <Typography variant="h3" style={{color: 'white'}}>Voici la plateforme qui vous permet de vivre l'émotion,
+        <Typography style={{
+          color: 'white',
+          fontSize: '3rem',
+        }}>Bienvenue manifestant !</Typography>
+        <Typography style={{
+          color: 'white',
+          fontSize: '2rem',
+        }}>Voici la plateforme qui vous permet de vivre l'émotion,
           rejoignez la passion de la manifestation.</Typography>
         <Button variant="contained" style={{marginTop: '20px'}}>Découvrir</Button>
       </div>
