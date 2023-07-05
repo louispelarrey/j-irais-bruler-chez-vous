@@ -221,7 +221,6 @@ export const Manifestation = () => {
           </Box>
         </Grid>
         <Grid item xs={12} md={6} lg={6} sx={{
-          maxWidth: '40%',
           borderRight: '1px solid white',
           paddingX: '2rem',
           height: '80%',
@@ -230,6 +229,7 @@ export const Manifestation = () => {
             backgroundColor: '#121212',
             padding: '1rem',
             minHeight: '63vh',
+            marginBottom: '1rem',
           }}>
             <ShowOnMap
               key={mapKey}
@@ -264,7 +264,8 @@ export const Manifestation = () => {
           </Paper>
         </Grid>
         <Grid item xs={12} md={5} lg={5} sx={{
-          maxWidth: '40%',
+          minHeight: '75vh',
+          maxWidth: '85%',
         }}>
           <Chat roomName={currentManifestation.id} heightVh={50}/>
         </Grid>
