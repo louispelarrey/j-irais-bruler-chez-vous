@@ -1,9 +1,8 @@
 import {Link, useNavigate, useParams} from 'react-router-dom';
-import {Box, Button, Card, CardActions, CardContent, Container, Grid, Paper, Typography} from '@mui/material';
+import {Box, Button, Grid, Paper, Typography} from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import useGet from '../../hooks/useGet';
 import {Chat} from '../Chat/Chat';
 import {useChat} from '../../hooks/useChat';
@@ -88,7 +87,7 @@ export const Manifestation = () => {
   const onLeaveManifestation = useCallback(
     async () => {
       try {
-        const response = await fetch(`/api/manifestation/${id}/left`, {
+        const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_URL}/api/manifestation/${id}/left`, {
           method: 'PATCH',
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
