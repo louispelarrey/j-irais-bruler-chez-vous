@@ -1,10 +1,11 @@
 
-import { Divider, Fab, FormControl, Grid, List, ListItem, ListItemButton, ListItemText, Paper, TextField } from '@mui/material';
+import { Button, Divider, Fab, FormControl, Grid, List, ListItem, ListItemButton, ListItemText, Paper, TextField } from '@mui/material';
 import { StyledChat } from './ChatComponent.style';
 import SendIcon from '@mui/icons-material/Send';
 import { format } from 'date-fns'
 import { MutableRefObject } from 'react';
 import { Message } from '../../hooks/useChat';
+import { FlagCircleRounded } from '@mui/icons-material';
 
 interface ChatComponentProps {
   messages: Message[];
@@ -14,6 +15,8 @@ interface ChatComponentProps {
   scrollTarget: MutableRefObject<any>;
   heightVh: number;
   widthPercentage: number;
+  handleReport: (messageId: string) => void;
+  isReported?: boolean;
 }
 
 export const ChatComponent = ({
@@ -24,6 +27,8 @@ export const ChatComponent = ({
   scrollTarget,
   heightVh,
   widthPercentage,
+  handleReport,
+  isReported,
 }: ChatComponentProps) => {
   return (
     <StyledChat heightVh={heightVh} widthPercentage={widthPercentage}>
@@ -33,13 +38,20 @@ export const ChatComponent = ({
             <ListItem key="2">
               <Grid container>
                 {messages && messages.map((message, index) => (
-                  <Grid item xs={12} key={index}>
+                  <Grid container justifyContent={message.userId === userId ? 'flex-end' : 'flex-start'}>
                     <ListItemText
                       align={message.userId === userId ? 'right' : 'left'}
                       primary={message.message}
-                      //Format date
-                      secondary={message.username + " | " + format(new Date(message.createdAt), 'dd/MM HH:mm')}>
-                    </ListItemText>
+                      secondary={
+                        <>
+                          <span>{message.username + " | "}</span>
+                          <span>{format(new Date(message.createdAt), 'dd/MM HH:mm')}</span>
+                          {message.userId !== userId && !isReported && (
+                            <Button color="warning" onClick={() => handleReport(message.id)}><FlagCircleRounded /></Button>
+                          )}
+                        </>
+                      }
+                    />
                   </Grid>
                 ))}
               </Grid>

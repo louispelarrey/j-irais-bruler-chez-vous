@@ -47,6 +47,11 @@ export class MessageGateway implements OnGatewayConnection {
     }
   }
 
+  @SubscribeMessage('reportMessage')
+  async report(@MessageBody() id: string) {
+    await this.messageService.report(id);
+  }
+
   @SubscribeMessage('findOneMessage')
   findOne(@MessageBody() id: string) {
     return this.messageService.findOne(id);
