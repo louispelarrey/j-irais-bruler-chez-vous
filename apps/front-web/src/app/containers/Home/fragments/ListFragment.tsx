@@ -27,7 +27,9 @@ export const ListFragment = () => {
   const handleJoinManifestation = useCallback(
     async (id) => {
       try {
-        const response = await fetch(`/api/manifestation/${id}`, {
+        const response = await fetch(
+          `${import.meta.env.VITE_APP_BACKEND_URL}/api/manifestation/${id}`,
+        {
           method: 'PATCH',
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
