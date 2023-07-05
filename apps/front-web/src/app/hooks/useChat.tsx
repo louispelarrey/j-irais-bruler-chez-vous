@@ -21,6 +21,7 @@ export interface Message {
   username: string;
   userId: string;
   message: string;
+  isReported: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -92,6 +93,12 @@ export const useChat = ({ roomName = 'default' }: ChatProps) => {
     });
   },[reset, socket, userId, roomName]);
 
+  const handleReport = useCallback((messageId: string) => {
+    socket && socket.emit('reportMessage', {
+      messageId
+    });
+  }, [socket]);
+
   useEffect(() => {
     socket.on('newMessage', onNewMessage);
     socket.on('moderateMessage', onModerateMessage);
@@ -116,5 +123,6 @@ export const useChat = ({ roomName = 'default' }: ChatProps) => {
     scrollTarget,
     sendMessage,
     userId,
+    handleReport,
   };
 };

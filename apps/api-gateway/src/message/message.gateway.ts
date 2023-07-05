@@ -2,6 +2,7 @@ import { WebSocketGateway, SubscribeMessage, MessageBody, WebSocketServer, Conne
 import { MessageService } from './message.service';
 import { Server, Socket } from 'socket.io';
 import { MessageDto } from '@j-irais-bruler-chez-vous/message/feature';
+import { Param } from '@nestjs/common';
 
 @WebSocketGateway({ cors: { origin: [process.env.FRONTEND_URL, 'capacitor://localhost'] } })
 export class MessageGateway implements OnGatewayConnection {
@@ -48,8 +49,8 @@ export class MessageGateway implements OnGatewayConnection {
   }
 
   @SubscribeMessage('reportMessage')
-  async report(@MessageBody() id: string) {
-    await this.messageService.report(id);
+  async report(@MessageBody('messageId') messageId: any) {
+    await this.messageService.report(messageId);
   }
 
   @SubscribeMessage('findOneMessage')
@@ -63,7 +64,7 @@ export class MessageGateway implements OnGatewayConnection {
   }
 
   @SubscribeMessage('removeMessage')
-  remove(@MessageBody() id: string) {
+  remove(@MessageBody('id') id: string) {
     return this.messageService.remove(id);
   }
 }

@@ -45,7 +45,6 @@ export class MessageService {
   }
 
   report(id: string): Promise<void> {
-    console.log('gateway service', id);
     return lastValueFrom(this.messageClient.send('report', id));
   }
 }

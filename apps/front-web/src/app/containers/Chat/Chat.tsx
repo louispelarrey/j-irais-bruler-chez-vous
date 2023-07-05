@@ -8,13 +8,9 @@ interface ChatProps {
 }
 
 export const Chat = ({roomName, widthPercentage, heightVh}: ChatProps) => {
-  const { messages, userId, scrollTarget, handleSubmit, register, sendMessage } = useChat({
+  const { messages, userId, scrollTarget, handleSubmit, register, sendMessage, handleReport } = useChat({
     roomName: roomName ?? 'default',
   });
-
-  const handleReport = (messageId: string) => {
-    console.log('report', messageId);
-  };
 
   return (
     <ChatComponent
