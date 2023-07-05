@@ -35,24 +35,36 @@ export const CardComponent = ({
       <Grid item xs={12} sm={6} md={4} sx={{ mb: 3 }}>
         <Card sx={{ maxWidth: 400, margin: 'auto' }}>
           <CardMedia>
-            <ShowOnMap address={address} title={title} />
+            <ShowOnMap address={address} title={title} disableMarginTop={true} />
           </CardMedia>
           <CardContent sx={{ display: 'flex', flexDirection: 'column' }}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
+            <Grid item xs={12}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
                 <Diversity3Icon />
                 <Typography gutterBottom variant="h5" component="div" sx={{ flexGrow: 1, textAlign: 'right' }}>
-                {title}
+                  {title}
+                </Typography>
+              </div>
+            </Grid>
+            <Grid item xs={12} sx={{ marginTop:2}}  >
+              <Typography textAlign={"left"} variant="body2" color="text.secondary">
+                {description}
               </Typography>
-            </div>
-            <Typography variant="body2" color="text.secondary">
-              {description}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {address}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {start_date}
-            </Typography>
+            </Grid>
+            <Grid container direction={"row"} sx={{ marginTop:2}}>
+              <Grid xs={5}>
+                <Typography textAlign={"left"} variant="body2" color="text.secondary">
+                  {address}
+                </Typography>
+              </Grid>
+              <Grid xs={2}>
+              </Grid>
+              <Grid xs={5}>
+                <Typography textAlign={"right"} variant="body2" color="text.secondary">
+                  {new Date(start_date).toLocaleString("fr-FR")}
+                </Typography>
+              </Grid>
+            </Grid>
           </CardContent>
           <Divider light />
           <CardActions>
@@ -69,4 +81,3 @@ export const CardComponent = ({
       </Grid>
     );
   };
-  

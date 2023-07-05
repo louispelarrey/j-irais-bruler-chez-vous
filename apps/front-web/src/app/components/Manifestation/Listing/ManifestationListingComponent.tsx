@@ -1,8 +1,9 @@
-import { Box, Button, Card, Grid, Modal, Typography } from '@mui/material';
+import {Box, Button, Card, Grid, IconButton, Modal, Typography} from '@mui/material';
 import { ManifestationModalComponent } from '../Modal/ManifestationModalComponent';
 import { CardComponent } from './Card/ManifestationCardComponent';
 import { UseFormRegister } from 'react-hook-form';
 import { IManifestationOnSubmit } from '../../../containers/Manifestation/List';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 interface List {
   id: string;
@@ -34,6 +35,11 @@ export const ManifestationListingComponent = ({
 }: IManifestationListingComponent) => {
   return (
     <>
+      <Box>
+        <Typography variant="h4" component="h1" sx={{ textAlign: 'center', marginTop:5 }}>
+          Liste de vos manifestations
+        </Typography>
+      </Box>
       <Modal
         open={open}
         onClose={handleClose}
@@ -55,7 +61,16 @@ export const ManifestationListingComponent = ({
           />
         </Typography>
       </Modal>
-      <Button onClick={handleOpen}>Créer une manifestation</Button>
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'center',
+      }}>
+        <IconButton aria-label="Créer une manifestation" size="large" onClick={handleOpen}>
+          <AddCircleIcon fontSize="inherit" sx={{
+            width: '100%',
+          }}/>
+        </IconButton>
+      </Box>
       <Box
         sx={{
           position: 'relative',
@@ -78,8 +93,8 @@ export const ManifestationListingComponent = ({
             justifyContent: 'center',
           }}
         >
+
           {data.map((item: List) => (
-            <Grid item xs={12} sm={12} md={12} lg={12} key={item.id}>
               <CardComponent
                 key={item.id}
                 title={item.title}
@@ -88,8 +103,7 @@ export const ManifestationListingComponent = ({
                 start_date={item.start_date}
                 manifestationId={item.id}
                 creatorId={item.creatorId}
-              />
-            </Grid>
+               id={item.id}/>
           ))}
         </Grid>
       </Box>

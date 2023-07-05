@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Param, Patch, Post, Put, Request} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Patch, Post, Put, Request} from '@nestjs/common';
 import {ManifestationService} from "./manifestation.service";
 import {CreateManifestationDto} from "./dto/create-manifestation.dto";
 import {UpdateManifestationDto} from "./dto/update-manifestation";
@@ -87,5 +87,16 @@ export class ManifestationController {
   @Patch(':id/left')
   leftManifestation(@Request() req: RequestWithUser, @Param('id') id: string) {
     return this.manifestationService.leftManifestation(id, req.user.sub);
+  }
+
+  /**
+   * Delete a manifestation.
+   * @param id - The ID of the manifestation to delete.
+   * @param req - The request object containing the authenticated user information.
+   * @returns The deleted manifestation object.
+   */
+  @Delete(':id')
+  deleteManifestation(@Request() req: RequestWithUser, @Param('id') id: string) {
+    return this.manifestationService.deleteManifestation(id, req.user.sub);
   }
 }

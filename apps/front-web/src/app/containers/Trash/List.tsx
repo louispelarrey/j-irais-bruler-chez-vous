@@ -49,7 +49,7 @@ export const Trashs = () => {
     });
     const data = await response.json();
 
-    if (data.statusCode === 401) {
+    if (response.status === 401) {
       navigate('/logout');
     }
     if (data.id) {

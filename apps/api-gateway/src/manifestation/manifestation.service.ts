@@ -96,4 +96,14 @@ export class ManifestationService {
       })
     );
   }
+
+  /**
+   * Delete a manifestation.
+   * @param id - The ID of the manifestation to delete.
+   * @param sub - The ID of the creator.
+   * @returns The deleted manifestation object.
+   */
+  async deleteManifestation(id: string, sub: string) {
+    return this.manifestationClient.send('deleteManifestation', { id, sub });
+  }
 }
