@@ -93,4 +93,15 @@ export class ManifestationController {
   leftManifestation(@Request() req: RequestWithUser, @Param('id') id: string) {
     return this.manifestationService.leftManifestation(id, req.user.sub);
   }
+
+  /**
+   * Delete a manifestation.
+   * @param id - The ID of the manifestation to delete.
+   * @param req - The request object containing the authenticated user information.
+   * @returns The deleted manifestation object.
+   */
+  @Delete(':id')
+  deleteManifestation(@Request() req: RequestWithUser, @Param('id') id: string) {
+    return this.manifestationService.deleteManifestation(id, req.user.sub);
+  }
 }

@@ -81,5 +81,15 @@ export class ManifestationController {
   @MessagePattern('leftManifestation')
   async leftManifestation(@Payload() { id, participantId }: { id: string, participantId: string }): Promise<Manifestation> {
     return this.manifestationService.leftManifestation(id, participantId);
-  }  
+  }
+
+  /**
+   * Deletes a manifestation by its ID.
+   * @param {string} id - The ID of the manifestation.
+   * @returns {Promise<void>}
+   */
+  @MessagePattern('deleteManifestation')
+  async remove(@Payload() { id, sub }: { id: string, sub: string }): Promise<Manifestation> {
+    return this.manifestationService.deleteManifestation(id, sub);
+  }
 }
