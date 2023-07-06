@@ -14,7 +14,7 @@ interface ShowOnMapProps {
 
 export const ShowOnMap = ({ address, latitude, longitude, title, disableMarginTop = false }: ShowOnMapProps) => {
 
-  const [position, setPosition] = useState<[number, number] | undefined>();
+  const [position, setPosition] = useState<[number, number] | undefined>(latitude ? [latitude, longitude] : undefined);
 
   useEffect(() => {
     const fetchAddress = async () => {
@@ -50,13 +50,13 @@ export const ShowOnMap = ({ address, latitude, longitude, title, disableMarginTo
       </StyledMapComponentManifestation>
       :
       <StyledMapComponent
-        center={[latitude, longitude]}
+        center={position}
         zoom={16}
         scrollWheelZoom={true}
         style={{ height: '300px' }}
       >
         <ReactLeafletGoogleLayer apiKey="AIzaSyDbOPJzULaNcIuBSEhnNV1TDSmIATqEtGI" />
-        <Marker position={[latitude, longitude]}>
+        <Marker position={position}>
           <Popup>
             {title ? title : 'La poubelle est située ici'}
           </Popup>
