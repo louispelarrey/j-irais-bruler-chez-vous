@@ -20,7 +20,7 @@ export class AuthenticationService {
   async validateUser(identifier: string, pass: string): Promise<Users |null>  {
     if(identifier === "" || pass === "") return null;
 
-    const user: Users = await lastValueFrom(this.userClient.send('findUserByIdentifier', identifier));
+    const user: Users = await lastValueFrom(this.userClient.send('findUserByIdentifierWithPassword', identifier));
     if (user && await bcrypt.compare(pass, user.password)) {
       return user;
     }
@@ -29,7 +29,7 @@ export class AuthenticationService {
 
   async login(username: string, password: string): Promise<LoginResponse | null> {
     const user: Users = await this.validateUser(username, password);
-    
+
     if(user) {
       const payload = {
         sub: user.id,

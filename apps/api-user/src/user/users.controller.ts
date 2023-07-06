@@ -20,6 +20,11 @@ export class UsersController {
     return this.userService.findByIdentifier(identifier);
   }
 
+  @MessagePattern('findUserByIdentifierWithPassword')
+  async findUserByIdentifierWithPassword(@Payload() identifier: string): Promise<Users> {
+    return this.userService.findByIdentifier(identifier, true);
+  }
+
     /**
    * Find a user by ID.
    * @param {string} id - The user's ID.

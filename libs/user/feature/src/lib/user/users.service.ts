@@ -39,7 +39,15 @@ export class UsersService {
       where: {
         id: id,
       },
-      select: ["id", "username", "email", "roles", "userTrash", "userManifestation", "forgotPassword"],
+      select: [
+        'id',
+        'username',
+        'email',
+        'roles',
+        'userTrash',
+        'userManifestation',
+        'forgotPassword',
+      ],
       relations: ['userManifestation'],
     });
 
@@ -57,7 +65,15 @@ export class UsersService {
       where: {
         email: email,
       },
-      select: ["id", "username", "email", "roles", "userTrash", "userManifestation", "forgotPassword"],
+      select: [
+        'id',
+        'username',
+        'email',
+        'roles',
+        'userTrash',
+        'userManifestation',
+        'forgotPassword',
+      ],
     });
 
     return user;
@@ -69,28 +85,46 @@ export class UsersService {
    * @param {string} identifier Email or Username
    * @returns {Promise<User | undefined>} Found User, or undefined if user doesn't exists
    */
-  async findByIdentifier(identifier: string): Promise<Users | undefined> {
-    // this.mailingClient.emit('sendMail', {
-    //   to: 'louispelarrey@gmail.com',
-    //   subject: 'test',
-    //   text: 'test'
-    // });
-
-    const user = await this.userRepository.findOne({
-      where: [
-        {
-          email: identifier,
-        },
-        {
-          username: identifier,
-        },
-      ],
-      select: ["id", "username", "email", "roles", "userTrash", "userManifestation", "forgotPassword"],
-    });
+  async findByIdentifier(
+    identifier: string,
+    root?: boolean
+  ): Promise<Users | undefined> {
+    let user;
+    if (!root) {
+      user = await this.userRepository.findOne({
+        where: [
+          {
+            email: identifier,
+          },
+          {
+            username: identifier,
+          },
+        ],
+        select: [
+          'id',
+          'username',
+          'email',
+          'roles',
+          'userTrash',
+          'userManifestation',
+          'forgotPassword',
+        ],
+      });
+    } else {
+      user = await this.userRepository.findOne({
+        where: [
+          {
+            email: identifier,
+          },
+          {
+            username: identifier,
+          },
+        ],
+      });
+    }
 
     return user;
   }
-
 
   /**
    * Find all users
@@ -99,7 +133,15 @@ export class UsersService {
    */
   async findAll(): Promise<Users[]> {
     return await this.userRepository.find({
-      select: ["id", "username", "email", "roles", "userTrash", "userManifestation", "forgotPassword"],
+      select: [
+        'id',
+        'username',
+        'email',
+        'roles',
+        'userTrash',
+        'userManifestation',
+        'forgotPassword',
+      ],
     });
   }
 
@@ -244,8 +286,10 @@ export class UsersService {
     });
   }
 
-
-  async addManifestationToUser(userId: string, manifestationId: string): Promise<Users> {
+  async addManifestationToUser(
+    userId: string,
+    manifestationId: string
+  ): Promise<Users> {
     const user = await this.userRepository.findOne({
       where: {
         id: userId,
@@ -262,7 +306,10 @@ export class UsersService {
     return user;
   }
 
-  async removeManifestationFromUser(userId: string, manifestationId: string): Promise<Users> {
+  async removeManifestationFromUser(
+    userId: string,
+    manifestationId: string
+  ): Promise<Users> {
     const userManifestation = await this.userManifestationRepository.findOne({
       where: {
         userId: userId,
@@ -279,5 +326,4 @@ export class UsersService {
       relations: ['userManifestation'],
     });
   }
-
 }
