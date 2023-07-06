@@ -231,6 +231,7 @@ export class TrashService {
       );
     }
     trash.burners = trash.burners.filter((burner) => burner !== burnerId);
+    this.userClient.emit('removeTrashToUser', { userId: burnerId, trashId: id });
     return this.trashRepository.save(trash);
   }
 
