@@ -95,4 +95,9 @@ export class UsersController {
   handleAddTrashToUser(@Payload() {userId, trashId}: {userId: string, trashId: string}): Promise<Users> {
     return this.userService.addTrashToUser(userId, trashId);
   }
+
+  @MessagePattern('addManifestationToUser')
+  handleAddManifestationToUser(@Payload() {userId, manifestationId}: {userId: string, manifestationId: string}): Promise<Users> {
+    return this.userService.addManifestationToUser(userId, manifestationId);
+  }
 }

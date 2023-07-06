@@ -7,6 +7,7 @@ import { ForgotPassword, Users } from '@j-irais-bruler-chez-vous/user/feature';
 import * as bcrypt from 'bcryptjs';
 import { ClientProxy } from '@nestjs/microservices';
 import { UserTrash } from '../user-trash/user-trash.entity';
+import { UserManifestation } from '../user-manifestation/user-manifestation.entity';
 
 @Injectable()
 export class UsersService {
@@ -19,6 +20,9 @@ export class UsersService {
 
     @InjectRepository(UserTrash)
     private readonly userTrashRepository: Repository<UserTrash>,
+
+    @InjectRepository(UserManifestation)
+    private readonly userManifestationRepository: Repository<UserManifestation>,
 
     @Inject('MAILING_SERVICE')
     private readonly mailingClient: ClientProxy
@@ -208,6 +212,23 @@ export class UsersService {
     userTrash.trashId = trashId;
 
     await this.userTrashRepository.save(userTrash);
+
+    return user;
+  }
+
+  async addManifestationToUser(userId: string, manifestationId: string): Promise<Users> {
+    const user = await this.userRepository.findOne({
+      where: {
+        id: userId,
+      },
+      relations: ['userManifestation'],
+    });
+
+    const userManifestation = new UserManifestation();
+    userManifestation.user = user;
+    userManifestation.manifestationId = manifestationId;
+
+    await this.userManifestationRepository.save(userManifestation);
 
     return user;
   }

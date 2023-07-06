@@ -1,10 +1,11 @@
-import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
+import {HttpException, HttpStatus, Inject, Injectable} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import { Repository, In, Raw } from "typeorm";
 import {Manifestation} from "./manifestation.entity";
 import {CreateManifestationDto} from "./dto/create-manifestation.dto";
 import {UpdateManifestationDto} from "./dto/update-manifestation.dto";
 import { Cron, CronExpression } from '@nestjs/schedule';
+import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
 export class ManifestationService {
@@ -12,6 +13,9 @@ export class ManifestationService {
   constructor(
     @InjectRepository(Manifestation)
     private readonly manifestationRepository: Repository<Manifestation>,
+
+    @Inject('USER')
+    private readonly userClient: ClientProxy
   ) {}
 
     /**
@@ -160,8 +164,8 @@ export class ManifestationService {
         HttpStatus.BAD_REQUEST
       );
     }
-
     manifestation.participants.push(participantId);
+    this.userClient.emit('addManifestationToUser', { userId: participantId, manifestationId: id });
     return this.manifestationRepository.save(manifestation);
   }
 
