@@ -1,5 +1,6 @@
 import { Box, Button, Grid, Paper, TextField, Typography } from '@mui/material';
 import { UseFormRegister } from 'react-hook-form';
+import AutocompleteInput from "../../../utils/input/AutocompleteInput";
 
 export interface ManifestationData {
   title: string;
@@ -17,6 +18,12 @@ export const ManifestationModalComponent = ({
   handleSubmit,
   register,
 }: ManifestationModalProps) => {
+
+  const handlePlaceSelected = (place:any) => {
+    // Handle the selected place
+    console.log(place);
+
+  };
 
   return (
     <Grid container component="main">
@@ -59,22 +66,17 @@ export const ManifestationModalComponent = ({
               autoComplete="description"
               {...register('description', { required: true })}
             />
-            <input 
+            <input
               required
               type="date"
               id="start_date"
               {...register('start_date', { required: true })}
             />
-            <TextField
-              required
-              fullWidth
-              label="Addresse"
-              size='small'
-              type="address"
-              id="address"
-              autoComplete="address"
-              {...register('address', { required: true })}
-            />
+            <Grid>
+              <AutocompleteInput
+                onPlaceSelected={handlePlaceSelected}
+              />
+            </Grid>
             <Button
               type="submit"
               fullWidth
