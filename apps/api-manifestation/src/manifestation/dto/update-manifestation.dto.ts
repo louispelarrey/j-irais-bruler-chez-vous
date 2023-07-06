@@ -15,7 +15,7 @@ export class UpdateManifestationDto {
   @IsString()
   address: string;
 
-  @IsDate()
+  @IsString()
   @IsNotEmpty()
   start_date: string;
 }
