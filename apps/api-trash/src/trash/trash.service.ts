@@ -32,6 +32,25 @@ export class TrashService {
     return trashs;
   }
 
+  //I want to get all the trashs with total numbers of pages
+  async getPaginatedTrashs(page: number, limit: number) {
+    const [trashs, total] = await this.trashRepository.findAndCount({
+      order: { createdAt: 'DESC' },
+      skip: (page - 1) * limit,
+      take: limit,
+    });
+
+    const totalPages = Math.ceil(total / limit);
+
+    return {
+      trashs,
+      total,
+      totalPages,
+      currentPage: page,
+    };
+  }
+
+
   /**
    * Retrieves all trash posted by a specific user, sorted by date in ascending order.
    * @param {string} posterId - The ID of the user.

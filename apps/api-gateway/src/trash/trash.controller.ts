@@ -31,6 +31,11 @@ export class TrashController {
     return this.trashService.getHeatmapData(startDate);
   }
 
+  @Get('paginated')
+  findAllPaginated(@Query('page') page: number, @Query('limit') limit: number) {
+    return this.trashService.getPaginatedTrash(page, limit);
+  }
+
   /**
    * Get a specific trash  by its ID.
    * @param id - The ID of the trash .
