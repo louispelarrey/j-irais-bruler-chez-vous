@@ -181,7 +181,7 @@ export class TrashService {
       );
     }
     trash.burners.push(burnerId);
-    this.userClient.send('addTrashToUser', { userId: burnerId, trashId: id })
+    this.userClient.emit('addTrashToUser', { userId: burnerId, trashId: id });
     return this.trashRepository.save(trash);
   }
 
