@@ -62,6 +62,8 @@ describe('UsersController', () => {
             password: dto.password,
             roles: [Role.User],
             forgotPassword: [],
+            userTrash: [],
+            userManifestation: [],
         };
 
         jest.spyOn(service, 'createUser').mockResolvedValueOnce(expectedUser);
@@ -89,6 +91,8 @@ describe('UsersController', () => {
             password: dto.password,
             roles: [Role.User],
             forgotPassword: [],
+            userTrash: [],
+            userManifestation: [],
         };
 
         jest.spyOn(service, 'updateUser').mockResolvedValueOnce(expectedUser);
