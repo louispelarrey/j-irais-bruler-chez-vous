@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {TextField} from "@mui/material";
 
-const AutocompleteInput = ({ onPlaceSelected, id }) => {
+const AutocompleteInput = ({ onPlaceSelected, id, value = '' }) => {
   const [inputValue, setInputValue] = useState('');
 
   const handleInputChange = (event) => {
@@ -30,17 +30,17 @@ const AutocompleteInput = ({ onPlaceSelected, id }) => {
   });
 
   return (
-      <TextField
-        id={id}
-        type="text"
-        value={inputValue}
-        onChange={handleInputChange}
-        placeholder="Enter an address"
-        required
-        sx={{
-          width: '100%',
-        }}
-      />
+    <TextField
+      id={id}
+      type="text"
+      value={value}
+      onChange={handleInputChange}
+      placeholder="Enter an address"
+      required
+      sx={{
+        width: '100%',
+      }}
+    />
   );
 };
 

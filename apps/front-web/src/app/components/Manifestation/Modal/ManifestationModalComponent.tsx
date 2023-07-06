@@ -20,7 +20,7 @@ interface ManifestationModalProps {
 }
 
 export const ManifestationModalComponent = ({
-}: ManifestationModalProps) => {
+                                            }: ManifestationModalProps) => {
   const {
     register,
     handleSubmit: handleFormSubmit,
@@ -115,12 +115,6 @@ export const ManifestationModalComponent = ({
                 />
               </DemoContainer>
             </LocalizationProvider>
-            {/*<input*/}
-            {/*  required*/}
-            {/*  type="date"*/}
-            {/*  id="start_date"*/}
-            {/*  onChange={(e) => setStart_date(e.target.value)}*/}
-            {/*/>*/}
             <Box sx={{
               marginTop: 2,
             }}>

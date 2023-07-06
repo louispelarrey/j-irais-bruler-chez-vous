@@ -49,6 +49,7 @@ export const EditManifestation = () => {
       register={register}
       handleSubmit={handleSubmit(onSubmit)}
       error={error}
+      id={id}
     />
   );
 };

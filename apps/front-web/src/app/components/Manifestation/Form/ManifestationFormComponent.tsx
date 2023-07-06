@@ -2,20 +2,27 @@ import { Alert, AlertTitle, Box, Button, Grid, Paper, Snackbar, TextField, Typog
 import { UseFormRegister } from 'react-hook-form';
 import { ManifestationData } from '../../../containers/Manifestation/Edit';
 import {useEffect, useState} from "react";
+import {useNavigate} from "react-router";
+import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import {DemoContainer} from "@mui/x-date-pickers/internals/demo";
+import {DatePicker} from "@mui/x-date-pickers/DatePicker";
+import AutocompleteInput from "../../../utils/input/AutocompleteInput";
+import dayjs from 'dayjs';
 
 interface ManifestationFormProps {
   initialValues: ManifestationData;
   register: UseFormRegister<ManifestationData>;
   handleSubmit: any;
+  id: string;
   error: string;
 }
 
 export const ManifestationFormComponent = ({
-  initialValues,
-  register,
-  handleSubmit,
-  error
-}: ManifestationFormProps) => {
+   initialValues,
+   error,
+   id
+ }: ManifestationFormProps) => {
 
   const [open, setOpen] = useState(false);
 
@@ -28,8 +35,51 @@ export const ManifestationFormComponent = ({
     }
     setOpen(false);
   };
+
+  const [title, setTitle] = useState(initialValues.title);
+  const [description, setDescription] = useState(initialValues.description);
+  const [address, setAddress] = useState(initialValues.address);
+  const [start_date, setStart_date] = useState(initialValues.start_date);
+
+  const navigate = useNavigate();
+
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_URL}/api/manifestation/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify({
+          title,
+          description,
+          address,
+          start_date
+        }),
+      });
+      const data = await response.json();
+      if (data.id) {
+        navigate(`/`);
+      }
+    } catch (errorForm: any) {
+      setError(errorForm.message);
+    }
+  };
+
+
+  const handlePlaceSelected = (place: any) => {
+    setAddress(place.formatted_address);
+  };
+
   return (
-    <Grid container component="main">
+    <Grid container component="main" sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      width: '100%',
+      marginTop: 5
+    }}>
       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <Alert severity="error">
           <AlertTitle>Error</AlertTitle>
@@ -44,6 +94,7 @@ export const ManifestationFormComponent = ({
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+            width: '100%'
           }}
         >
           <Box
@@ -63,8 +114,11 @@ export const ManifestationFormComponent = ({
               type="title"
               id="title"
               autoComplete="title"
-              {...register('title', { required: true })}
-              defaultValue={initialValues.title}
+              defaultValue={title}
+              onChange={(e) => setTitle(e.target.value)}
+              sx={{
+                marginBottom: 2
+              }}
             />
             <TextField
               required
@@ -74,31 +128,32 @@ export const ManifestationFormComponent = ({
               type="description"
               id="description"
               autoComplete="description"
-              {...register('description', { required: true })}
-              defaultValue={initialValues.description}
+              defaultValue={description}
+              onChange={(e) => setDescription(e.target.value)}
+              sx={{
+                marginBottom: 2
+              }}
             />
-            <TextField
-              required
-              fullWidth
-              label="Adresse"
-              size='small'
-              type="address"
-              id="address"
-              autoComplete="address"
-              {...register('address', { required: true })}
-              defaultValue={initialValues.address}
-            />
-            <TextField
-              required
-              fullWidth
-              label="Date de début"
-              size='small'
-              type="start_date"
-              id="start_date"
-              autoComplete="start_date"
-              {...register('start_date', { required: true })}
-              defaultValue={initialValues.start_date}
-            />
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoContainer components={['DatePicker']}>
+                <DatePicker
+                  label="Date de début de la manifestation"
+                  value={dayjs(start_date)}
+                  views={["year", "month", "day"]}
+                  format="DD-MM-YYYY"
+                  onChange={(e) => setStart_date(e.toString())}
+                />
+              </DemoContainer>
+            </LocalizationProvider>
+            <Box sx={{
+              marginTop: 2,
+            }}>
+              <AutocompleteInput
+                onPlaceSelected={handlePlaceSelected}
+                id={'address'}
+                value={address}
+              />
+            </Box>
             <Button
               type="submit"
               fullWidth
