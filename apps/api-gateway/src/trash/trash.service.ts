@@ -150,4 +150,14 @@ export class TrashService {
       })
     );
   }
+
+
+  async getPaginatedTrash(page: number, limit: number) {
+    return await lastValueFrom(
+      this.trashClient.send('getPaginatedTrashs', {
+        page,
+        limit,
+      })
+    );
+  }
 }
