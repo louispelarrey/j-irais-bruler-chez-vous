@@ -216,6 +216,25 @@ export class UsersService {
     return user;
   }
 
+  async removeTrashFromUser(userId: string, trashId: string): Promise<Users> {
+    const userTrash = await this.userTrashRepository.findOne({
+      where: {
+        userId: userId,
+        trashId: trashId,
+      },
+    });
+
+    await this.userTrashRepository.remove(userTrash);
+
+    return await this.userRepository.findOne({
+      where: {
+        id: userId,
+      },
+      relations: ['userTrash'],
+    });
+  }
+
+
   async addManifestationToUser(userId: string, manifestationId: string): Promise<Users> {
     const user = await this.userRepository.findOne({
       where: {
@@ -232,4 +251,23 @@ export class UsersService {
 
     return user;
   }
+
+  async removeManifestationFromUser(userId: string, manifestationId: string): Promise<Users> {
+    const userManifestation = await this.userManifestationRepository.findOne({
+      where: {
+        userId: userId,
+        manifestationId: manifestationId,
+      },
+    });
+
+    await this.userManifestationRepository.remove(userManifestation);
+
+    return await this.userRepository.findOne({
+      where: {
+        id: userId,
+      },
+      relations: ['userManifestation'],
+    });
+  }
+  
 }
