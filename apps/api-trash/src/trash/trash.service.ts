@@ -155,7 +155,14 @@ export class TrashService {
         HttpStatus.BAD_REQUEST
       );
     }
+    if (trash.burners.includes(burnerId)) {
+      throw new HttpException(
+        'Le bruleur est déjà assigné à cette poubelle',
+        HttpStatus.BAD_REQUEST
+      );
+    }
     trash.burners.push(burnerId);
+    this.userClient.send('addTrashToUser', { userId: burnerId, trashId: id })
     return this.trashRepository.save(trash);
   }
 
