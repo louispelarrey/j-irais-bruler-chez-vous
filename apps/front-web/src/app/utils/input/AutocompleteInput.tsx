@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {TextField} from "@mui/material";
 
-const AutocompleteInput = ({ onPlaceSelected }) => {
+const AutocompleteInput = ({ onPlaceSelected, id }) => {
   const [inputValue, setInputValue] = useState('');
 
   const handleInputChange = (event) => {
@@ -10,7 +10,7 @@ const AutocompleteInput = ({ onPlaceSelected }) => {
 
   const handlePlaceSelected = (place) => {
     onPlaceSelected(place);
-    setInputValue(place.name); // Set the input value to the selected place name
+    setInputValue(place.formatted_address); // Set the input value to the selected place name
   };
 
   const autocompleteOptions = {
@@ -18,7 +18,7 @@ const AutocompleteInput = ({ onPlaceSelected }) => {
   };
 
   const autocomplete = new google.maps.places.Autocomplete(
-    document.getElementById('autocomplete-input'),
+    document.getElementById(id),
     autocompleteOptions
   );
 
@@ -31,7 +31,7 @@ const AutocompleteInput = ({ onPlaceSelected }) => {
 
   return (
       <TextField
-        id="autocomplete-input"
+        id={id}
         type="text"
         value={inputValue}
         onChange={handleInputChange}

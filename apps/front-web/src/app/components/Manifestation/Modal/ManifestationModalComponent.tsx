@@ -1,6 +1,12 @@
-import { Box, Button, Grid, Paper, TextField, Typography } from '@mui/material';
-import { UseFormRegister } from 'react-hook-form';
+import {Box, Button, Grid, Paper, TextField, Typography} from '@mui/material';
+import {useForm} from 'react-hook-form';
 import AutocompleteInput from "../../../utils/input/AutocompleteInput";
+import {useState} from "react";
+import {useNavigate} from 'react-router';
+import {DemoContainer} from '@mui/x-date-pickers/internals/demo';
+import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
+import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
+import {DatePicker} from '@mui/x-date-pickers/DatePicker';
 
 export interface ManifestationData {
   title: string;
@@ -10,19 +16,51 @@ export interface ManifestationData {
 }
 
 interface ManifestationModalProps {
-  register: UseFormRegister<ManifestationData>;
   handleSubmit: any;
 }
 
 export const ManifestationModalComponent = ({
-  handleSubmit,
-  register,
 }: ManifestationModalProps) => {
+  const {
+    register,
+    handleSubmit: handleFormSubmit,
+    setValue,
+    formState: {errors}
+  } = useForm<ManifestationData>();
 
-  const handlePlaceSelected = (place:any) => {
-    // Handle the selected place
-    console.log(place);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [address, setAddress] = useState('');
+  const [start_date, setStart_date] = useState('');
 
+  const navigate = useNavigate();
+
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_URL}/api/manifestation`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify({
+          title,
+          description,
+          address,
+          start_date
+        }),
+      });
+      const data = await response.json();
+      if (data.id) {
+        navigate(`/`);
+      }
+    } catch (errorForm: any) {
+      setError(errorForm.message);
+    }
+  };
+
+  const handlePlaceSelected = (place: any) => {
+    setAddress(place.formatted_address);
   };
 
   return (
@@ -40,7 +78,6 @@ export const ManifestationModalComponent = ({
           <Box
             component="form"
             noValidate
-            onSubmit={handleSubmit}
           >
             <Typography id="modal-modal-title" variant="h6" component="span">
               Créer une manifestation
@@ -54,7 +91,7 @@ export const ManifestationModalComponent = ({
               type="title"
               id="title"
               autoComplete="title"
-              {...register('title', { required: true })}
+              onChange={(e) => setTitle(e.target.value)}
             />
             <TextField
               required
@@ -64,24 +101,41 @@ export const ManifestationModalComponent = ({
               type="description"
               id="description"
               autoComplete="description"
-              {...register('description', { required: true })}
+              onChange={(e) => setDescription(e.target.value)}
+              sx={{
+                marginBottom: 2,
+              }}
             />
-            <input
-              required
-              type="date"
-              id="start_date"
-              {...register('start_date', { required: true })}
-            />
-            <Grid>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoContainer components={['DatePicker']}>
+                <DatePicker
+                  label="Date de début de la manifestation"
+                  value={start_date}
+                  onChange={(e) => setStart_date(e.toString())}
+                />
+              </DemoContainer>
+            </LocalizationProvider>
+            {/*<input*/}
+            {/*  required*/}
+            {/*  type="date"*/}
+            {/*  id="start_date"*/}
+            {/*  onChange={(e) => setStart_date(e.target.value)}*/}
+            {/*/>*/}
+            <Box sx={{
+              marginTop: 2,
+            }}>
               <AutocompleteInput
                 onPlaceSelected={handlePlaceSelected}
+                id={'address'}
               />
-            </Grid>
+            </Box>
+            {errors.address && <span>This field is required</span>}
             <Button
               type="submit"
+              onClick={() => handleSubmit()}
               fullWidth
               variant="contained"
-              sx={{ mt: 2, mb: 2 }}
+              sx={{mt: 2, mb: 2}}
             >
               Créer
             </Button>
