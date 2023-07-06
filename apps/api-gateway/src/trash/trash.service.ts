@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { TrashDto } from './dto/trash.dto';
 import { lastValueFrom } from 'rxjs';
@@ -112,20 +112,29 @@ export class TrashService {
     );
   }
 
-  /**
+    /**
    * Remove a trash item.
    * @param id - The ID of the trash item to remove.
    * @param sub - The ID of the user removing the trash item.
    * @returns The removed trash item object.
    */
-  async remove(id: string, sub: string) {
-    return await lastValueFrom(
-      this.trashClient.send('remove', {
-        id,
-        burnerId: sub,
-      })
-    );
-  }
+    async remove(id: string, sub: string) {
+
+      const trash = await lastValueFrom(this.trashClient.send('findOne', id));
+
+      const currentUser = await lastValueFrom(this.userClient.send('findUserById', sub));
+
+      if (trash.posterId.id === sub || currentUser.roles === 'ADMIN') {
+        return await lastValueFrom(
+          this.trashClient.send('remove', {
+            id,
+            burnerId: sub,
+          })
+        );
+      } else {
+        throw new UnauthorizedException('You are not authorized to delete this trash item.');
+      }
+    }
 
   /**
    * Remove a burner from a trash item.
