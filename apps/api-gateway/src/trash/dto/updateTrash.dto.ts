@@ -1,10 +1,11 @@
-import { IsString, IsNotEmpty, ValidateNested } from 'class-validator';
+import { IsString, ValidateNested, Length } from 'class-validator';
 
 class Data {
   @IsString()
   reference: string;
 
   @IsString()
+  @Length(10, 400)
   description: string;
 }
 

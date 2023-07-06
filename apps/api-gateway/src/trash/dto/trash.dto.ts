@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, ValidateNested } from 'class-validator';
+import { IsString, IsNotEmpty, ValidateNested, Length } from 'class-validator';
 
 class Data {
   @IsString()
@@ -7,6 +7,7 @@ class Data {
 
   @IsString()
   @IsNotEmpty()
+  @Length(10, 400)
   description: string;
 
   @IsString()
