@@ -120,6 +120,11 @@ export const TrashListingComponent = ({
           count={data.totalPages}
           page={data.currentPage}
           onChange={(event, page) => setPage(page)}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            marginBottom: '2rem',
+          }}
         />
       )}
     </>

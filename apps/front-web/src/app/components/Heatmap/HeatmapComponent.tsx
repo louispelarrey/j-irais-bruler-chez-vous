@@ -5,7 +5,7 @@ import 'leaflet.heat/dist/leaflet-heat.js';
 
 export const HeatMapComponent = ({ heatmapData, heatmapDate, setHeatmapDate }: IHeatmap) => (
   <StyledMapComponent
-    style={{height: '500px'}}
+    style={{height: '600px'}}
     center={[48.857, 2.333333]}
     zoom={12}
     scrollWheelZoom={true}
