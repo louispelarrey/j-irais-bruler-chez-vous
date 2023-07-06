@@ -41,8 +41,7 @@ export const ListFragment = () => {
           navigate('/');
           return;
         }
-        console.log(response)
-        if (response.status === 200){
+        if (response.ok){
           refetch();
         }
       } catch (error) {
