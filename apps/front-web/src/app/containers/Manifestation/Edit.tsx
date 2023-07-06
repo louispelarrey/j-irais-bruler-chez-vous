@@ -14,20 +14,25 @@ export interface ManifestationData {
 export const EditManifestation = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { data, error, loading } = useGet(`/api/manifestation/${id}`);
+  const { data, loading } = useGet(`/api/manifestation/${id}`);
   const { register, handleSubmit } = useForm<ManifestationData>();
+  const [error, setError] = useState('');
 
   const onSubmit = async (formData: ManifestationData) => {
-    const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_URL}/api/manifestation/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-      body: JSON.stringify(formData),
-    });
-    const data = await response.json();
-    navigate('/manifestation');
+    try {
+      const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_URL}/api/manifestation/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await response.json();
+      navigate('/manifestation');
+    } catch (error: any) {
+      setError(error.message);
+    }
   };
 
   if (loading) {
@@ -43,6 +48,7 @@ export const EditManifestation = () => {
       initialValues={data}
       register={register}
       handleSubmit={handleSubmit(onSubmit)}
+      error={error}
     />
   );
 };
