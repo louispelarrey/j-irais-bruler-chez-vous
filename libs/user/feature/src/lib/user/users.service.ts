@@ -39,6 +39,7 @@ export class UsersService {
       where: {
         id: id,
       },
+      select: ["id", "username", "email", "roles", "userTrash", "userManifestation", "forgotPassword"],
       relations: ['userManifestation'],
     });
 
@@ -56,6 +57,7 @@ export class UsersService {
       where: {
         email: email,
       },
+      select: ["id", "username", "email", "roles", "userTrash", "userManifestation", "forgotPassword"],
     });
 
     return user;
@@ -75,7 +77,6 @@ export class UsersService {
     // });
 
     const user = await this.userRepository.findOne({
-      //check if identifier is an email or a username
       where: [
         {
           email: identifier,
@@ -84,6 +85,7 @@ export class UsersService {
           username: identifier,
         },
       ],
+      select: ["id", "username", "email", "roles", "userTrash", "userManifestation", "forgotPassword"],
     });
 
     return user;
@@ -96,7 +98,9 @@ export class UsersService {
    * @returns {Promise[User]} All users
    */
   async findAll(): Promise<Users[]> {
-    return await this.userRepository.find();
+    return await this.userRepository.find({
+      select: ["id", "username", "email", "roles", "userTrash", "userManifestation", "forgotPassword"],
+    });
   }
 
   /**
@@ -275,5 +279,5 @@ export class UsersService {
       relations: ['userManifestation'],
     });
   }
-  
+
 }
