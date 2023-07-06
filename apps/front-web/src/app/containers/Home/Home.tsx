@@ -10,7 +10,6 @@ export const Home = () => {
       <BannerFragment />
       <Heatmap />
       <ListFragment />
-      <WorksFragment />
     </React.Fragment>
   );
 };
