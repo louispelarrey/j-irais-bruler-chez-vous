@@ -8,7 +8,7 @@ import { MessageDto } from '@j-irais-bruler-chez-vous/message/feature';
 @Controller('admin')
 export class AdminController {
     constructor(private readonly adminService: AdminService) {}
-    
+
     /**
    * Retrieves all the trashes.
    * @returns The trashes.
@@ -28,10 +28,9 @@ export class AdminController {
     @Put('trashs/:id')
     @Roles(Role.Admin)
     updateTrash(@Param('id') id: string, @Body() updateTrashDto: UpdateTrashDto) {
-        console.log('gate controller', updateTrashDto);
         return this.adminService.updateTrash(id, updateTrashDto);
     }
-    
+
     /**
    * Retrieves all the users.
    * @returns The users.
@@ -41,7 +40,7 @@ export class AdminController {
     findAllUser() {
         return this.adminService.findAllUser();
     }
-    
+
     /**
    * Retrieves all the manifestations.
    * @returns The manifestations.

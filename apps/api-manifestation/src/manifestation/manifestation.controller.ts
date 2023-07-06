@@ -59,7 +59,6 @@ export class ManifestationController {
    */
   @MessagePattern('update')
   async update(@Payload() { id, updateManifestationDto, sub }: { id: string, updateManifestationDto: UpdateManifestationDto, sub: string }): Promise<Manifestation> {
-    console.log('api controller', updateManifestationDto);
     return this.manifestationService.update(id, updateManifestationDto, sub);
   }
 

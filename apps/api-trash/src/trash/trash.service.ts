@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { MoreThanOrEqual, Repository } from 'typeorm';
 import { Trash } from './trash.entity';
 import { TrashDto } from './dto/trash.dto';
 import { ClientProxy } from '@nestjs/microservices';
@@ -45,6 +45,30 @@ export class TrashService {
     return trashs;
   }
 
+  async getHeatmapData(startDate: string) {
+    //select createdAt >= startDate
+    const trashs = await this.trashRepository.find({
+      select: ['latitude', 'longitude'],
+      where: {
+        createdAt: MoreThanOrEqual(new Date(startDate))
+      }
+    });
+    // // Récupérer le createdAt le plus vieux et le plus récent
+    // const oldestCreatedAt = await this.trashRepository.createQueryBuilder()
+    //   .select("MIN(trash.createdAt)", "min")
+    //   .getRawOne();
+
+    // const newestCreatedAt = await this.trashRepository.createQueryBuilder()
+    //   .select("MAX(trash.createdAt)", "max")
+    //   .getRawOne();
+
+    return {
+      trashs,
+      // minDate: oldestCreatedAt.min ? new Date(oldestCreatedAt.min).toISOString() : null,
+      // maxDate: newestCreatedAt.max ? new Date(newestCreatedAt.max).toISOString() : null,
+    };
+  }
+
   /**
    * Retrieves a specific trash by its ID.
    * @param {string} id - The ID of the trash.
@@ -85,6 +109,8 @@ export class TrashService {
     trash.description = createTrashDto.data.description;
     trash.posterId = createTrashDto.data.posterId;
     trash.address = createTrashDto.data.address;
+    trash.latitude = createTrashDto.data.latitude;
+    trash.longitude = createTrashDto.data.longitude;
     trash.fileImageUrl = await this.fileUploadService.uploadFile(createTrashDto.file);
     return await this.trashRepository.save(trash);
   }

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, ParseFilePipeBuilder, Post, Put, Request, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, ParseFilePipeBuilder, Post, Put, Query, Request, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { TrashService } from './trash.service';
 import { TrashDto } from './dto/trash.dto';
 import { UpdateTrashDto } from './dto/updateTrash.dto';
@@ -24,6 +24,11 @@ export class TrashController {
   @Get()
   findAll() {
     return this.trashService.findAll();
+  }
+
+  @Get('heatmap')
+  getHeatmapData(@Query('startDate') startDate: string) {
+    return this.trashService.getHeatmapData(startDate);
   }
 
   /**

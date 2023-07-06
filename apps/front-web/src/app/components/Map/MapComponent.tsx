@@ -6,9 +6,15 @@ import { useState } from 'react';
 
 export interface IMapProps {
   setAddress: (address: string) => void;
+  setLatitude: (latitude: number) => void;
+  setLongitude: (longitude: number) => void;
 };
 
-export const MapComponent = ({setAddress}: IMapProps) => {
+export const MapComponent = ({
+  setAddress,
+  setLatitude,
+  setLongitude
+}: IMapProps) => {
   const [locationLoading, setLocationLoading] = useState(false);
 
   return (
@@ -25,6 +31,8 @@ export const MapComponent = ({setAddress}: IMapProps) => {
       <LocationMarker
         setLocationLoading={setLocationLoading}
         setAddress={setAddress}
+        setLatitude={setLatitude}
+        setLongitude={setLongitude}
       />
     </StyledMapComponent>
   )

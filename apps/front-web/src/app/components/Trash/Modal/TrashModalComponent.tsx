@@ -7,18 +7,24 @@ import { ImageDropzone } from '../../ImageDropzone/ImageDropzone';
 export interface TrashData {
   reference: string;
   description: string;
-  address: string;
   trashImage: File;
+  latitude: number;
+  longitude: number;
+  address: string;
 }
 
 interface TrashModalProps {
   register: UseFormRegister<TrashData>;
   handleSubmit: () => void;
+  setLatitude: (latitude: number) => void;
+  setLongitude: (longitude: number) => void;
 }
 
 export const TrashModalComponent = ({
   handleSubmit,
   register,
+  setLatitude,
+  setLongitude,
 }: TrashModalProps) => {
 
   const [address, setAddress] = useState('');
@@ -43,7 +49,11 @@ export const TrashModalComponent = ({
             <Typography id="modal-modal-title" variant="h6" component="span">
               Créer une annonce
             </Typography>
-            <MapComponent setAddress={setAddress}/>
+            <MapComponent
+              setAddress={setAddress}
+              setLatitude={setLatitude}
+              setLongitude={setLongitude}
+            />
             <TextField
               margin="normal"
               required

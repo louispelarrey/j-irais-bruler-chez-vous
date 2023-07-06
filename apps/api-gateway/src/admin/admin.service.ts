@@ -29,7 +29,6 @@ export class AdminService {
    * @returns A promise that resolves to the trashes.
    */
     async updateTrash(id: string, updateTrashDto: UpdateTrashDto) {
-        console.log('gate service', updateTrashDto);
         return this.trashClient.send('update', {id, updateTrashDto});
     }
 

@@ -63,7 +63,6 @@ export class ManifestationService {
    * @returns The updated manifestation object.
    */
   async update(id: string, updateManifestationDto: UpdateManifestationDto, sub: string) {
-    console.log('gateway service', updateManifestationDto);
     return this.manifestationClient.send('update', { id, updateManifestationDto, sub });
   }
 

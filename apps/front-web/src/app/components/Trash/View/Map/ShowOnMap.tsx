@@ -4,7 +4,16 @@ import ReactLeafletGoogleLayer from 'react-leaflet-google-layer';
 import {StyledMapComponent} from '../../../Map/StyledMapComponent';
 import {StyledMapComponentManifestation} from '../../../Map/StyledMapComponentManifestation';
 
-export const ShowOnMap = ({ address, title, disableMarginTop = false }: { address: string, title?: string, disableMarginTop?: boolean }) => {
+interface ShowOnMapProps {
+  latitude: number;
+  longitude: number;
+  title?: string;
+  address: string;
+  disableMarginTop?: boolean;
+}
+
+export const ShowOnMap = ({ address, latitude, longitude, title, disableMarginTop = false }: ShowOnMapProps) => {
+
   const [position, setPosition] = useState<[number, number] | undefined>();
 
   useEffect(() => {
@@ -41,13 +50,13 @@ export const ShowOnMap = ({ address, title, disableMarginTop = false }: { addres
       </StyledMapComponentManifestation>
       :
       <StyledMapComponent
-        center={position}
+        center={[latitude, longitude]}
         zoom={16}
         scrollWheelZoom={true}
         style={{ height: '300px' }}
       >
         <ReactLeafletGoogleLayer apiKey="AIzaSyDbOPJzULaNcIuBSEhnNV1TDSmIATqEtGI" />
-        <Marker position={position}>
+        <Marker position={[latitude, longitude]}>
           <Popup>
             {title ? title : 'La poubelle est située ici'}
           </Popup>

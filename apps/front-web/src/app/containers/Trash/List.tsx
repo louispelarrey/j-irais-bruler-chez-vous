@@ -20,8 +20,8 @@ export const Trashs = () => {
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm<TrashData>();
   const [trashImage, setTrashImage] = useState<File | null>(null);
-
-  console.log(data);
+  const [latitude, setLatitude] = useState(0);
+  const [longitude, setLongitude] = useState(0);
 
   const onSubmit = async ({
     reference,
@@ -36,7 +36,9 @@ export const Trashs = () => {
       JSON.stringify({
         reference,
         description,
-        address,
+        latitude,
+        longitude,
+        address
       })
     );
 
@@ -76,6 +78,8 @@ export const Trashs = () => {
         register={register}
         handleSubmit={handleSubmit}
         onSubmit={onSubmit}
+        setLatitude={setLatitude}
+        setLongitude={setLongitude}
       />
     </TrashImageContext.Provider>
   );

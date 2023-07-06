@@ -18,6 +18,11 @@ export class TrashController {
     return this.trashService.findAll();
   }
 
+  @MessagePattern('getHeatmapData')
+  async getHeatmapData(@Payload() {startDate, endDate}: {startDate: string, endDate: string}) {
+    return this.trashService.getHeatmapData(startDate, endDate);
+  }
+
   /**
    * Retrieves all trash posted by a specific user.
    * @param {string} posterId - The ID of the user.
@@ -56,7 +61,6 @@ export class TrashController {
    */
   @MessagePattern('update')
   async update(@Payload(){id, updateTrashDto}: {id: string, updateTrashDto: UpdateTrashDto}): Promise<Trash> {
-    console.log('trash controller', updateTrashDto);
     return this.trashService.update(id, updateTrashDto);
   }
 

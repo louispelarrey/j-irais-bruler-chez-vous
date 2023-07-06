@@ -20,6 +20,10 @@ class Data {
   posterId: string;
 
   burners?: string[];
+
+  latitude: number;
+
+  longitude: number;
 }
 
 export class TrashDto {
