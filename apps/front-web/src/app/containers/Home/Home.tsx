@@ -7,8 +7,8 @@ import { Heatmap } from './HeatMap/Heatmap';
 export const Home = () => {
   return (
     <React.Fragment>
-      <Heatmap />
       <BannerFragment />
+      <Heatmap />
       <ListFragment />
       <WorksFragment />
     </React.Fragment>
