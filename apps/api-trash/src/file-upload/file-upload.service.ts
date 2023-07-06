@@ -18,22 +18,39 @@ export class FileUploadService {
     });
   }
 
-  /**
-   * Uploads a file to Google Cloud Storage.
-   * @param {Express.Multer.File} file - The file to upload.
-   * @returns {Promise<string>} A promise that resolves to the public URL of the uploaded file.
-   */
-  async uploadFile(file: Express.Multer.File): Promise<string> {
-    const bucket = this.storage.bucket(this.bucketName);
-    const blob = bucket.file(file.originalname);
-    const blobStream = blob.createWriteStream();
+/**
+ * Uploads a file to Google Cloud Storage.
+ * @param {Express.Multer.File} file - The file to upload.
+ * @returns {Promise<string>} A promise that resolves to the public URL of the uploaded file.
+ */
+async uploadFile(file: Express.Multer.File): Promise<string> {
+  const bucket = this.storage.bucket(this.bucketName);
 
-    blobStream.on('error', err => {
-      console.log(err);
+  // Generate unique filename using a combination of date and original name
+  const uniqueFilename = `${Date.now()}-${file.originalname}`;
+  const blob = bucket.file(uniqueFilename);
+
+  return new Promise((resolve, reject) => {
+    const blobStream = blob.createWriteStream({
+      metadata: {
+        contentType: file.mimetype,
+      },
     });
 
-    blobStream.end(Buffer.from(file.buffer));
+    blobStream.on('error', (err) => {
+      console.error('Error in blobStream:', err);
+      reject(err);
+    });
 
-    return `https://storage.googleapis.com/${this.bucketName}/${blob.name}`;
-  }
+    blobStream.on('finish', () => {
+      const publicUrl = `https://storage.googleapis.com/${this.bucketName}/${blob.name}`;
+      resolve(publicUrl);
+    });
+
+    // Convert file.buffer.data to a Buffer before ending the stream
+    blobStream.end(Buffer.from(file.buffer));
+  });
+}
+
+
 }
