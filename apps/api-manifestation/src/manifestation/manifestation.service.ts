@@ -197,7 +197,7 @@ export class ManifestationService {
       );
     }
     manifestation.participants = manifestation.participants.filter((participant) => participant !== participantId);
-    this.userClient.emit('removeManifestationToUser', { userId: participantId, manifestationId: id });
+    this.userClient.emit('removeManifestationFromUser', { userId: participantId, manifestationId: id });
     return this.manifestationRepository.save(manifestation);
   }
 

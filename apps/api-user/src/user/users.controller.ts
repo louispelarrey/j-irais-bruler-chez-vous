@@ -96,9 +96,9 @@ export class UsersController {
     return this.userService.addTrashToUser(userId, trashId);
   }
 
-  @MessagePattern('removeTrashToUser')
+  @MessagePattern('removeTrashFromUser')
   handleRemoveTrashToUser(@Payload() {userId, trashId}: {userId: string, trashId: string}): Promise<Users> {
-    return this.userService.removeTrashToUser(userId, trashId);
+    return this.userService.removeTrashFromUser(userId, trashId);
   }
 
   @MessagePattern('addManifestationToUser')
@@ -106,8 +106,8 @@ export class UsersController {
     return this.userService.addManifestationToUser(userId, manifestationId);
   }
 
-  @MessagePattern('removeManifestationToUser')
+  @MessagePattern('removeManifestationFromUser')
   handleRemoveManifestationToUser(@Payload() {userId, manifestationId}: {userId: string, manifestationId: string}): Promise<Users> {
-    return this.userService.removeManifestationToUser(userId, manifestationId);
+    return this.userService.removeManifestationFromUser(userId, manifestationId);
   }
 }
