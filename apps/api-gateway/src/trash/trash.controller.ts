@@ -132,7 +132,6 @@ export class TrashController {
    * @returns The removed trash  object.
    */
   @Delete(':id')
-  @Roles(Role.Admin)
   remove(@Param('id') id: string, @Request() req: RequestWithUser) {
     return this.trashService.remove(id, req.user.sub);
   }
