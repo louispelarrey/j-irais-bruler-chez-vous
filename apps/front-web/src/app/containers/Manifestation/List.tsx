@@ -36,7 +36,6 @@ const usePost = (url: string, body: any) => {
           body: JSON.stringify(body),
         });
         const data = await response.json();
-        console.log(data)
         setData(data);
       } catch (error: any) {
         setError(error.message);
