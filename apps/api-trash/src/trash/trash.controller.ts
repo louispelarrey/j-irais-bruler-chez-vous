@@ -19,8 +19,8 @@ export class TrashController {
   }
 
   @MessagePattern('getHeatmapData')
-  async getHeatmapData(@Payload() {startDate}: {startDate: string}) {
-    return this.trashService.getHeatmapData(startDate);
+  async getHeatmapData(@Payload() {startDate, endDate}: {startDate: string, endDate: string}) {
+    return this.trashService.getHeatmapData(startDate, endDate);
   }
 
   /**
@@ -61,7 +61,6 @@ export class TrashController {
    */
   @MessagePattern('update')
   async update(@Payload(){id, updateTrashDto}: {id: string, updateTrashDto: UpdateTrashDto}): Promise<Trash> {
-    console.log('trash controller', updateTrashDto);
     return this.trashService.update(id, updateTrashDto);
   }
 

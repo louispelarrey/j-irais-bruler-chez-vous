@@ -53,7 +53,20 @@ export class TrashService {
         createdAt: MoreThanOrEqual(new Date(startDate))
       }
     });
-    return trashs;
+    // // Récupérer le createdAt le plus vieux et le plus récent
+    // const oldestCreatedAt = await this.trashRepository.createQueryBuilder()
+    //   .select("MIN(trash.createdAt)", "min")
+    //   .getRawOne();
+
+    // const newestCreatedAt = await this.trashRepository.createQueryBuilder()
+    //   .select("MAX(trash.createdAt)", "max")
+    //   .getRawOne();
+
+    return {
+      trashs,
+      // minDate: oldestCreatedAt.min ? new Date(oldestCreatedAt.min).toISOString() : null,
+      // maxDate: newestCreatedAt.max ? new Date(newestCreatedAt.max).toISOString() : null,
+    };
   }
 
   /**
