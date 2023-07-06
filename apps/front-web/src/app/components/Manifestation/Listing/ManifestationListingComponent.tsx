@@ -57,7 +57,6 @@ export const ManifestationListingComponent = ({
         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
           <ManifestationModalComponent
             handleSubmit={handleSubmit(onSubmit)}
-            register={register}
           />
         </Typography>
       </Modal>

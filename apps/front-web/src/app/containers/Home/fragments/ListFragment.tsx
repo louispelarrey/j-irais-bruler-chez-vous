@@ -5,7 +5,7 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import { useCallback, useEffect, useState } from 'react';
 import useGet from '../../../hooks/useGet';
 import { SuspenseLoader } from '../../../suspense/SuspenseLoader';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import getUserIdFromToken from '../../../utils/user/getUserIdFromToken';
 import { ShowOnMap } from '../../../components/Trash/View/Map/ShowOnMap';
 
@@ -87,11 +87,18 @@ console.log(step);
             <Typography variant="body2" color="text.secondary">
               {step.description}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" color="text.primary">
               Nombre de participants: {step.participantCount}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Créateur: {step.creatorId}
+              <Link
+                to={`/profile/${step.creatorId}`}
+                style={{
+                  color: 'inherit',
+                }}
+              >
+                Voir le créateur
+              </Link>
             </Typography>
           </CardContent>
           <CardActions sx={{ justifyContent: 'right' }}>
