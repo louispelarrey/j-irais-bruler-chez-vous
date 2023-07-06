@@ -11,7 +11,7 @@ export class CreateManifestationDto {
   @Length(10, 400)
   description: string;
 
-  @IsDate()
+  @IsString()
   @IsNotEmpty()
   start_date: string;
 
@@ -19,7 +19,5 @@ export class CreateManifestationDto {
   @IsNotEmpty()
   address: string;
 
-  @IsString()
-  @IsNotEmpty()
-  creatorId?: string | undefined;
+  creatorId?: string;
 }
