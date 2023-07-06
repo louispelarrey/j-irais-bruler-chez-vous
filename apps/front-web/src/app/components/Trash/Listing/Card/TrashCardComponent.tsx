@@ -53,7 +53,7 @@ export const CardComponent = ({
           },
         }),
       }}>
-        <CardMedia component="img" height="240" image={image} alt="image"/>
+        <CardMedia component="img" height="240" src={image} alt="image"/>
         <CardContent sx={{minHeight: '130px'}}> {/* Change here */}
           <Typography gutterBottom variant="h5" component="div">
             {title}
