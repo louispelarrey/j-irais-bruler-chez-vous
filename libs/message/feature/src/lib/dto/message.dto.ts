@@ -1,23 +1,6 @@
-import { IsString, IsNotEmpty, Length } from 'class-validator';
-
-export class UpdateTrashDto {
+export class MessageDto {
   id?: string;
-
-  @IsString()
-  @IsNotEmpty()
-  reference: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @Length(3, 400)
-  description: string;
-
-  @IsString()
-  address: string;
-
-  @IsString()
-  @IsNotEmpty()
-  posterId: string;
-
-  burners?: string[];
+  message: string;
+  senderId: string;
+  roomName: string;
 }
