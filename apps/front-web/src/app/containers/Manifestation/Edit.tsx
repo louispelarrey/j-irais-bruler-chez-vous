@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { ManifestationFormComponent } from '../../components/Manifestation/Form/ManifestationFormComponent';
+import {Grid, Typography } from '@mui/material';
 
 export interface ManifestationData {
   title: string;
@@ -44,11 +45,22 @@ export const EditManifestation = () => {
   }
 
   return (
-    <ManifestationFormComponent
-      initialValues={data}
-      register={register}
-      handleSubmit={handleSubmit(onSubmit)}
-      error={error}
-    />
+    <Grid sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: '10%',
+    }}>
+      <Typography>
+        Page en maintenance, veuillez revenir plus tard.
+      </Typography>
+    </Grid>
+    // <ManifestationFormComponent
+    //   initialValues={data}
+    //   register={register}
+    //   handleSubmit={handleSubmit(onSubmit)}
+    //   error={error}
+    // />
   );
 };

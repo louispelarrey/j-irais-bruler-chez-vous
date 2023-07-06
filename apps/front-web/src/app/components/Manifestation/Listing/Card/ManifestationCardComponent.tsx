@@ -71,11 +71,11 @@ export const CardComponent = ({
             <Button component={Link} to={`/manifestation/${manifestationId}`} size="small">
               Voir
             </Button>
-            { creatorId === getUserIdFromToken(localStorage.getItem('token') ?? '') && (
-            <Button component={Link} to={`/manifestation/${manifestationId}/edit`} size="small">
-              Modifier
-            </Button>
-            )}
+            {/*{ creatorId === getUserIdFromToken(localStorage.getItem('token') ?? '') && (*/}
+            {/*<Button component={Link} to={`/manifestation/${manifestationId}/edit`} size="small">*/}
+            {/*  Modifier*/}
+            {/*</Button>*/}
+            {/*)}*/}
           </CardActions>
         </Card>
       </Grid>
