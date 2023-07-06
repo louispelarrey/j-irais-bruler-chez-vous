@@ -50,13 +50,15 @@ export const Heatmap = () => {
     item.latitude,
     item.longitude,
     1.2,
-  ]) : [], [data]);
+  ]): [] as [number, number, number][], [data]);
 
   if (!data) return null;
 
   return (
     <div style={{ position: 'relative' }}>
       <HeatMapComponent
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        /** @ts-ignore */
         heatmapData={heatmapData}
         heatmapDate={heatmapStartDate}
       />
