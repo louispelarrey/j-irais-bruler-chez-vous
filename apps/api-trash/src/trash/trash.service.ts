@@ -174,7 +174,14 @@ export class TrashService {
         HttpStatus.BAD_REQUEST
       );
     }
+    if (trash.burners.includes(burnerId)) {
+      throw new HttpException(
+        'Le bruleur est déjà assigné à cette poubelle',
+        HttpStatus.BAD_REQUEST
+      );
+    }
     trash.burners.push(burnerId);
+    this.userClient.emit('addTrashFromUser', { userId: burnerId, trashId: id });
     return this.trashRepository.save(trash);
   }
 
@@ -224,6 +231,7 @@ export class TrashService {
       );
     }
     trash.burners = trash.burners.filter((burner) => burner !== burnerId);
+    this.userClient.emit('removeTrashToUser', { userId: burnerId, trashId: id });
     return this.trashRepository.save(trash);
   }
 

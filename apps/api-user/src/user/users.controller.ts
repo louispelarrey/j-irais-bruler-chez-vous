@@ -90,4 +90,24 @@ export class UsersController {
   handleForgotPasswordToken(@Payload() {id, password}: {id: string, password: string}): Promise<boolean> {
     return this.userService.forgotPasswordToken(id, password);
   }
+
+  @MessagePattern('addTrashToUser')
+  handleAddTrashToUser(@Payload() {userId, trashId}: {userId: string, trashId: string}): Promise<Users> {
+    return this.userService.addTrashToUser(userId, trashId);
+  }
+
+  @MessagePattern('removeTrashFromUser')
+  handleRemoveTrashToUser(@Payload() {userId, trashId}: {userId: string, trashId: string}): Promise<Users> {
+    return this.userService.removeTrashFromUser(userId, trashId);
+  }
+
+  @MessagePattern('addManifestationToUser')
+  handleAddManifestationToUser(@Payload() {userId, manifestationId}: {userId: string, manifestationId: string}): Promise<Users> {
+    return this.userService.addManifestationToUser(userId, manifestationId);
+  }
+
+  @MessagePattern('removeManifestationFromUser')
+  handleRemoveManifestationToUser(@Payload() {userId, manifestationId}: {userId: string, manifestationId: string}): Promise<Users> {
+    return this.userService.removeManifestationFromUser(userId, manifestationId);
+  }
 }

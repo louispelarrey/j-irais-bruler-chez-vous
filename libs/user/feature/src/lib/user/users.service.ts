@@ -6,6 +6,8 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { ForgotPassword, Users } from '@j-irais-bruler-chez-vous/user/feature';
 import * as bcrypt from 'bcryptjs';
 import { ClientProxy } from '@nestjs/microservices';
+import { UserTrash } from '../user-trash/user-trash.entity';
+import { UserManifestation } from '../user-manifestation/user-manifestation.entity';
 
 @Injectable()
 export class UsersService {
@@ -15,6 +17,12 @@ export class UsersService {
 
     @InjectRepository(ForgotPassword)
     private readonly forgotPasswordRepository: Repository<ForgotPassword>,
+
+    @InjectRepository(UserTrash)
+    private readonly userTrashRepository: Repository<UserTrash>,
+
+    @InjectRepository(UserManifestation)
+    private readonly userManifestationRepository: Repository<UserManifestation>,
 
     @Inject('MAILING_SERVICE')
     private readonly mailingClient: ClientProxy
@@ -190,4 +198,76 @@ export class UsersService {
       return false;
     }
   }
+
+  async addTrashToUser(userId: string, trashId: string): Promise<Users> {
+    const user = await this.userRepository.findOne({
+      where: {
+        id: userId,
+      },
+      relations: ['userTrash'],
+    });
+
+    const userTrash = new UserTrash();
+    userTrash.user = user;
+    userTrash.trashId = trashId;
+
+    await this.userTrashRepository.save(userTrash);
+
+    return user;
+  }
+
+  async removeTrashFromUser(userId: string, trashId: string): Promise<Users> {
+    const userTrash = await this.userTrashRepository.findOne({
+      where: {
+        userId: userId,
+        trashId: trashId,
+      },
+    });
+
+    await this.userTrashRepository.remove(userTrash);
+
+    return await this.userRepository.findOne({
+      where: {
+        id: userId,
+      },
+      relations: ['userTrash'],
+    });
+  }
+
+
+  async addManifestationToUser(userId: string, manifestationId: string): Promise<Users> {
+    const user = await this.userRepository.findOne({
+      where: {
+        id: userId,
+      },
+      relations: ['userManifestation'],
+    });
+
+    const userManifestation = new UserManifestation();
+    userManifestation.user = user;
+    userManifestation.manifestationId = manifestationId;
+
+    await this.userManifestationRepository.save(userManifestation);
+
+    return user;
+  }
+
+  async removeManifestationFromUser(userId: string, manifestationId: string): Promise<Users> {
+    const userManifestation = await this.userManifestationRepository.findOne({
+      where: {
+        userId: userId,
+        manifestationId: manifestationId,
+      },
+    });
+
+    await this.userManifestationRepository.remove(userManifestation);
+
+    return await this.userRepository.findOne({
+      where: {
+        id: userId,
+      },
+      relations: ['userManifestation'],
+    });
+  }
+  
 }
