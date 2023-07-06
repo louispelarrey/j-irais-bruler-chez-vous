@@ -39,6 +39,7 @@ export const CardComponent = ({
       <Card sx={{ height: '100%',
         maxWidth: "350px",
         maxHeight: "550px",
+        minHeight: "550px",
         opacity: isBurned ? 0.5 : 1,
         ...(isBurned && {
           position: 'relative',
