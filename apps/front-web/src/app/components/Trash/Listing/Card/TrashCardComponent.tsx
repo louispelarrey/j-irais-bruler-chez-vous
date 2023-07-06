@@ -32,31 +32,37 @@ export const CardComponent = ({
   address,
   updatedAt,
   trashId,
-  isBurned
+  isBurned,
 }: CardComponentProps) => {
   return (
     <Grid item xs={12} sm={6} md={4} sx={{ mb: 3 }}>
-      <Card sx={{ height: '100%',
-        maxWidth: "350px",
-        maxHeight: "550px",
-        minHeight: "550px",
-        opacity: isBurned ? 0.5 : 1,
-        ...(isBurned && {
-          position: 'relative',
-          '&::after': {
-            content: '""',
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: 0,
-            background: 'repeating-linear-gradient(45deg, #80808033, #80808033 10px, transparent 10px, transparent 20px)',
-            zIndex: 1,
-          },
-        }),
-      }}>
-        <CardMedia component="img" height="240" src={image} alt="image"/>
-        <CardContent sx={{minHeight: '130px'}}> {/* Change here */}
+      <Card
+        sx={{
+          height: '100%',
+          maxWidth: '350px',
+          maxHeight: '550px',
+          minHeight: '550px',
+          opacity: isBurned ? 0.5 : 1,
+          ...(isBurned && {
+            position: 'relative',
+            '&::after': {
+              content: '""',
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              bottom: 0,
+              left: 0,
+              background:
+                'repeating-linear-gradient(45deg, #80808033, #80808033 10px, transparent 10px, transparent 20px)',
+              zIndex: 1,
+            },
+          }),
+        }}
+      >
+        <CardMedia component="img" height="240" src={image} alt="image" />
+        <CardContent sx={{ minHeight: '130px' }}>
+          {' '}
+          {/* Change here */}
           <Typography gutterBottom variant="h5" component="div">
             {title}
           </Typography>
@@ -76,7 +82,11 @@ export const CardComponent = ({
                 </Avatar>
               </ListItemAvatar>
               <ListItemText
-                primary={address}
+                primary={
+                  address.length > 50
+                    ? address.substring(0, 50) + '...'
+                    : address
+                }
                 secondary={new Date(updatedAt).toLocaleDateString('fr-FR', {
                   year: 'numeric',
                   month: 'long',
@@ -88,7 +98,12 @@ export const CardComponent = ({
         </CardContent>
         <Divider light />
         <CardActions>
-          <Button component={Link} to={`/posting/${trashId}`} size="small" disabled={isBurned}>
+          <Button
+            component={Link}
+            to={`/posting/${trashId}`}
+            size="small"
+            disabled={isBurned}
+          >
             Voir
           </Button>
         </CardActions>
