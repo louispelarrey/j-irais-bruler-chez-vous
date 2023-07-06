@@ -38,6 +38,7 @@ export const CardComponent = ({
     <Grid item xs={12} sm={6} md={4} sx={{ mb: 3 }}>
       <Card sx={{ height: '100%',
         maxWidth: "350px",
+        maxHeight: "550px",
         opacity: isBurned ? 0.5 : 1,
         ...(isBurned && {
           position: 'relative',
