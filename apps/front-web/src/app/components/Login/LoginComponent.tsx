@@ -31,7 +31,7 @@ export const LoginComponent = ({handleSubmit, register, error}: LoginProps) => {
       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <Alert severity="error">
           <AlertTitle>Error</AlertTitle>
-          {error}
+          <strong>{error}</strong>
         </Alert>
       </Snackbar>
       <Grid

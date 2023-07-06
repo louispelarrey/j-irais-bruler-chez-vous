@@ -47,8 +47,8 @@ const usePost = (url: string, body: any) => {
         });
         const data = await response.json();
         setData(data);
-      } catch (error) {
-        setError(error);
+      } catch (error: any) {
+        setError(error.message);
       } finally {
         setLoading(false);
       }
