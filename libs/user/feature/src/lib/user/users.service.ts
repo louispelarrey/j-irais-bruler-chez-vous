@@ -6,6 +6,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { ForgotPassword, Users } from '@j-irais-bruler-chez-vous/user/feature';
 import * as bcrypt from 'bcryptjs';
 import { ClientProxy } from '@nestjs/microservices';
+import { UserTrash } from '../user-trash/user-trash.entity';
 
 @Injectable()
 export class UsersService {
@@ -15,6 +16,9 @@ export class UsersService {
 
     @InjectRepository(ForgotPassword)
     private readonly forgotPasswordRepository: Repository<ForgotPassword>,
+
+    @InjectRepository(UserTrash)
+    private readonly userTrashRepository: Repository<UserTrash>,
 
     @Inject('MAILING_SERVICE')
     private readonly mailingClient: ClientProxy
@@ -189,5 +193,22 @@ export class UsersService {
       console.log(error);
       return false;
     }
+  }
+
+  async addTrashToUser(userId: string, trashId: string): Promise<Users> {
+    const user = await this.userRepository.findOne({
+      where: {
+        id: userId,
+      },
+      relations: ['userTrash'],
+    });
+
+    const userTrash = new UserTrash();
+    userTrash.user = user;
+    userTrash.trashId = trashId;
+
+    await this.userTrashRepository.save(userTrash);
+
+    return user;
   }
 }

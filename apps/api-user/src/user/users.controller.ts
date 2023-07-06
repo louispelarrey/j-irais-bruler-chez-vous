@@ -90,4 +90,9 @@ export class UsersController {
   handleForgotPasswordToken(@Payload() {id, password}: {id: string, password: string}): Promise<boolean> {
     return this.userService.forgotPasswordToken(id, password);
   }
+
+  @MessagePattern('addTrashToUser')
+  handleAddTrashToUser(@Payload() {userId, trashId}: {userId: string, trashId: string}): Promise<Users> {
+    return this.userService.addTrashToUser(userId, trashId);
+  }
 }
