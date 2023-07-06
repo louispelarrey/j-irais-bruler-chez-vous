@@ -38,8 +38,8 @@ const usePost = (url: string, body: any) => {
         const data = await response.json();
         console.log(data)
         setData(data);
-      } catch (error) {
-        setError(error);
+      } catch (error: any) {
+        setError(error.message);
       } finally {
         setLoading(false);
       }
@@ -56,24 +56,29 @@ export const Manifestations = () => {
   const handleClose = () => setOpen(false);
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm<ManifestationData>();
+  const [errorForm, setError] = useState<any>(null);
 
   const onSubmit = async ({ title, description, address, start_date }: IManifestationOnSubmit) => {
-    const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_URL}/api/manifestation`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-      body: JSON.stringify({
-        title,
-        description,
-        address,
-        start_date
-      }),
-    });
-    const data = await response.json();
-    if (data.id) {
-      navigate(`/`);
+    try {
+      const response = await fetch(`${import.meta.env.VITE_APP_BACKEND_URL}/api/manifestation`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify({
+          title,
+          description,
+          address,
+          start_date
+        }),
+      });
+      const data = await response.json();
+      if (data.id) {
+        navigate(`/`);
+      }
+    } catch (errorForm: any) {
+      setError(errorForm.message);
     }
   };
 
