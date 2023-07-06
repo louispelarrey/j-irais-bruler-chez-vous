@@ -1,8 +1,4 @@
 import {
-  Brightness4,
-  Brightness5,
-  Brightness6,
-  Brightness7,
   Whatshot
 } from '@mui/icons-material';
 import { FC } from 'react';
@@ -12,18 +8,17 @@ interface BadgeComponentProps {
 }
 
 const BadgeComponent: FC<BadgeComponentProps> = ({ count }) => {
-  let icon = <Whatshot />;
+  let icon = <Whatshot fontSize="small" />;
 
   if (count > 100) {
-    icon = <Brightness7 />;
+    icon = <Whatshot fontSize="large" />;
   } else if (count > 50) {
-    icon = <Brightness6 />;
+    icon = <Whatshot fontSize="medium" />;
   } else if (count > 20) {
-    icon = <Brightness4 />;
+    icon = <Whatshot fontSize="inherit" />;
   } else if (count > 10) {
-    icon = <Brightness5 />;
+    icon = <Whatshot fontSize="small" />;
   }
-
   return icon;
 };
 

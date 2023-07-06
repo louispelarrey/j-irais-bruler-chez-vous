@@ -1,7 +1,6 @@
 import { Box, Typography, Stack, Button, Modal, TextField, Card, CardHeader, CardContent, Grid } from '@mui/material';
 import { useState } from 'react';
 import { UseFormRegister } from 'react-hook-form';
-import { imgProfile } from "../../../../public/user_profile_default.png";
 import getUserIdFromToken from "../../utils/user/getUserIdFromToken";
 import BadgeComponent from './BadgeComponent';
 
@@ -96,7 +95,7 @@ export const ProfileComponent = ({
                       <Typography variant="subtitle1" component="h2">
                         Manifestations
                       </Typography>
-                      <Typography variant="h4">{statistics.manifestation}</Typography>
+                      <Typography variant="h4">{data.userManifestation.length}</Typography>
                     </Box>
                   </Stack>
                 </Box>

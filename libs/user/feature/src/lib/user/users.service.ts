@@ -35,7 +35,13 @@ export class UsersService {
    * @returns {Promise<User>} Found user
    */
   async findOne(id: string): Promise<Users> {
-    const user = await this.userRepository.findOneBy({ id });
+    const user = await this.userRepository.findOne({
+      where: {
+        id: id,
+      },
+      relations: ['userManifestation'],
+    });
+
     return user;
   }
 
