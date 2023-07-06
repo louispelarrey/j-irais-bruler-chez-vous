@@ -118,8 +118,8 @@ export const TrashListingComponent = ({
       {data && (
         <Pagination
           count={data.totalPages}
-          page={data.currentPage}
-          onChange={(event, page) => setPage(page)}
+          page={page}
+          onChange={(event, value) => setPage(value)}
           sx={{
             display: 'flex',
             justifyContent: 'center',
