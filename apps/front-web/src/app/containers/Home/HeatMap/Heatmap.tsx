@@ -2,13 +2,16 @@ import { Slider } from '@mui/material';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { HeatMapComponent } from '../../../components/Heatmap/HeatmapComponent';
 import { formatSliderValue } from '../../../utils/heatmap/formatSliderValue';
+import { useNavigate } from 'react-router-dom';
+import { Data, List } from '../../../components/Trash/Listing/TrashListingComponent';
 
 export const Heatmap = () => {
   const [heatmapStartMonth, setHeatmapStartMonth] = useState(6);
+  const navigate = useNavigate();
   const [heatmapStartDate, setHeatmapStartDate] = useState(
     formatSliderValue(heatmapStartMonth)
   );
-  const [data, setData] = useState<any | any[] | undefined>();
+  const [data, setData] = useState<Data | undefined>();
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -26,7 +29,7 @@ export const Heatmap = () => {
       setData(data);
 
       if(response.status === 401) {
-        window.location.href = '/logout';
+        navigate("/logout");
       }
     };
     fetchedData();
@@ -35,7 +38,7 @@ export const Heatmap = () => {
     return () => {
       abortController.abort();
     }
-  }, [heatmapStartDate]);
+  }, [heatmapStartDate, navigate]);
 
 
   const handleChange = useCallback((event: Event, newValue: number | number[]) => {
@@ -43,7 +46,7 @@ export const Heatmap = () => {
     setHeatmapStartDate(formatSliderValue(newValue as number));
   }, []);
 
-  const heatmapData = useMemo(() => data ? data.map((item: any) => [
+  const heatmapData = useMemo(() => data ? data.trashs.map((item: any) => [
     item.latitude,
     item.longitude,
     1.2,

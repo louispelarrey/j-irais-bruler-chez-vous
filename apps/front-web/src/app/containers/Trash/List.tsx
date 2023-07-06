@@ -2,10 +2,9 @@ import useGet from '../../hooks/useGet';
 import React, {Dispatch, SetStateAction, createContext, useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { TrashListingComponent } from '../../components/Trash/Listing/TrashListingComponent';
+import { Data, TrashListingComponent } from '../../components/Trash/Listing/TrashListingComponent';
 import { TrashData } from '../../components/Trash/Modal/TrashModalComponent';
 import { SuspenseLoader } from '../../suspense/SuspenseLoader';
-import { List } from '../../components/Trash/Listing/TrashListingComponent';
 
 export const TrashImageContext = createContext({
   trashImage: null as File | null,
@@ -13,7 +12,9 @@ export const TrashImageContext = createContext({
 })
 
 export const Trashs = () => {
-  const { data, error, loading } = useGet(`/api/trash`);
+  const [page, setPage] = useState(1);
+  const limit = 9;
+  const { data, error, loading } = useGet(`/api/trash/paginated?page=${page}&limit=${limit}`);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -67,11 +68,11 @@ export const Trashs = () => {
     return <div>Erreur : {error}</div>;
   }
 
-
+  console.log(data)
   return (
     <TrashImageContext.Provider value={{ trashImage, setTrashImage }}>
       <TrashListingComponent
-        data={data as List[] | undefined}
+        data={data as Data | undefined}
         open={open}
         handleOpen={handleOpen}
         handleClose={handleClose}
@@ -80,6 +81,8 @@ export const Trashs = () => {
         onSubmit={onSubmit}
         setLatitude={setLatitude}
         setLongitude={setLongitude}
+        page={page}
+        setPage={setPage}
       />
     </TrashImageContext.Provider>
   );
