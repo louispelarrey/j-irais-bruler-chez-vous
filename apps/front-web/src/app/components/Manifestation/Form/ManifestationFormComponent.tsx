@@ -1,20 +1,41 @@
-import { Box, Button, Grid, Paper, TextField, Typography } from '@mui/material';
+import { Alert, AlertTitle, Box, Button, Grid, Paper, Snackbar, TextField, Typography } from '@mui/material';
 import { UseFormRegister } from 'react-hook-form';
 import { ManifestationData } from '../../../containers/Manifestation/Edit';
+import {useEffect, useState} from "react";
 
 interface ManifestationFormProps {
   initialValues: ManifestationData;
   register: UseFormRegister<ManifestationData>;
   handleSubmit: any;
+  error: string;
 }
 
 export const ManifestationFormComponent = ({
   initialValues,
   register,
   handleSubmit,
+  error
 }: ManifestationFormProps) => {
+
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    error !== '' ? setOpen(true) : setOpen(false)
+  }, [error]);
+  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
   return (
     <Grid container component="main">
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert severity="error">
+          <AlertTitle>Error</AlertTitle>
+          <strong>{error}</strong>
+        </Alert>
+      </Snackbar>
       <Grid item component={Paper} square>
         <Box
           sx={{
