@@ -68,7 +68,6 @@ export const Trashs = () => {
     return <div>Erreur : {error}</div>;
   }
 
-  console.log(data)
   return (
     <TrashImageContext.Provider value={{ trashImage, setTrashImage }}>
       <TrashListingComponent

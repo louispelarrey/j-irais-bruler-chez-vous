@@ -17,8 +17,6 @@ export const ForgotPasswordComponent = ({handleSubmit, register, error, success}
 
   useEffect(() => {
     if (error || success){
-      console.log("error", error)
-      console.log("success", success)
       setOpen(true)
     }
   }, [success, error]);

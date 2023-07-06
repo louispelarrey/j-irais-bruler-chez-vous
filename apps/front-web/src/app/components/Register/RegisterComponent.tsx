@@ -37,7 +37,6 @@ export const RegisterComponent = ({register, handleSubmit, onSubmit, openError}:
     if (openError === true) {
       setOpen(true);
     }
-    console.log(openError)
   }, [openError]);
 
   const handleClose = () => {
