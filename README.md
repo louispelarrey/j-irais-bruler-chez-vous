@@ -1,8 +1,3 @@
-## J'irais brûler chez vous !
-
-J'ai perdu toutes mes vérifications de commit via un rebase pour supprimer les .env foireux
-- Louis
-
 ### Présentation
 
   
@@ -19,7 +14,7 @@ Application pour les manifestants de Paris. L'application va permettre d'organis
 
 ```sh
 
-git clone https://github.com/louispelarrey/j-irais-bruler-chez-vous
+git clone https://github.com/louispelarrey/jbcv
 
 ```
 
@@ -27,7 +22,7 @@ git clone https://github.com/louispelarrey/j-irais-bruler-chez-vous
 
 ```sh
 
-cd j-irai-bruler-chez-vous
+cd jbcv
 
 ```
 
@@ -79,17 +74,3 @@ npx nx serve front-web
 - npm
 
 - git
-
-## Contributeurs
-
-- louispelarrey
-
-- Calintha
-
-- Arthur-creator
-
-- SadikRaida
-
-  
-
-![https://pbs.twimg.com/media/DIUVW5PW4AQ-fFW.jpg](https://pbs.twimg.com/media/DIUVW5PW4AQ-fFW.jpg)
